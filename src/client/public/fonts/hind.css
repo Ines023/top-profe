@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./hind-v9-latin-regular.eot');
+  src: local('Hind Regular'), local('Hind-Regular'),
+       url('./hind-v9-latin-regular.eot?#iefix') format('embedded-opentype'),
+       url('./hind-v9-latin-regular.woff2') format('woff2'),
+       url('./hind-v9-latin-regular.woff') format('woff'),
+       url('./hind-v9-latin-regular.ttf') format('truetype'),
+       url('./hind-v9-latin-regular.svg#Hind') format('svg');
+}
