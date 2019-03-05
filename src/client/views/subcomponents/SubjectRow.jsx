@@ -11,13 +11,16 @@ export default class SubjectRow extends Component {
 	}
 
 	handleVote(rating) {
-		const { onVote, profId, subjectAcronym } = this.props;
-		onVote(profId, subjectAcronym, rating);
+		const {
+			existingReview, onVote, onUndo, profId, subjectAcronym,
+		} = this.props;
+		if (rating !== existingReview) return onVote(profId, subjectAcronym, rating);
+		return onUndo(profId, subjectAcronym, rating);
 	}
 
 	render() {
 		const {
-			alreadyReviewed, subjectAcronym, subjectName, subjectAvg, subjectCount,
+			existingReview, subjectAcronym, subjectName, subjectAvg, subjectCount,
 		} = this.props;
 
 		return (
@@ -27,7 +30,7 @@ export default class SubjectRow extends Component {
 				</td>
 				<td>
 					{subjectAvg
-						? `${subjectAvg}/5 (total: ${subjectCount})`
+						? `${subjectAvg.toFixed(2)}/5 (total: ${subjectCount})`
 						: 'Sin datos'
 					}
 				</td>
@@ -35,9 +38,8 @@ export default class SubjectRow extends Component {
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
-						readonly={alreadyReviewed}
-						initialRating={Math.round(subjectAvg * 100) / 100}
-						onChange={this.handleVote}
+						initialRating={existingReview}
+						onClick={this.handleVote}
 					/>
 				</td>
 			</tr>

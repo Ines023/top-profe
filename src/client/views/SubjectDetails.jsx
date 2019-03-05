@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { fetchGet, fetchPost } from '../util';
+import { fetchDelete, fetchGet, fetchPost } from '../util';
 import ProfessorRow from './subcomponents/ProfessorRow';
 
 export default class SubjectDetails extends Component {
@@ -17,6 +17,7 @@ export default class SubjectDetails extends Component {
 		};
 
 		this.submitRating = this.submitRating.bind(this);
+		this.undoRating = this.undoRating.bind(this);
 	}
 
 	componentDidMount() {
@@ -42,6 +43,14 @@ export default class SubjectDetails extends Component {
 			});
 	}
 
+	undoRating(profId, subject, rating) {
+		fetchDelete(`/api/v1/professors/${profId}/undo`, { subject, rating })
+			.then(() => {
+				// Load again the professor's profile to reflect the new data.
+				this.loadSubjectData();
+			});
+	}
+
 	render() {
 		const { isLoaded, subject } = this.state;
 
@@ -58,8 +67,9 @@ export default class SubjectDetails extends Component {
 					profAvg={professor.avg}
 					profCount={professor.count}
 					subjectAcronym={this.subjAcr}
-					alreadyReviewed={professor.id in subject.reviewed}
+					existingReview={subject.reviewed[professor.id]}
 					onVote={this.submitRating}
+					onUndo={this.undoRating}
 				/>
 			);
 			professorRows.push(row);
@@ -67,13 +77,13 @@ export default class SubjectDetails extends Component {
 
 		return (
 			<div>
-				<h2 className="subtitle centered">{subject.name}</h2>
+				<h2 className="centered">{subject.name}</h2>
 				<table className="full-width box">
 					<thead>
 						<tr>
 							<th>Profesor</th>
 							<th>Media (en {this.subjAcr})</th>
-							<th>Tu puntuación</th>
+							<th clasName="starColumn">Tu puntuación</th>
 						</tr>
 					</thead>
 					<tbody>

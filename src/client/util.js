@@ -40,6 +40,21 @@ export function fetchGet(url) {
 }
 
 /**
+ * Send a DELETE request to the desired URL, with the body as a JSON-encoded
+ * content.
+ */
+export function fetchDelete(url, body) {
+	return fetch(url, {
+		method: 'DELETE',
+		body: JSON.stringify(body),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then(ajaxErrHandler);
+}
+
+/**
  * Send a POST request to the desired URL, with the body as a JSON-encoded
  * content.
  */

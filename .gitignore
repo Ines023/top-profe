@@ -90,3 +90,11 @@ Session.vim
 .undodir/
 *.code-workspace
 .vscode/
+
+# Python
+*/__pycache__
+
+# Tools
+tools/*.csv
+tools/*.json
+tools/venv

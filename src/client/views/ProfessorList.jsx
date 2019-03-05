@@ -41,31 +41,9 @@ export default class ProfessorList extends Component {
 			searchKeyword, 'name',
 		));
 
-		const professorRows = [];
-		for (let i = 0; i < filteredProfessors.length; i++) {
-			const row = (
-				<tr key={i}>
-					<td>
-						{(filteredProfessors[i].avg) ? i + 1 : '?'}
-					</td>
-					<td>
-						<a href={`/profesores/${filteredProfessors[i].id}`}>
-							{filteredProfessors[i].name}
-						</a>
-					</td>
-					<td>
-						{(filteredProfessors[i].avg)
-							? `${Math.round(filteredProfessors[i].avg * 100) / 100}/5 (total: ${filteredProfessors[i].count})`
-							: '-'}
-					</td>
-				</tr>
-			);
-			professorRows.push(row);
-		}
-
 		return (
 			<div>
-				<h2>Profesores</h2>
+				<h2 className="centered">Profesores</h2>
 				<SearchInput
 					className="big-input search-input box"
 					placeholder="Buscar profesor..."
@@ -79,13 +57,23 @@ export default class ProfessorList extends Component {
 				<table className="full-width box">
 					<thead>
 						<tr>
-							<th>#</th>
 							<th>Nombre</th>
 							<th>Punt. media</th>
 						</tr>
 					</thead>
 					<tbody>
-						{ professorRows }
+						{ filteredProfessors.map(professor => (
+							<tr key={professor.id}>
+								<td>
+									<a href={`/profesores/${professor.id}`}>
+										{professor.name}
+									</a>
+								</td>
+								<td>
+									{professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
+								</td>
+							</tr>
+						)) }
 					</tbody>
 				</table>
 			</div>

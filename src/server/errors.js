@@ -3,6 +3,9 @@ const config = require('./config.json');
 class BadRequestError extends Error {}
 module.exports.BadRequestError = BadRequestError;
 
+class LimitedUserError extends Error {}
+module.exports.LimitedUserError = LimitedUserError;
+
 class NotFoundError extends Error {}
 module.exports.NotFoundError = NotFoundError;
 
@@ -24,6 +27,13 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 		});
 	}
 
+	if (err instanceof LimitedUserError) {
+		return res.status(403).json({
+			code: 'limited_user',
+			message: 'This user is not allowed to make such action',
+		});
+	}
+
 	if (err instanceof NotFoundError) {
 		return res.status(404).json({
 			code: 'not_found',
@@ -41,9 +51,9 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 	}
 
 	// Some other unknown error.
-	console.error(err); // eslint-disable-line no-console
-	return res.status(500).json({
+	res.status(500).json({
 		code: 'internal_server_error',
 		message: 'Internal server error',
 	});
+	return next(err); // Let it pass the middleware so Sentry can catch it.
 };

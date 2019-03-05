@@ -38,31 +38,12 @@ export default class SubjectList extends Component {
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
 		const filteredSubjects = subjects.filter(createFilter(
-			searchKeyword, ['acronym', 'name'],
+			searchKeyword, ['acronym', 'name', 'degree'],
 		));
-
-		const subjectRows = [];
-		for (let i = 0; i < filteredSubjects.length; i++) {
-			const row = (
-				<tr key={i}>
-					<td>
-						<a href={`/asignaturas/${filteredSubjects[i].acronym}`}>
-							{filteredSubjects[i].name}
-						</a>
-					</td>
-					<td>
-						<a href={`/asignaturas/${filteredSubjects[i].acronym}`}>
-							{filteredSubjects[i].acronym}
-						</a>
-					</td>
-				</tr>
-			);
-			subjectRows.push(row);
-		}
 
 		return (
 			<div>
-				<h2>Asignaturas</h2>
+				<h2 className="centered">Asignaturas</h2>
 				<SearchInput className="big-input search-input box" placeholder="Buscar asignatura..." throttle={0} onChange={this.searchUpdated} />
 				<br />
 				<p>
@@ -73,10 +54,27 @@ export default class SubjectList extends Component {
 						<tr>
 							<th>Nombre</th>
 							<th>Siglas</th>
+							<th>Titulación</th>
 						</tr>
 					</thead>
 					<tbody>
-						{ subjectRows }
+						{ filteredSubjects.map(subject => (
+							<tr key={subject.id}>
+								<td>
+									<a href={`/asignaturas/${subject.acronym}`}>
+										{subject.name}
+									</a>
+								</td>
+								<td>
+									<a href={`/asignaturas/${subject.acronym}`}>
+										{subject.acronym}
+									</a>
+								</td>
+								<td>
+									{subject.degree}
+								</td>
+							</tr>
+						)) }
 					</tbody>
 				</table>
 			</div>

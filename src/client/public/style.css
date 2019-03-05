@@ -2,20 +2,41 @@
     html {
         min-height: 100%;
         width: 100%;
-        background: url('logo_dat.png') no-repeat;
         background-size: 80vh;
         background-position: bottom right;
+    }
+
+    body {
+        font-size: 1.5em !important;
     }
 }
 
 body {
     margin-top: 2em;
     font-family: 'Hind', sans-serif;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
-.main-title a {
-    text-decoration: none;
+header {
+    height: 200px;
+    width: 100%;
+    background: url('dat_topprofe.png') no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-origin: content-box;
+}
+
+/* For mobile */
+@media screen and (max-width: 500px) {
+    body {
+        font-size: 1.1em;
+    }
+    header {
+        height: 70px;
+    }
+    table.box td, table.box th {
+        padding: 12px 15px !important;
+    }
 }
 
 .main-title a:visited {
@@ -40,8 +61,12 @@ body {
 
 .centered {
     display: block;
-    width: fit-content;
+    text-align: center;
     margin: 0 auto;
+}
+
+h2.centered {
+    margin-bottom: .5em;
 }
 
 .box {
@@ -58,6 +83,13 @@ body {
     background-color: black;
     color: white;
     font-weight: bold;
+    border: 0;
+    padding: 25px;
+}
+
+.box.main-button:hover {
+    background: linear-gradient(65deg, rgb(246, 85, 85) 0%, rgb(245, 85, 86) 0%, rgb(252, 207, 49) 100%);
+    background: -webkit-linear-gradient(65deg, rgb(246, 85, 85) 0%, rgb(245, 85, 86) 0%, rgb(252, 207, 49) 100%);
 }
 
 .box.main-button .main-button-icon {
@@ -102,6 +134,10 @@ table.box tr:last-child {
 
 table.box td, table.box th {
     padding: 20px;
+}
+
+th.star-column {
+    min-width: 150px;
 }
 
 a button {
@@ -175,10 +211,6 @@ table.box a:visited {
 table.box thead tr:first-child {
     background-color: black;
     color: white;
-}
-
-.dv-star-rating-empty-star i:hover {
-    color:red;
 }
 
 .title-tag.box {

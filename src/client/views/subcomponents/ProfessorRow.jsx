@@ -11,13 +11,16 @@ export default class ProfessorRow extends Component {
 	}
 
 	handleVote(rating) {
-		const { onVote, profId, subjectAcronym } = this.props;
-		onVote(profId, subjectAcronym, rating);
+		const {
+			existingReview, onVote, onUndo, profId, subjectAcronym,
+		} = this.props;
+		if (rating !== existingReview) return onVote(profId, subjectAcronym, rating);
+		return onUndo(profId, subjectAcronym, rating);
 	}
 
 	render() {
 		const {
-			alreadyReviewed, profAvg, profCount, profId, profName,
+			existingReview, profAvg, profCount, profId, profName,
 		} = this.props;
 
 		return (
@@ -29,7 +32,7 @@ export default class ProfessorRow extends Component {
 				</td>
 				<td>
 					{profAvg
-						? `${profAvg}/5 (total: ${profCount})`
+						? `${profAvg.toFixed(2)}/5 (total: ${profCount})`
 						: 'Sin datos'
 					}
 				</td>
@@ -37,9 +40,8 @@ export default class ProfessorRow extends Component {
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
-						readonly={alreadyReviewed}
-						initialRating={Math.round(profAvg * 100) / 100}
-						onChange={this.handleVote}
+						initialRating={existingReview}
+						onClick={this.handleVote}
 					/>
 				</td>
 			</tr>

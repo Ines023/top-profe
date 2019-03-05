@@ -23,10 +23,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // Serve the frontend files.
 app.use(express.static('dist'));
+// Let Express know if we are using a reverse proxy.
+if (config.server.usingProxy) app.set('trust proxy', 1);
 // Persistent session storage.
 app.use(session({
 	secret: config.server.sessionSecret,
 	resave: false,
+	proxy: config.server.usingProxy,
 	saveUninitialized: false,
 	store: new MySQLStore({}, pool),
 	cookie: {
@@ -41,12 +44,12 @@ app.use('/login', loginView.requestHandler);
 app.use('/api/v1', router);
 // Any other route.
 app.use('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')));
-// Sentry's error handler.
-if (config.sentry.enabled) app.use(Sentry.Handlers.errorHandler());
 // The error handler that produces 404/500 HTTP responses.
 app.use(globalErrorHandler);
+// Sentry's error handler.
+if (config.sentry.enabled) app.use(Sentry.Handlers.errorHandler());
 
-app.listen(8080, function () { // eslint-disable-line func-names
+app.listen(config.server.port, function () { // eslint-disable-line func-names
 	console.log('TOP PROFE - Running on', this.address().address,
 		'port', this.address().port);
 });

@@ -17,6 +17,13 @@ const got = require('got');
 const xml2js = require('xml2js');
 const xmlProcessors = require('xml2js/lib/processors');
 const config = require('./config.json');
+const pool = require('./db');
+
+function registerUserLogin(email) {
+	const userType = email.endsWith('alumnos.upm.es') ? 'STDNT' : 'OTHER';
+
+	return pool.query(`INSERT INTO login_stats (type) VALUES ("${userType}")`);
+}
 
 module.exports.requestHandler = (req, res, next) => {
 	// CAS emits each token for a specific service, identified by its strict URL
@@ -38,19 +45,46 @@ module.exports.requestHandler = (req, res, next) => {
 				tagNameProcessors: [xmlProcessors.stripPrefix],
 			};
 			xml2js.parseString(response.body, parserOptions, (err, result) => {
-				if (err) next(err);
+				if (err) throw err;
 
 				// Go to /failed-login if the token isn't valid.
 				const { serviceResponse } = result;
 				if (serviceResponse.authenticationFailure) return res.redirect('/failed-login');
 
+				let sessionResponse = {}
+
 				serviceResponse.authenticationSuccess.forEach((obj) => {
-					// Find the user attribute and add it to req.session.
-					if ('user' in obj) [req.session.user] = obj.user;
+					// Find the user and add it to sessionResponse. Also add the account type to the session.
+					if ('user' in obj) {
+						[sessionResponse.user] = obj.user;
+						req.session.accountType = sessionResponse.user.split('@')[1]
+					}
+
+
+					if ('attributes' in obj) {
+						const [attributes] = obj.attributes;
+
+						// Find the common name attribute and add it to sessionResponse.
+						if ('cn' in attributes) {
+							[sessionResponse.cn] = attributes.cn;
+						}
+
+						// Find the surname attribute and add it to sessionResponse.
+						if ('sn' in attributes) {
+							[sessionResponse.sn] = attributes.sn;
+						}
+
+						// Find the organization attribute and store it in req.session.
+						[req.session.org] = attributes.o;
+					}
 				});
 
+				// Store this login in the database for analytics.
+				registerUserLogin(req.session.accountType);
+
 				// Generate the reviewerHash here just for convenience.
-				req.session.reviewerHash = crypto.createHash('md5').update(req.session.user).digest('hex');
+				hashData = sessionResponse.cn + sessionResponse.sn + sessionResponse.user + req.session.org
+				req.session.reviewerHash = crypto.createHash('md5').update(hashData).digest('hex');
 
 				// Take the user back to wherever they were before the login.
 				return res.redirect(req.query.redirect);
