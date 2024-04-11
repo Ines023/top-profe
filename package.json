@@ -8,7 +8,7 @@
         "start": "yarn run build && node src/server/server.js",
         "server": "nodemon --ignore dist/ --ignore src/client",
         "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-        "dev": "NODE_ENV=development concurrently --kill-others --raw --default-input-target 1 'npm run client' 'npm run server'",
+        "dev": "NODE_ENV=development npx concurrently --kill-others --raw --default-input-target 1 'npm run client' 'npm run server'",
         "test": "eslint . --ext .js,.jsx --ignore-pattern dist/**"
     },
     "repository": "https://github.com/DAT-ETSIT/top-profe",
