@@ -31,7 +31,7 @@ module.exports.restrictLimitedUsers = (req, res, next) => {
 // Rejects queries that aren't from administrators.
 module.exports.restrictAdmins = (req, res, next) => {
 	const adminEmails = Admin.findAll({ attributes: ['email'] });
-	if (!(req.session.email in adminEmails)) {
+	if (process.env.NODE_ENV === 'development' || !(req.session.email in adminEmails)) {
 		return next(new LimitedUserError());
 	}
 	return next();

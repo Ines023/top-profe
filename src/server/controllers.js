@@ -204,3 +204,7 @@ module.exports.getSubjectDetails = (req, res, next) => {
 		})
 		.catch(e => next(e));
 };
+
+module.exports.getAdminData = (req, res, next) => {
+	res.sendStatus(200);
+};

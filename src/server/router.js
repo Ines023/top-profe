@@ -19,7 +19,8 @@ router.use(middlewares.restrictLimitedUsers);
 router.post('/professors/:profId/rate', controllers.rateProfessor);
 router.delete('/professors/:profId/undo', controllers.undoRate);
 
-router.user(middlewares.restrictAdmins);
+router.use(middlewares.restrictAdmins);
+router.get('/admin', controllers.getAdminData);
 
 
 module.exports = router;
