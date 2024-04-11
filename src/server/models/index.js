@@ -3,7 +3,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 // eslint-disable-next-line no-multi-assign, max-len, no-void
-exports.initModels = exports.Vote = exports.Register = exports.Student = exports.Ballot = exports.Degree = exports.Subject = exports.Professor = void 0;
+exports.initModels = exports.Vote = exports.Register = exports.Student = exports.Ballot = exports.Degree = exports.Subject = exports.Professor = exports.Admin = void 0;
 const Professor_1 = require('./Professor');
 
 Object.defineProperty(exports, 'Professor', { enumerable: true, get() { return Professor_1.Professor; } });
@@ -25,6 +25,9 @@ Object.defineProperty(exports, 'Register', { enumerable: true, get() { return Re
 const Vote_1 = require('./Vote');
 
 Object.defineProperty(exports, 'Vote', { enumerable: true, get() { return Vote_1.Vote; } });
+const Admin_1 = require('./Admin');
+
+Object.defineProperty(exports, 'Admin', { enumerable: true, get() { return Admin_1.Admin; } });
 function initModels(sequelize) {
 	Professor_1.Professor.initModel(sequelize);
 	Subject_1.Subject.initModel(sequelize);
@@ -33,6 +36,7 @@ function initModels(sequelize) {
 	Student_1.Student.initModel(sequelize);
 	Register_1.Register.initModel(sequelize);
 	Vote_1.Vote.initModel(sequelize);
+	Admin_1.Admin.initModel(sequelize);
 	Subject_1.Subject.belongsTo(Degree_1.Degree, {
 		as: 'degree',
 		foreignKey: 'degreeId',
@@ -69,6 +73,7 @@ function initModels(sequelize) {
 		Student: Student_1.Student,
 		Register: Register_1.Register,
 		Vote: Vote_1.Vote,
+		Admin: Admin_1.Admin,
 	};
 }
 exports.initModels = initModels;
