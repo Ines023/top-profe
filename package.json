@@ -9,7 +9,11 @@
         "server": "nodemon --ignore dist/ --ignore src/client",
         "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
         "dev": "NODE_ENV=development npx concurrently --kill-others --raw --default-input-target 1 'npm run client' 'npm run server'",
-        "test": "eslint . --ext .js,.jsx --ignore-pattern dist/**"
+        "test": "eslint . --ext .js,.jsx --ignore-pattern dist/**",
+        "db:drop": "[[ $NODE_ENV == production ]] && exit 1 || sequelize db:drop",
+        "db:migrate": "sequelize db:migrate",
+        "db:rollback": "sequelize db:migrate:undo",
+        "db:rollback:all": "sequelize db:migrate:undo:all"
     },
     "repository": "https://github.com/DAT-ETSIT/top-profe",
     "author": "Delegación de Alumnos de Telecomunicación",
@@ -46,7 +50,9 @@
         "express-session": "^1.15.6",
         "flow-bin": "^0.85.0",
         "got": "^9.6.0",
+        "mariadb": "^3.3.0",
         "morgan": "^1.9.1",
+        "mysql2": "^3.9.4",
         "promise-mysql": "^3.3.1",
         "react": "^16.5.2",
         "react-dom": "^16.5.2",
