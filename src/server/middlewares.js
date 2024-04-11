@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-unused-vars
+const { Admin, sequelize } = require('./models');
 const { UnauthorizedError, LimitedUserError } = require('./errors');
 
 function checkLogin(req, res, next) {
@@ -15,12 +17,21 @@ function checkLoginMock(req, res, next) {
 
 // Load the mocked login comprobation iff this is a development instance.
 module.exports.checkLogin = (
-	(process.env.NODE_ENV === 'development') ? checkLoginMock : 
-	checkLogin);
+	(process.env.NODE_ENV === 'development') ? checkLoginMock
+		: checkLogin);
 
 // Rejects queries that aren't from ETSIT students.
 module.exports.restrictLimitedUsers = (req, res, next) => {
 	if (!req.session.accountType.endsWith('alumnos.upm.es') || req.session.org !== '09') {
+		return next(new LimitedUserError());
+	}
+	return next();
+};
+
+// Rejects queries that aren't from administrators.
+module.exports.restrictAdmins = (req, res, next) => {
+	const adminEmails = Admin.findAll({ attributes: ['email'] });
+	if (!(req.session.email in adminEmails)) {
 		return next(new LimitedUserError());
 	}
 	return next();
