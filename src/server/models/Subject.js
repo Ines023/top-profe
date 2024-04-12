@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		acronym: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: true,
 		},
 		year: {
 			type: DataTypes.INTEGER,

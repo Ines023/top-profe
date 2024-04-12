@@ -20,7 +20,7 @@ module.exports = {
 			acronym: {
 				type: DataTypes.STRING,
 				field: 'acronym',
-				allowNull: false,
+				allowNull: true,
 			},
 			year: {
 				type: DataTypes.INTEGER,
