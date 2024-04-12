@@ -6,10 +6,12 @@ import LoginErrorView from './views/LoginErrorView';
 import ProfessorList from './views/ProfessorList';
 import ProfessorProfile from './views/ProfessorProfile';
 import RankingView from './views/RankingView';
-import AdminView from './views/AdminView';
-import AdminDegreesList from './views/AdminDegreesList';
+import AdminView from './views/admin/AdminView';
+import AdminDegreesList from './views/admin/AdminDegreesList';
+import AdminUpdater from './views/admin/AdminUpdater';
 import SubjectDetails from './views/SubjectDetails';
 import SubjectList from './views/SubjectList';
+import AdminSubjectsList from './views/admin/AdminSubjectsList';
 
 export default function App() {
 	return (
@@ -23,6 +25,8 @@ export default function App() {
 				<Route path="/ranking" component={RankingView} />
 				<Route exact path="/admin" component={AdminView} />
 				<Route path="/admin/degrees" component={AdminDegreesList} />
+				<Route exact path="/admin/update" component={AdminUpdater} />
+				<Route path="/admin/update/:degreeId" component={AdminSubjectsList} />
 				<Route path="/failed-login" component={LoginErrorView} />
 				<Route path="/500" render={props => <ErrorView {...props} code={500} />} />
 				<Route render={props => <ErrorView {...props} code={404} />} />

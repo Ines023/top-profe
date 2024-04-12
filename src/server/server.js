@@ -30,7 +30,7 @@ app.use(session({
 	secret: config.server.sessionSecret,
 	resave: false,
 	proxy: config.server.usingProxy,
-	saveUninitialized: false,
+	saveUninitialized: true,
 	store: new MySQLStore({}, pool),
 	cookie: {
 		// Make the cookies HTTPS-only if this is a production deployment.

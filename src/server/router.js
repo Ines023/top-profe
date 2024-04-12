@@ -23,5 +23,6 @@ router.delete('/professors/:profId/undo', controllers.undoRate);
 // router.use(middlewares.restrictAdmins);
 router.get('/admin', adminController.getAdminData);
 router.get('/admin/degrees', adminController.getDegrees);
+router.get('/admin/update/:degreeId', adminController.fetchSubjects);
 
 module.exports = router;

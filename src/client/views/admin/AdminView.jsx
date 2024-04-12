@@ -12,17 +12,17 @@ export default function AdminView() {
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>
 			<br />
-			<a className="box main-button menu-item" href="/asignaturas">
+			<a className="box main-button menu-item" href="/admin/update">
 				Actualizar asignaturas y profesores
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>
 			<br />
-			<a className="box main-button menu-item" href="/profesores">
+			<a className="box main-button menu-item" href="/admin/subjects">
 				Editar asignaturas
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>
 			<br />
-			<a className="box main-button menu-item" href="/profesores">
+			<a className="box main-button menu-item" href="/admin/professors">
 				Editar profesores
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>
