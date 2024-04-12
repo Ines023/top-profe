@@ -27,12 +27,6 @@ module.exports = {
 				field: 'year',
 				allowNull: false,
 			},
-			// // DataTypes.ARRAY(DataTypes.INTEGER) not supported for MariaDB
-			// semester: {
-			//   type: DataTypes.ARRAY(DataTypes.INTEGER),
-			//   field: 'semester',
-			//   allowNull: false
-			// },
 			degreeId: {
 				type: DataTypes.STRING,
 				field: 'degreeId',

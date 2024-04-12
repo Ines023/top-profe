@@ -1,79 +1,51 @@
-/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+const Sequelize = require('sequelize');
+
+const config = require('../databaseConfig.js');
+
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+	host: config.host,
+	dialect: config.dialect,
+	define: { timestamps: false },
+});
+
+const Admin = require('./Admin')(sequelize, Sequelize.DataTypes);
+const Ballot = require('./Ballot')(sequelize, Sequelize.DataTypes);
+const Degree = require('./Degree')(sequelize, Sequelize.DataTypes);
+const Professor = require('./Professor')(sequelize, Sequelize.DataTypes);
+const Register = require('./Register')(sequelize, Sequelize.DataTypes);
+const Student = require('./Student')(sequelize, Sequelize.DataTypes);
+const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
+const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
 
 
-Object.defineProperty(exports, '__esModule', { value: true });
-// eslint-disable-next-line no-multi-assign, max-len, no-void
-exports.initModels = exports.Vote = exports.Register = exports.Student = exports.Ballot = exports.Degree = exports.Subject = exports.Professor = exports.Admin = void 0;
-const Professor_1 = require('./Professor');
+Subject.belongsTo(Degree, {
+	as: 'degree',
+	foreignKey: 'degreeId',
+});
+Ballot.belongsTo(Professor, {
+	as: 'professor',
+	foreignKey: 'professorId',
+});
+Ballot.belongsTo(Subject, {
+	as: 'subject',
+	foreignKey: 'subjectId',
+});
+Student.belongsTo(Degree, {
+	as: 'degree',
+	foreignKey: 'degreeId',
+});
+Register.belongsTo(Student, {
+	as: 'student',
+	foreignKey: 'studentId',
+});
+Register.belongsTo(Ballot, {
+	as: 'ballot',
+	foreignKey: 'ballotId',
+});
+Vote.belongsTo(Ballot, {
+	as: 'ballot',
+	foreignKey: 'ballotId',
+});
 
-Object.defineProperty(exports, 'Professor', { enumerable: true, get() { return Professor_1.Professor; } });
-const Subject_1 = require('./Subject');
-
-Object.defineProperty(exports, 'Subject', { enumerable: true, get() { return Subject_1.Subject; } });
-const Degree_1 = require('./Degree');
-
-Object.defineProperty(exports, 'Degree', { enumerable: true, get() { return Degree_1.Degree; } });
-const Ballot_1 = require('./Ballot');
-
-Object.defineProperty(exports, 'Ballot', { enumerable: true, get() { return Ballot_1.Ballot; } });
-const Student_1 = require('./Student');
-
-Object.defineProperty(exports, 'Student', { enumerable: true, get() { return Student_1.Student; } });
-const Register_1 = require('./Register');
-
-Object.defineProperty(exports, 'Register', { enumerable: true, get() { return Register_1.Register; } });
-const Vote_1 = require('./Vote');
-
-Object.defineProperty(exports, 'Vote', { enumerable: true, get() { return Vote_1.Vote; } });
-const Admin_1 = require('./Admin');
-
-Object.defineProperty(exports, 'Admin', { enumerable: true, get() { return Admin_1.Admin; } });
-function initModels(sequelize) {
-	Professor_1.Professor.initModel(sequelize);
-	Subject_1.Subject.initModel(sequelize);
-	Degree_1.Degree.initModel(sequelize);
-	Ballot_1.Ballot.initModel(sequelize);
-	Student_1.Student.initModel(sequelize);
-	Register_1.Register.initModel(sequelize);
-	Vote_1.Vote.initModel(sequelize);
-	Admin_1.Admin.initModel(sequelize);
-	Subject_1.Subject.belongsTo(Degree_1.Degree, {
-		as: 'degree',
-		foreignKey: 'degreeId',
-	});
-	Ballot_1.Ballot.belongsTo(Professor_1.Professor, {
-		as: 'professor',
-		foreignKey: 'professorId',
-	});
-	Ballot_1.Ballot.belongsTo(Subject_1.Subject, {
-		as: 'subject',
-		foreignKey: 'subjectId',
-	});
-	Student_1.Student.belongsTo(Degree_1.Degree, {
-		as: 'degree',
-		foreignKey: 'degreeId',
-	});
-	Register_1.Register.belongsTo(Student_1.Student, {
-		as: 'student',
-		foreignKey: 'studentId',
-	});
-	Register_1.Register.belongsTo(Ballot_1.Ballot, {
-		as: 'ballot',
-		foreignKey: 'ballotId',
-	});
-	Vote_1.Vote.belongsTo(Ballot_1.Ballot, {
-		as: 'ballot',
-		foreignKey: 'ballotId',
-	});
-	return {
-		Professor: Professor_1.Professor,
-		Subject: Subject_1.Subject,
-		Degree: Degree_1.Degree,
-		Ballot: Ballot_1.Ballot,
-		Student: Student_1.Student,
-		Register: Register_1.Register,
-		Vote: Vote_1.Vote,
-		Admin: Admin_1.Admin,
-	};
-}
-exports.initModels = initModels;
+module.exports = sequelize;

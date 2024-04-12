@@ -1,36 +1,30 @@
+const { Model } = require('sequelize');
 
-
-Object.defineProperty(exports, '__esModule', { value: true });
-// eslint-disable-next-line no-void
-exports.Professor = void 0;
-// eslint-disable-next-line camelcase
-const sequelize_1 = require('sequelize');
-
-class Professor extends sequelize_1.Model {
-	static initModel(sequelize) {
-		Professor.init({
-			id: {
-				type: sequelize_1.DataTypes.STRING,
-				primaryKey: true,
-				allowNull: false,
-			},
-			name: {
-				type: sequelize_1.DataTypes.STRING,
-				allowNull: false,
-			},
-			email: {
-				type: sequelize_1.DataTypes.STRING,
-				allowNull: false,
-			},
-			state: {
-				type: sequelize_1.DataTypes.ENUM('active', 'exluded', 'retired'),
-				allowNull: false,
-				defaultValue: 'active',
-			},
-		}, {
-			sequelize,
-		});
-		return Professor;
+module.exports = (sequelize, DataTypes) => {
+	class Professor extends Model {
 	}
-}
-exports.Professor = Professor;
+
+	Professor.init({
+		id: {
+			type: DataTypes.STRING,
+			primaryKey: true,
+			allowNull: false,
+		},
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		email: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		state: {
+			type: DataTypes.ENUM('active', 'exluded', 'retired'),
+			allowNull: false,
+			defaultValue: 'active',
+		},
+	}, {
+		sequelize,
+	});
+	return Professor;
+};
