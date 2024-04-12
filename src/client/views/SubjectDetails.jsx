@@ -25,7 +25,7 @@ export default class SubjectDetails extends Component {
 	}
 
 	loadSubjectData() {
-		fetchGet(`/api/v1/subjects/${this.subjAcr}`)
+		fetchGet(`/api/subjects/${this.subjAcr}`)
 			.then(r => r.json())
 			.then((res) => {
 				this.setState({
@@ -36,7 +36,7 @@ export default class SubjectDetails extends Component {
 	}
 
 	submitRating(profId, subject, rating) {
-		fetchPost(`/api/v1/professors/${profId}/rate`, { subject, rating })
+		fetchPost(`/api/professors/${profId}/rate`, { subject, rating })
 			.then(() => {
 				// Load again the professor's profile to reflect the new data.
 				this.loadSubjectData();
@@ -44,7 +44,7 @@ export default class SubjectDetails extends Component {
 	}
 
 	undoRating(profId, subject, rating) {
-		fetchDelete(`/api/v1/professors/${profId}/undo`, { subject, rating })
+		fetchDelete(`/api/professors/${profId}/undo`, { subject, rating })
 			.then(() => {
 				// Load again the professor's profile to reflect the new data.
 				this.loadSubjectData();

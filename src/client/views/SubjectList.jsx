@@ -15,7 +15,7 @@ export default class SubjectList extends Component {
 	}
 
 	componentDidMount() {
-		fetchGet('/api/v1/subjects')
+		fetchGet('/api/subjects')
 			.then(r => r.json())
 			.then((res) => {
 				this.setState({

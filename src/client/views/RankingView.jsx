@@ -13,7 +13,7 @@ export default class ProfessorList extends Component {
 	}
 
 	componentDidMount() {
-		fetchGet('/api/v1/rankings')
+		fetchGet('/api/rankings')
 			.then(r => r.json())
 			.then((res) => {
 				this.setState({

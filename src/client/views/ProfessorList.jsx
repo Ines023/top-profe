@@ -15,7 +15,7 @@ export default class ProfessorList extends Component {
 	}
 
 	componentDidMount() {
-		fetchGet('/api/v1/professors')
+		fetchGet('/api/professors')
 			.then(r => r.json())
 			.then((res) => {
 				this.setState({
