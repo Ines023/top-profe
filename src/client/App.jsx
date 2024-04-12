@@ -25,8 +25,9 @@ export default function App() {
 				<Route path="/ranking" component={RankingView} />
 				<Route exact path="/admin" component={AdminView} />
 				<Route path="/admin/degrees" component={AdminDegreesList} />
-				<Route exact path="/admin/update" component={AdminUpdater} />
-				<Route path="/admin/update/:degreeId" component={AdminSubjectsList} />
+				<Route exact path="/admin/update/subjects" component={() => <AdminUpdater subjects />} />
+				<Route path="/admin/update/subjects/:degreeId" component={AdminSubjectsList} />
+				<Route exact path="/admin/update/professors" component={() => <AdminUpdater professors />} />
 				<Route path="/failed-login" component={LoginErrorView} />
 				<Route path="/500" render={props => <ErrorView {...props} code={500} />} />
 				<Route render={props => <ErrorView {...props} code={404} />} />

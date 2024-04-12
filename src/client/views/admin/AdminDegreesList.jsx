@@ -35,7 +35,7 @@ export default class AdminDegreesList extends Component {
 
 	render() {
 		const { isLoaded, degrees, searchKeyword } = this.state;
-		const { isUpdater } = this.props;
+		const { isSubjectsUpdater, isProfessorsUpdater } = this.props;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
@@ -72,7 +72,7 @@ export default class AdminDegreesList extends Component {
 									</a>
 								</td>
 								<td>
-									<a href={isUpdater ? `/admin/update/${degree.id}` : `/admin/degrees/${degree.id}`}>
+									<a href={(isSubjectsUpdater && `/admin/update/subjects/${degree.id}`) || (isProfessorsUpdater && `/admin/update/professors/${degree.id}`) || `/admin/degrees/${degree.id}`}>
 										{degree.name} ({degree.acronym})
 									</a>
 								</td>

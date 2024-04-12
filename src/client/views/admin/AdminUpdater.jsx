@@ -3,10 +3,10 @@ import React from 'react';
 import AdminDegreesList from './AdminDegreesList';
 
 
-export default function AdminUpdater() {
+export default function AdminUpdater({ subjects = null, professors = null }) {
 	return (
 		<>
-			<AdminDegreesList isUpdater />
+			{(subjects && <AdminDegreesList isSubjectsUpdater />) || (professors && <AdminDegreesList isProfessorsUpdater />) || <AdminDegreesList />}
 		</>
 	);
 }
