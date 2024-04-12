@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 const { models, sequelize } = require('../models');
@@ -26,6 +27,8 @@ module.exports.fetchSubjects = async (req, res, next) => {
 
 		const apiResponse = await fetch(api.baseURL + api.subjects.split('{degreeId}').join(req.params.degreeId));
 		const newSubjects = await apiResponse.json();
+
+		Object.values(newSubjects).forEach(((subject) => { if (subject.departamentos.length === 0) delete newSubjects[subject.codigo]; }));
 
 		const missingIDs = Object.keys(newSubjects).filter(id => !currentSubjectsIDs.includes(id));
 
