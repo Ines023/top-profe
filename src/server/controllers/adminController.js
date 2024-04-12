@@ -28,20 +28,30 @@ module.exports.fetchSubjects = async (req, res, next) => {
 		const apiResponse = await fetch(api.baseURL + api.subjects.split('{degreeId}').join(req.params.degreeId));
 		const newSubjects = await apiResponse.json();
 
-		Object.values(newSubjects).forEach(((subject) => { if (subject.departamentos.length === 0) delete newSubjects[subject.codigo]; }));
+		Object.values(newSubjects).forEach(((subject) => { if (subject.departamentos.length === 0 || subject.curso === '') delete newSubjects[subject.codigo]; }));
 
-		const missingIDs = Object.keys(newSubjects).filter(id => !currentSubjectsIDs.includes(id));
+		const missingIDs = Object.keys(newSubjects).filter(codigo => !currentSubjectsIDs.includes(parseInt(codigo, 10)));
 
 		const missingSubjects = [];
 		missingIDs.forEach((id) => {
 			missingSubjects.push(newSubjects[id]);
 		});
 
-		req.session.missingSubjects = missingSubjects;
-		req.session.save();
-
 		res.status(200).json(missingSubjects);
 	} catch (error) {
 		res.status(500).json({ message: 'Error al obtener las asignaturas.' });
+	}
+};
+
+module.exports.importSubjects = async (req, res, next) => {
+	const { missingSubjects } = req.body;
+
+	try {
+		missingSubjects.forEach(subject => models.Subject.create({
+			id: subject.codigo, name: subject.nombre, year: subject.curso, degreeId: req.params.degreeId,
+		}));
+		res.status(200);
+	} catch (error) {
+		res.status(500).json({ message: 'Error al importar las asignaturas.' });
 	}
 };

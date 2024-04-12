@@ -10,7 +10,6 @@
         "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
         "dev": "NODE_ENV=development npx concurrently --kill-others --raw --default-input-target 1 'npm run client' 'npm run server'",
         "test": "eslint . --ext .js,.jsx --ignore-pattern dist/**",
-        "db:drop": "[[ $NODE_ENV == production ]] && exit 1 || sequelize db:drop",
         "db:migrate": "sequelize db:migrate",
         "db:rollback": "sequelize db:migrate:undo",
         "db:rollback:all": "sequelize db:migrate:undo:all"
