@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -23,12 +24,12 @@ export default function InitialMenu() {
 					Esperamos que te sea útil ;)
 				</p>
 				<br />
-                <small>
-                        <i style={{color: '#FF6555'}}>
+				<small>
+					<i style={{ color: '#FF6555' }}>
                                 Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
                                 Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
-                        </i>
-                </small>
+					</i>
+				</small>
 			</div>
 			<br />
 			<a className="box main-button menu-item" href="/ranking">
