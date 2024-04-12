@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { fetchGet } from '../../util';
 
 export default class AdminSubjectsList extends Component {
@@ -48,43 +50,50 @@ export default class AdminSubjectsList extends Component {
 		));
 
 		return (
-			<div>
-				<h2 className="centered">Asignaturas {this.degreeId}</h2>
-				<SearchInput
-					className="big-input search-input box"
-					placeholder="Buscar asignatura..."
-					throttle={0}
-					onChange={this.searchUpdated}
-				/>
-				<br />
-				<p className="">
-					Aquí se muestra un listado de todas las asignaturas de la titulación {this.degreeId} que no figuran en la base de datos.
-				</p>
-				<table className="full-width box">
-					<thead>
-						<tr>
-							<th>Código</th>
-							<th>Nombre</th>
-						</tr>
-					</thead>
-					<tbody>
-						{ filteredDegrees.map(subject => (
-							<tr key={subject.codigo}>
-								<td>
-									<p>
-										{subject.codigo}
-									</p>
-								</td>
-								<td>
-									<p>
-										{subject.nombre}
-									</p>
-								</td>
+			<>
+				<div>
+					<h2 className="centered">Asignaturas {this.degreeId}</h2>
+					<SearchInput
+						className="big-input search-input box"
+						placeholder="Buscar asignatura..."
+						throttle={0}
+						onChange={this.searchUpdated}
+					/>
+					<br />
+					<p className="">
+						Aquí se muestra un listado de todas las asignaturas de la titulación {this.degreeId} que no figuran en la base de datos.
+					</p>
+					<table className="full-width box">
+						<thead>
+							<tr>
+								<th>Código</th>
+								<th>Nombre</th>
 							</tr>
-						)) }
-					</tbody>
-				</table>
-			</div>
+						</thead>
+						<tbody>
+							{filteredDegrees.map(subject => (
+								<tr key={subject.codigo}>
+									<td>
+										<p>
+											{subject.codigo}
+										</p>
+									</td>
+									<td>
+										<p>
+											{subject.nombre}
+										</p>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+				<br />
+				<button type="button" className="box main-button menu-item" onClick={this.componentDidMount}>
+					Añadir asignaturas
+					<FontAwesomeIcon className="main-button-icon" icon={faPlus} />
+				</button>
+			</>
 		);
 	}
 }
