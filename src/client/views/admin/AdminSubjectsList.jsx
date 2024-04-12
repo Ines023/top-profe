@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { fetchGet } from '../../util';
+import Modal from '../subcomponents/Modal';
+import { fetchGet, fetchPost } from '../../util';
 
 export default class AdminSubjectsList extends Component {
 	constructor(props) {
@@ -15,11 +16,13 @@ export default class AdminSubjectsList extends Component {
 			isLoaded: false,
 			subjects: {},
 			searchKeyword: '',
+			showConfirmation: false,
 		};
 
 		this.degreeId = degreeId;
 
 		this.searchUpdated = this.searchUpdated.bind(this);
+		this.saveSubjects = this.saveSubjects.bind(this);
 	}
 
 	componentDidMount() {
@@ -40,8 +43,23 @@ export default class AdminSubjectsList extends Component {
 		});
 	}
 
+	saveSubjects(subjects) {
+		fetchPost(`/api/admin/update/${this.degreeId}`, {
+			missingSubjects: subjects,
+		})
+			.then(r => r.json())
+			.then((res) => {
+				this.setState({
+					isLoaded: true,
+					subjects: res,
+				});
+			});
+	}
+
 	render() {
-		const { isLoaded, subjects, searchKeyword } = this.state;
+		const {
+			isLoaded, subjects, searchKeyword, showConfirmation,
+		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
@@ -89,10 +107,18 @@ export default class AdminSubjectsList extends Component {
 					</table>
 				</div>
 				<br />
-				<button type="button" className="box main-button menu-item" onClick={this.componentDidMount}>
+				<button type="button" className="box main-button menu-item" onClick={() => this.setState({ showConfirmation: true })}>
 					Añadir asignaturas
 					<FontAwesomeIcon className="main-button-icon" icon={faPlus} />
 				</button>
+				<Modal show={showConfirmation} onClose={() => this.setState({ showConfirmation: false })}>
+					<h2>¿Estás seguro de que quieres añadir estas asignaturas?</h2>
+					<p>Una vez realizada la importación, no es posible revertir el proceso. Asegúrate de que cuentas con una copia de seguridad de la base de datos.</p>
+					<button type="button" className="box main-button menu-item" onClick={() => this.saveSubjects(subjects)}>
+						Importar asignaturas
+					</button>
+				</Modal>
+
 			</>
 		);
 	}

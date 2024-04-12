@@ -31,10 +31,13 @@ header {
     body {
         font-size: 1.1em;
     }
+
     header {
         height: 70px;
     }
-    table.box td, table.box th {
+
+    table.box td,
+    table.box th {
         padding: 12px 15px !important;
     }
 }
@@ -43,7 +46,8 @@ header {
     color: inherit;
 }
 
-.content, .footer {
+.content,
+.footer {
     max-width: 850px;
     margin: 0 auto;
     margin-top: 5vh;
@@ -141,7 +145,8 @@ table.box tr:last-child {
     border-bottom: none;
 }
 
-table.box td, table.box th {
+table.box td,
+table.box th {
     padding: 20px;
 }
 
@@ -186,7 +191,7 @@ table.box a:visited {
     display: flex;
 }
 
-.big-input.box > * {
+.big-input.box>* {
     padding: 20px;
     font-size: 1em;
 }
@@ -226,14 +231,14 @@ table.box thead tr:first-child {
     padding: 0;
     width: fit-content;
     display: inline-block;
-	background-color: black;
+    background-color: black;
 }
 
-.title-tag > div {
+.title-tag>div {
     display: inline-block;
     padding: 10px 15px;
-	font-size: 1.5em;
-	vertical-align: middle;
+    font-size: 1.5em;
+    vertical-align: middle;
 }
 
 .title-tag .tag-icon {
@@ -244,10 +249,71 @@ table.box thead tr:first-child {
 }
 
 .title-tag .tag-content {
-	background-color: white;
-	font-weight: bold;
+    background-color: white;
+    font-weight: bold;
 }
 
 .footer {
     padding: 1em 0;
+}
+
+/* MODAL STYLES */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+    position: fixed;
+    background: white;
+    padding: 20px;
+    border: 5px solid black;
+    width: 80%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+}
+
+.modal-main .box.main-button {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    padding: 10px;
+    height: fit-content;
+}
+
+.modal-main .close-button {
+    position: absolute;
+    left: 10px;
+    top: 10px
+}
+
+.modal-main .box.main-button .main-button-icon {
+    font-size: 1em;
+    margin-left: 0px;
+  }
+
+.modal-content {
+    justify-self: center;
+}
+
+.cross {
+    transform: rotate(45deg);
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
 }

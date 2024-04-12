@@ -13,7 +13,7 @@ export default function AdminView() {
 			</a>
 			<br />
 			<a className="box main-button menu-item" href="/admin/update">
-				Actualizar asignaturas y profesores
+				Actualizar asignaturas
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>
 			<br />
