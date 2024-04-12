@@ -26,7 +26,7 @@ export default class AdminSubjectsList extends Component {
 	}
 
 	componentDidMount() {
-		fetchGet(`/api/admin/update/${this.degreeId}`)
+		fetchGet(`/api/admin/update/subjects/${this.degreeId}`)
 			.then(r => r.json())
 			.then((res) => {
 				this.setState({
@@ -44,7 +44,7 @@ export default class AdminSubjectsList extends Component {
 	}
 
 	saveSubjects(subjects) {
-		fetchPost(`/api/admin/update/${this.degreeId}`, {
+		fetchPost(`/api/admin/update/subjects/${this.degreeId}`, {
 			missingSubjects: subjects,
 		})
 			.then(r => r.json())

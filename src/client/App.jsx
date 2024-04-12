@@ -8,7 +8,7 @@ import ProfessorProfile from './views/ProfessorProfile';
 import RankingView from './views/RankingView';
 import AdminView from './views/admin/AdminView';
 import AdminDegreesList from './views/admin/AdminDegreesList';
-import AdminUpdater from './views/admin/AdminUpdater';
+import AdminListView from './views/admin/AdminListView';
 import SubjectDetails from './views/SubjectDetails';
 import SubjectList from './views/SubjectList';
 import AdminSubjectsList from './views/admin/AdminSubjectsList';
@@ -25,9 +25,9 @@ export default function App() {
 				<Route path="/ranking" component={RankingView} />
 				<Route exact path="/admin" component={AdminView} />
 				<Route path="/admin/degrees" component={AdminDegreesList} />
-				<Route exact path="/admin/update/subjects" component={() => <AdminUpdater subjects />} />
+				<Route exact path="/admin/update/subjects" component={() => <AdminListView subjects />} />
 				<Route path="/admin/update/subjects/:degreeId" component={AdminSubjectsList} />
-				<Route exact path="/admin/update/professors" component={() => <AdminUpdater professors />} />
+				<Route exact path="/admin/update/professors" component={() => <AdminListView professors />} />
 				<Route path="/failed-login" component={LoginErrorView} />
 				<Route path="/500" render={props => <ErrorView {...props} code={500} />} />
 				<Route render={props => <ErrorView {...props} code={404} />} />
