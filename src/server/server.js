@@ -41,7 +41,7 @@ app.use(session({
 }));
 // Main API router.
 app.use('/login', loginView.requestHandler);
-app.use('/api/v1', router);
+app.use('/api', router);
 // Any other route.
 app.use('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')));
 // The error handler that produces 404/500 HTTP responses.

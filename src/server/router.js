@@ -1,6 +1,7 @@
 const express = require('express');
 const controllers = require('./controllers');
 const middlewares = require('./middlewares');
+const adminController = require('./controllers/adminController');
 
 const router = express.Router();
 
@@ -19,8 +20,8 @@ router.use(middlewares.restrictLimitedUsers);
 router.post('/professors/:profId/rate', controllers.rateProfessor);
 router.delete('/professors/:profId/undo', controllers.undoRate);
 
-router.use(middlewares.restrictAdmins);
-router.get('/admin', controllers.getAdminData);
-
+// router.use(middlewares.restrictAdmins);
+router.get('/admin', adminController.getAdminData);
+router.get('/admin/degrees', adminController.getDegrees);
 
 module.exports = router;
