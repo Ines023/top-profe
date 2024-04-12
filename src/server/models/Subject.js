@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
+		semester: {
+			type: DataTypes.ENUM('0', '1', '2'),
+			allowNull: false,
+		},
 	}, {
 		sequelize,
 	});

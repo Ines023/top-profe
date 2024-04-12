@@ -27,6 +27,11 @@ module.exports = {
 				field: 'year',
 				allowNull: false,
 			},
+			semester: {
+				type: DataTypes.ENUM('0', '1', '2'),
+				field: 'semester',
+				allowNull: false,
+			},
 			degreeId: {
 				type: DataTypes.STRING,
 				field: 'degreeId',
