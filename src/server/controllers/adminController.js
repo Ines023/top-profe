@@ -52,18 +52,25 @@ module.exports.fetchSubjects = async (req, res, next) => {
 		const currentSubjectsIDs = currentSubjects.map(e => e.id);
 
 		const apiResponse = await fetch(api.baseURL + api.subjects.split('{degreeId}').join(req.params.degreeId));
-		const newSubjects = await apiResponse.json();
+		const fetchedSubjects = await apiResponse.json();
 
-		Object.values(newSubjects).forEach(((subject) => { if (subject.departamentos.length === 0 || subject.curso === '') delete newSubjects[subject.codigo]; }));
+		Object.values(fetchedSubjects).forEach(((subject) => { if (subject.departamentos.length === 0 || subject.curso === '') delete fetchedSubjects[subject.codigo]; }));
 
-		const missingIDs = Object.keys(newSubjects).filter(codigo => !currentSubjectsIDs.includes(parseInt(codigo, 10)));
+		const missingIDs = Object.keys(fetchedSubjects).filter(codigo => !currentSubjectsIDs.includes(parseInt(codigo, 10)));
 
 		const missingSubjects = [];
-		missingIDs.forEach((id) => {
-			missingSubjects.push(newSubjects[id]);
+		missingIDs.forEach((codigo) => {
+			missingSubjects.push(fetchedSubjects[codigo]);
 		});
 
-		res.status(200).json(missingSubjects);
+		const newSubjects = missingSubjects.map(subject => ({
+			id: subject.codigo,
+			name: subject.nombre,
+			year: subject.curso,
+			semester: subject.imparticion,
+		}));
+
+		res.status(200).json(newSubjects);
 	} catch (error) {
 		res.status(500).json({ message: 'Error al obtener las asignaturas.' });
 	}
@@ -74,7 +81,7 @@ module.exports.importSubjects = async (req, res, next) => {
 
 	try {
 		missingSubjects.forEach(subject => models.Subject.create({
-			id: subject.codigo, name: subject.nombre, year: subject.curso, semester: Object.keys(subject.imparticion).length === 2 ? '0' : Object.keys(subject.imparticion)[0][0], degreeId: req.params.degreeId,
+			id: subject.id, name: subject.name, year: subject.year, semester: Object.keys(subject.semester).length === 2 ? '0' : Object.keys(subject.semester)[0][0], degreeId: req.params.degreeId,
 		}));
 		res.status(200).json({ message: 'Asignaturas importadas correctamente.' });
 	} catch (error) {

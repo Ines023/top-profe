@@ -29,7 +29,7 @@ export default class AdminSubjectsList extends Component {
 		const { subjects, degree, description } = this.props;
 
 		const filteredDegrees = subjects.filter(createFilter(
-			searchKeyword, ['nombre', 'codigo'],
+			searchKeyword, ['id', 'name'],
 		));
 
 		return (
@@ -55,15 +55,15 @@ export default class AdminSubjectsList extends Component {
 						</thead>
 						<tbody>
 							{filteredDegrees.map(subject => (
-								<tr key={subject.codigo || subject.id}>
+								<tr key={subject.id}>
 									<td>
 										<p>
-											{subject.codigo || subject.id}
+											{subject.id}
 										</p>
 									</td>
 									<td>
 										<p>
-											{subject.nombre || subject.name}
+											{subject.name}
 										</p>
 									</td>
 								</tr>
