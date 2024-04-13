@@ -20,6 +20,15 @@ body {
 header {
     height: 200px;
     width: 100%;
+    /*background: url('dat_topprofe.png') no-repeat;*/
+    background-position: center;
+    background-size: contain;
+    background-origin: content-box;
+}
+
+.logo {
+    height: 200px;
+    width: 100%;
     background: url('dat_topprofe.png') no-repeat;
     background-position: center;
     background-size: contain;
