@@ -55,15 +55,15 @@ export default class AdminSubjectsList extends Component {
 						</thead>
 						<tbody>
 							{filteredDegrees.map(subject => (
-								<tr key={subject.codigo}>
+								<tr key={subject.codigo || subject.id}>
 									<td>
 										<p>
-											{subject.codigo}
+											{subject.codigo || subject.id}
 										</p>
 									</td>
 									<td>
 										<p>
-											{subject.nombre}
+											{subject.nombre || subject.name}
 										</p>
 									</td>
 								</tr>
