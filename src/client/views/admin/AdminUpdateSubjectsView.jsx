@@ -82,7 +82,7 @@ export default class AdminUpdateSubjectsView extends Component {
 					Añadir asignaturas
 							<FontAwesomeIcon className="main-button-icon" icon={faPlus} />
 						</button>
-						<Modal show={showConfirmation} onClose={() => this.setState({ showConfirmation: false })}>
+						<Modal show={showConfirmation} allowClose onClose={() => this.setState({ showConfirmation: false })}>
 							<h2>¿Estás seguro de que quieres añadir estas asignaturas?</h2>
 							<p>Una vez realizada la importación, no es posible revertir el proceso. Asegúrate de que cuentas con una copia de seguridad de la base de datos.</p>
 							<button type="button" className="box main-button menu-item" onClick={() => this.saveSubjects(subjects)}>
