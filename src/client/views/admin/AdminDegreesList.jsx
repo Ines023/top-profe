@@ -35,7 +35,7 @@ export default class AdminDegreesList extends Component {
 
 	render() {
 		const { isLoaded, degrees, searchKeyword } = this.state;
-		const { isSubjectsUpdater, isProfessorsUpdater } = this.props;
+		const { nextView } = this.props;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
@@ -67,12 +67,12 @@ export default class AdminDegreesList extends Component {
 						{ filteredDegrees.map(degree => (
 							<tr key={degree.id}>
 								<td>
-									<a href={`/admin/degrees/${degree.id}`}>
+									<a href={`${nextView}/${degree.id}`}>
 										{degree.id}
 									</a>
 								</td>
 								<td>
-									<a href={(isSubjectsUpdater && `/admin/update/subjects/${degree.id}`) || (isProfessorsUpdater && `/admin/update/professors/${degree.id}`) || `/admin/degrees/${degree.id}`}>
+									<a href={`${nextView}/${degree.id}`}>
 										{degree.name} ({degree.acronym})
 									</a>
 								</td>

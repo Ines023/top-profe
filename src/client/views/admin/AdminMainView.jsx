@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function AdminView() {
+export default function AdminMainView() {
 	return (
 		<>
 			<a className="box main-button menu-item" href="/admin/degrees">
