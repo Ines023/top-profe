@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
-import { fetchGet } from '../../util';
+import { fetchGet } from '../../../util';
 
 export default class AdminDegreesList extends Component {
 	constructor() {

@@ -18,6 +18,17 @@ module.exports.getDegrees = async (req, res, next) => {
 	}
 };
 
+module.exports.getDegree = async (req, res, next) => {
+	const { degreeId } = req.params;
+
+	try {
+		const degree = await models.Degree.findByPk(degreeId);
+		res.send(degree);
+	} catch (error) {
+		res.status(500).json({ message: 'Error al obtener la titulación.' });
+	}
+};
+
 module.exports.fetchSubjects = async (req, res, next) => {
 	try {
 		const { api } = config;
