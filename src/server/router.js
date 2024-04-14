@@ -30,6 +30,6 @@ router.get('/admin/subjects/:degreeId', adminController.getSubjects);
 router.get('/admin/update/subjects/:degreeId', adminController.fetchSubjects);
 router.post('/admin/update/subjects/:degreeId', adminController.importSubjects);
 
-router.get('/admin/update/professors/:degreeId/:academic_year', adminController.fetchProfessors);
+router.get('/admin/update/professors/:degreeId/:academicYear', adminController.fetchProfessors);
 
 module.exports = router;

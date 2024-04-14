@@ -103,7 +103,7 @@ module.exports.importSubjects = async (req, res, next) => {
 module.exports.fetchProfessors = async (req, res, next) => {
 	try {
 		const { api } = config;
-		const { degreeId } = req.params;
+		const { degreeId, academicYear } = req.params;
 
 		const professorsBySubject = {};
 
@@ -117,8 +117,8 @@ module.exports.fetchProfessors = async (req, res, next) => {
 			let semesterCount = subject.semester === '0' ? 2 : 0;
 			do {
 				const apiResponseGauss = await fetch(api.subjectGuides
-					.split('{academic_year}')
-					.join(req.params.academic_year)
+					.split('{academicYear}')
+					.join(academicYear)
 					.split('{semester}')
 					.join(semesterCount === 0 ? subject.semester : semesterCount)
 					.split('{degreeId}')
@@ -145,12 +145,22 @@ module.exports.fetchProfessors = async (req, res, next) => {
 			} while (semesterCount > 0);
 		}));
 
-		const newProfesores = Object.entries(professorsBySubject).map(([subjectId, subjects]) => subjects.map(subject => ({
-			id: subject.email.split('@')[0], // Use the email prefix as ID
-			name: `${subject.nombre} ${subject.apellidos}`,
-			email: subject.email,
-			subjectId: parseInt(subjectId, 10),
-		}))).flat();
+		const newProfesores = Object.entries(professorsBySubject).reduce((acc, [subjectId, subjects]) => {
+			subjects.forEach((subject) => {
+				const id = subject.email.split('@')[0];
+				if (!acc[id]) {
+					acc[id] = {
+						id,
+						name: `${subject.nombre} ${subject.apellidos}`,
+						email: subject.email,
+						subjectId: [parseInt(subjectId, 10)],
+					};
+				} else {
+					acc[id].subjectId.push(parseInt(subjectId, 10));
+				}
+			});
+			return acc;
+		}, {});
 
 		res.status(200).send(newProfesores);
 	} catch (error) {

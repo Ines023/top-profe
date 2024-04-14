@@ -49,21 +49,21 @@ export default class AdminProfessorsList extends Component {
 					<table className="full-width box">
 						<thead>
 							<tr>
-								<th>Asignatura</th>
 								<th>Nombre</th>
+								<th>Asignatura(s)</th>
 							</tr>
 						</thead>
 						<tbody>
 							{filteredDegrees.map(professor => (
-								<tr key={`${professor.id}@${professor.subjectId}`}>
+								<tr key={professor.id}>
 									<td>
 										<p>
-											{professor.subjectId}
+											{professor.name}
 										</p>
 									</td>
 									<td>
 										<p>
-											{professor.name}
+											{professor.subjectId.toString()}
 										</p>
 									</td>
 								</tr>

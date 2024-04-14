@@ -115,9 +115,9 @@ export default class AdminUpdateProfessorsView extends Component {
 			<>
 				<h1 className="centered">Actualizar profesores</h1>
 
-				{professors.length > 0 ? (
+				{professors ? (
 					<>
-						<AdminProfessorsList professors={professors} degree={degree} description={`Aquí se muestra un listado de todos los profesores de la titulación ${degree.id} que no figuran en la base de datos.`} />
+						<AdminProfessorsList professors={Object.values(professors)} degree={degree} description={`Aquí se muestra un listado de todos los profesores de la titulación ${degree.id} que no figuran en la base de datos.`} />
 						<br />
 						<button type="button" className="box main-button menu-item" onClick={() => this.setState({ showConfirmation: true })}>
 					Añadir profesores
