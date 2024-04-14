@@ -92,15 +92,17 @@ module.exports.importSubjects = async (req, res, next) => {
 module.exports.fetchProfessors = async (req, res, next) => {
 	try {
 		const { api } = config;
+		const { degreeId } = req.params;
 
 		const professorsBySubject = {};
 
-		const currentSubjects = await models.Subject.findAll();
+		const currentSubjects = await models.Subject.findAll({ where: { degreeId } });
 
 		const currentProfessors = await models.Professor.findAll();
 		const currentProfessorsIDs = currentProfessors.map(e => e.id);
 
-		currentSubjects.forEach(async (subject) => {
+		// This trick makes the function await until loop finishes before sending response to the client.
+		await Promise.all(currentSubjects.map(async (subject) => {
 			let semesterCount = subject.semester === '0' ? 2 : 0;
 			do {
 				const apiResponseGauss = await fetch(api.subjectGuides
@@ -126,16 +128,22 @@ module.exports.fetchProfessors = async (req, res, next) => {
 				subjectGuide.profesores.forEach((professor) => { if (professor !== null && professor.length !== 0 && !(professor.email.split('@')[0] in currentProfessorsIDs)) subjectProfessors.push(professor); });
 
 				professorsBySubject[subject.id] = subjectProfessors;
-				console.log(professorsBySubject);
 
 				// eslint-disable-next-line no-plusplus
 				semesterCount--;
 			} while (semesterCount > 0);
-		});
+		}));
 
-		res.status(200).json(professorsBySubject);
+		const newProfesores = Object.entries(professorsBySubject).map(([subjectId, subjects]) => subjects.map(subject => ({
+			id: subject.email.split('@')[0], // Use the email prefix as ID
+			name: `${subject.nombre} ${subject.apellidos}`,
+			email: subject.email,
+			subjectId: parseInt(subjectId, 10),
+		}))).flat();
+
+		res.status(200).send(newProfesores);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: 'Error al obtener las asignaturas.' });
+		res.status(500).json({ message: 'Error al obtener los datos de los profesores.' });
 	}
 };

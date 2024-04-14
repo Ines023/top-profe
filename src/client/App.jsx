@@ -11,6 +11,7 @@ import AdminDegreesView from './views/admin/AdminDegreesView';
 import SubjectDetails from './views/SubjectDetails';
 import SubjectList from './views/SubjectList';
 import AdminUpdateSubjectsView from './views/admin/AdminUpdateSubjectsView';
+import AdminUpdateProfessorsView from './views/admin/AdminUpdateProfessorsView';
 import AdminEditSubjectsView from './views/admin/AdminEditSubjectsView';
 
 export default function App() {
@@ -34,8 +35,8 @@ export default function App() {
 				<Route exact path="/admin/subjects" component={() => <AdminDegreesView subjects />} />
 				<Route path="/admin/subjects/:degreeId" component={AdminEditSubjectsView} />
 
-				<Route exact path="/admin/update/professors" component={() => <AdminDegreesView professors />} />
-				<Route exact path="/admin/update/professors/:degreeId" component={AdminUpdateSubjectsView} />
+				<Route exact path="/admin/update/professors" component={() => <AdminDegreesView updateProfessors />} />
+				<Route exact path="/admin/update/professors/:degreeId" component={AdminUpdateProfessorsView} />
 
 				<Route exact path="/admin/professors" component={() => <AdminDegreesView updateProfessors />} />
 				{/* <Route path="/admin/professors/:degreeId" component={AdminDegreesList} /> */}

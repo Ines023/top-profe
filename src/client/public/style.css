@@ -315,6 +315,11 @@ table.box thead tr:first-child {
     justify-self: center;
 }
 
+.modal-content .error {
+    font-size: large;
+    color: red;
+}
+
 .cross {
     transform: rotate(45deg);
 }
