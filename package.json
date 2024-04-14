@@ -12,7 +12,9 @@
         "test": "eslint . --ext .js,.jsx --ignore-pattern dist/**",
         "db:migrate": "sequelize db:migrate",
         "db:rollback": "sequelize db:migrate:undo",
-        "db:rollback:all": "sequelize db:migrate:undo:all"
+        "db:rollback:all": "sequelize db:migrate:undo:all",
+        "db:seed": "sequelize-cli db:seed:all",
+        "db:unseed": "sequelize-cli db:seed:undo"
     },
     "repository": "https://github.com/DAT-ETSIT/top-profe",
     "author": "Delegación de Alumnos de Telecomunicación",

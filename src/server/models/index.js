@@ -31,6 +31,10 @@ Ballot.belongsTo(Subject, {
 	as: 'subject',
 	foreignKey: 'subjectId',
 });
+Ballot.belongsTo(Subject, {
+	as: 'degree',
+	foreignKey: 'degreeId',
+});
 Student.belongsTo(Degree, {
 	as: 'degree',
 	foreignKey: 'degreeId',

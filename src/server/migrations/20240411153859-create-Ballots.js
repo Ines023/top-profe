@@ -14,7 +14,7 @@ module.exports = {
 				allowNull: false,
 			},
 			academicYear: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.STRING,
 				field: 'academicYear',
 				allowNull: false,
 			},
@@ -30,6 +30,10 @@ module.exports = {
 			subjectId: {
 				type: DataTypes.INTEGER,
 				field: 'subjectId',
+			},
+			degreeId: {
+				type: DataTypes.STRING,
+				field: 'degreeId',
 			},
 		});
 	},
