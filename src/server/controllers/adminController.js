@@ -44,6 +44,17 @@ module.exports.getSubjects = async (req, res, next) => {
 	}
 };
 
+module.exports.getSubject = async (req, res, next) => {
+	const { subjectId } = req.params;
+
+	try {
+		const subject = await models.Subject.findByPk(subjectId);
+		res.status(200).send(subject);
+	} catch (error) {
+		res.status(500).json({ message: 'Error al obtener la asignatura.' });
+	}
+};
+
 module.exports.fetchSubjects = async (req, res, next) => {
 	try {
 		const { api } = config;
