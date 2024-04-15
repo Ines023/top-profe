@@ -18,11 +18,6 @@ module.exports = {
 				field: 'academicYear',
 				allowNull: false,
 			},
-			semester: {
-				type: DataTypes.INTEGER,
-				field: 'semester',
-				allowNull: false,
-			},
 			professorId: {
 				type: DataTypes.STRING,
 				field: 'professorId',

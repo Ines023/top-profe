@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		semester: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-		},
 	}, {
 		sequelize,
 	});
