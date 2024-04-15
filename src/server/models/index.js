@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Sequelize = require('sequelize');
 
-const config = require('../databaseConfig.js');
+const config = require('../databaseConfig');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
 	host: config.host,
@@ -13,7 +13,7 @@ const Ballot = require('./Ballot')(sequelize, Sequelize.DataTypes);
 const Degree = require('./Degree')(sequelize, Sequelize.DataTypes);
 const Professor = require('./Professor')(sequelize, Sequelize.DataTypes);
 const Register = require('./Register')(sequelize, Sequelize.DataTypes);
-const Student = require('./Users.js')(sequelize, Sequelize.DataTypes);
+const User = require('./Users')(sequelize, Sequelize.DataTypes);
 const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
 const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
 const Session = require('./Session')(sequelize, Sequelize.DataTypes);
@@ -35,11 +35,11 @@ Ballot.belongsTo(Subject, {
 	as: 'degree',
 	foreignKey: 'degreeId',
 });
-Student.belongsTo(Degree, {
+User.belongsTo(Degree, {
 	as: 'degree',
 	foreignKey: 'degreeId',
 });
-Register.belongsTo(Student, {
+Register.belongsTo(User, {
 	as: 'student',
 	foreignKey: 'studentId',
 });
