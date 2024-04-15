@@ -1,9 +1,9 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-	class Admin extends Model {
+	class Users extends Model {
 	}
-	Admin.init({
+	Users.init({
 		id: {
 			type: DataTypes.STRING,
 			primaryKey: true,
@@ -14,8 +14,17 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			unique: true,
 		},
+		type: {
+			type: DataTypes.ENUM('student', 'professor', 'institutional'),
+			allowNull: false,
+		},
+		isAdmin: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			default: false,
+		},
 	}, {
 		sequelize,
 	});
-	return Admin;
+	return Users;
 };

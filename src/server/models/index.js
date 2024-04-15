@@ -9,12 +9,11 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 	define: { timestamps: false },
 });
 
-const Admin = require('./Admin')(sequelize, Sequelize.DataTypes);
 const Ballot = require('./Ballot')(sequelize, Sequelize.DataTypes);
 const Degree = require('./Degree')(sequelize, Sequelize.DataTypes);
 const Professor = require('./Professor')(sequelize, Sequelize.DataTypes);
 const Register = require('./Register')(sequelize, Sequelize.DataTypes);
-const Student = require('./Student')(sequelize, Sequelize.DataTypes);
+const Student = require('./Users.js')(sequelize, Sequelize.DataTypes);
 const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
 const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
 
