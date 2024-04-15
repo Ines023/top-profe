@@ -28,7 +28,7 @@ export default class AdminUpdateProfessorsView extends Component {
 		this.degreeId = degreeId;
 
 		this.fetchProfessors = this.fetchProfessors.bind(this);
-		this.saveSubjects = this.saveSubjects.bind(this);
+		this.saveSubjects = this.saveProfessors.bind(this);
 	}
 
 	fetchProfessors() {
@@ -61,14 +61,16 @@ export default class AdminUpdateProfessorsView extends Component {
 			});
 	}
 
-	saveSubjects(subjects) {
+	saveProfessors(professors) {
+		const { academicYear } = this.state;
+
 		this.setState({
 			showConfirmation: false,
 			isLoaded: false,
 		});
 
-		fetchPost(`/api/admin/update/subjects/${this.degreeId}`, {
-			missingSubjects: subjects,
+		fetchPost(`/api/admin/update/professors/${this.degreeId}/${academicYear}`, {
+			missingProfessors: professors,
 		})
 			.then(r => r.json())
 			.then(() => {
@@ -123,10 +125,10 @@ export default class AdminUpdateProfessorsView extends Component {
 					Añadir profesores
 							<FontAwesomeIcon className="main-button-icon" icon={faPlus} />
 						</button>
-						<Modal show={showConfirmation} onClose={() => this.setState({ showConfirmation: false })}>
+						<Modal show={showConfirmation} allowClose onClose={() => this.setState({ showConfirmation: false })}>
 							<h2>¿Estás seguro de que quieres importar estos profesores?</h2>
 							<p>Una vez realizada la importación, no es posible revertir el proceso. Asegúrate de que cuentas con una copia de seguridad de la base de datos.</p>
-							<button type="button" className="box main-button menu-item" onClick={() => this.saveSubjects(professors)}>
+							<button type="button" className="box main-button menu-item" onClick={() => this.saveProfessors(professors)}>
 						Importar Profesores
 							</button>
 						</Modal>

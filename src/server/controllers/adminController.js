@@ -182,3 +182,34 @@ module.exports.fetchProfessors = async (req, res, next) => {
 		res.status(500).json({ message: 'Error al obtener los datos de los profesores.' });
 	}
 };
+
+module.exports.importProfessors = async (req, res, next) => {
+	try {
+		const { degreeId, academicYear } = req.params;
+		const { missingProfessors } = req.body;
+
+		const currentProfessors = await models.Professor.findAll();
+		const currentBallots = await models.Ballot.findAll({ where: { degreeId, academicYear } });
+
+		Object.values(missingProfessors).forEach((professor) => {
+			if (!currentProfessors.find(p => p.id === professor.id)) {
+				models.Professor.create({
+					id: professor.id, name: professor.name, email: professor.email, state: 'active',
+				});
+			}
+
+			professor.subjectId.forEach((subject) => {
+				if (!currentBallots.find(b => b.professorId === professor.id && b.subjectId === subject)) {
+					models.Ballot.create({
+						academicYear, professorId: professor.id, subjectId: subject, degreeId,
+					});
+				}
+			});
+		});
+
+		res.status(200).json({ message: 'Profesores importados correctamente.' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error al importar los datos de los profesores.' });
+	}
+};
