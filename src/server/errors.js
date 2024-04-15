@@ -45,8 +45,8 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 		return res.status(401).json({
 			code: 'unauthorized',
 			message: 'Login required',
-			ssoUrl: `${config.cas.ssoUrl}/login`,
-			serviceBase: config.server.url,
+			authServerUrl: `${config.sso.ssoUrl}`,
+			redirectUrl: config.sso.redirectUrl,
 		});
 	}
 

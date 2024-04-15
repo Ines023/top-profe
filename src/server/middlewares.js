@@ -3,7 +3,7 @@ const { Admin, sequelize } = require('./models');
 const { UnauthorizedError, LimitedUserError } = require('./errors');
 
 function checkLogin(req, res, next) {
-	if (!req.session.reviewerHash) return next(new UnauthorizedError());
+	if (!req.session.user) return next(new UnauthorizedError());
 	return next();
 }
 
