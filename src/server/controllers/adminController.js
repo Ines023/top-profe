@@ -36,8 +36,6 @@ module.exports.getSubjects = async (req, res, next) => {
 	try {
 		const currentSubjects = await models.Subject.findAll({ where: { degreeId }, raw: true });
 
-		console.log(`Asignaturas recuperadas: ${currentSubjects}`);
-
 		res.status(200).json(currentSubjects);
 	} catch (error) {
 		res.status(500).json({ message: `Error al obtener las asignaturas de ${degreeId}.` });
@@ -211,5 +209,15 @@ module.exports.importProfessors = async (req, res, next) => {
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: 'Error al importar los datos de los profesores.' });
+	}
+};
+
+module.exports.getProfessors = async (req, res, next) => {
+	try {
+		const currentProfessors = await models.Professor.findAll({ raw: true });
+
+		res.status(200).json(currentProfessors);
+	} catch (error) {
+		res.status(500).json({ message: 'Error al obtener los profesores.' });
 	}
 };

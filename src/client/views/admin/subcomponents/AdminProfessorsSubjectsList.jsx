@@ -26,16 +26,16 @@ export default class AdminProfessorsSubjectsList extends Component {
 			searchKeyword,
 		} = this.state;
 
-		const { professors, description } = this.props;
+		const { professors, degree, description } = this.props;
 
 		const filteredDegrees = professors.filter(createFilter(
-			searchKeyword, ['id', 'name'],
+			searchKeyword, ['subjectId', 'name'],
 		));
 
 		return (
 			<>
 				<div>
-					<h2 className="centered">Profesores</h2>
+					<h2 className="centered">Profesores {degree.acronym}</h2>
 					<SearchInput
 						className="big-input search-input box"
 						placeholder="Buscar profesor..."
@@ -49,8 +49,8 @@ export default class AdminProfessorsSubjectsList extends Component {
 					<table className="full-width box">
 						<thead>
 							<tr>
-								<th>Id</th>
 								<th>Nombre</th>
+								<th>Asignatura(s)</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -58,12 +58,12 @@ export default class AdminProfessorsSubjectsList extends Component {
 								<tr key={professor.id}>
 									<td>
 										<p>
-											{professor.id}
+											{professor.name}
 										</p>
 									</td>
 									<td>
 										<p>
-											{professor.name}
+											{professor.subjectId.toString()}
 										</p>
 									</td>
 								</tr>

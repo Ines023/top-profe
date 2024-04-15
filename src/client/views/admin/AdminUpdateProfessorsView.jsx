@@ -111,7 +111,7 @@ export default class AdminUpdateProfessorsView extends Component {
 		}
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
-		if (isSaved) return (<Redirect to={`/admin/subjects/${degree.id}`} />);
+		if (isSaved) return (<Redirect to="/admin/professors" />);
 
 		return (
 			<>

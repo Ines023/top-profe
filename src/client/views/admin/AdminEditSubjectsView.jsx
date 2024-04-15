@@ -38,19 +38,6 @@ export default class AdminEditSubjectsView extends Component {
 			});
 	}
 
-	// saveSubjects(subjects) {
-	// 	fetchPost(`/api/admin/update/subjects/${this.degreeId}`, {
-	// 		missingSubjects: subjects,
-	// 	})
-	// 		.then(r => r.json())
-	// 		.then((res) => {
-	// 			this.setState({
-	// 				isLoaded: true,
-	// 				subjects: res,
-	// 			});
-	// 		});
-	// }
-
 	render() {
 		const {
 			isLoaded, subjects, degree,

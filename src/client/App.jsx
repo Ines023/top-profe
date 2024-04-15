@@ -13,6 +13,7 @@ import SubjectList from './views/SubjectList';
 import AdminUpdateSubjectsView from './views/admin/AdminUpdateSubjectsView';
 import AdminUpdateProfessorsView from './views/admin/AdminUpdateProfessorsView';
 import AdminEditSubjectsView from './views/admin/AdminEditSubjectsView';
+import AdminEditProfessorsView from './views/admin/AdminEditProfessorsView';
 
 export default function App() {
 	return (
@@ -38,8 +39,7 @@ export default function App() {
 				<Route exact path="/admin/update/professors" component={() => <AdminDegreesView updateProfessors />} />
 				<Route exact path="/admin/update/professors/:degreeId" component={AdminUpdateProfessorsView} />
 
-				<Route exact path="/admin/professors" component={() => <AdminDegreesView updateProfessors />} />
-				{/* <Route path="/admin/professors/:degreeId" component={AdminDegreesList} /> */}
+				<Route exact path="/admin/professors" component={() => <AdminEditProfessorsView />} />
 
 				<Route path="/failed-login" component={LoginErrorView} />
 				<Route path="/500" render={props => <ErrorView {...props} code={500} />} />
