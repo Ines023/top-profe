@@ -98,3 +98,8 @@ Session.vim
 tools/*.csv
 tools/*.json
 tools/venv
+
+# Seeders
+*demo-subjects.js
+*demo-professors.js
+*demo-ballots.js

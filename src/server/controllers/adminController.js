@@ -1,5 +1,5 @@
-/* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 const { models, sequelize } = require('../models');
@@ -109,8 +109,7 @@ module.exports.fetchProfessors = async (req, res, next) => {
 
 		const currentSubjects = await models.Subject.findAll({ where: { degreeId } });
 
-		const currentProfessors = await models.Professor.findAll();
-		const currentProfessorsIDs = currentProfessors.map(e => e.id);
+		const currentBallots = await models.Ballot.findAll({ where: { degreeId, academicYear } });
 
 		// This trick makes the function await until loop finishes before sending response to the client.
 		await Promise.all(currentSubjects.map(async (subject) => {
@@ -134,17 +133,32 @@ module.exports.fetchProfessors = async (req, res, next) => {
 					break;
 				}
 
-				const subjectProfessors = [];
+				// This map checks if a ballot for this subject and professor exists within the database.
+				const subjectProfessors = subjectGuide.profesores.map((professor) => {
+					if (professor !== null && professor.length !== 0) {
+						const professorId = professor.email.split('@')[0];
 
-				subjectGuide.profesores.forEach((professor) => { if (professor !== null && professor.length !== 0 && !(professor.email.split('@')[0] in currentProfessorsIDs)) subjectProfessors.push(professor); });
+						const ballot = currentBallots.find(b => b.subjectId === subject.id
+								&& b.professorId === professorId);
 
-				professorsBySubject[subject.id] = subjectProfessors;
+						if (!ballot) {
+							return professor;
+						}
+					}
+					return undefined;
+				});
+
+				// This filter gets rid of all "undefined" professors from the previous step.
+				const professorsWithNoBallot = subjectProfessors.filter(professor => professor !== undefined);
+
+				professorsBySubject[subject.id] = professorsWithNoBallot;
 
 				// eslint-disable-next-line no-plusplus
 				semesterCount--;
 			} while (semesterCount > 0);
 		}));
 
+		// This trick loads all the professors into a dictionary with their username as key and their subjects as an array.
 		const newProfesores = Object.entries(professorsBySubject).reduce((acc, [subjectId, subjects]) => {
 			subjects.forEach((subject) => {
 				const id = subject.email.split('@')[0];
