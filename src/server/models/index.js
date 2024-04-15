@@ -16,6 +16,7 @@ const Register = require('./Register')(sequelize, Sequelize.DataTypes);
 const Student = require('./Users.js')(sequelize, Sequelize.DataTypes);
 const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
 const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
+const Session = require('./Session')(sequelize, Sequelize.DataTypes);
 
 
 Subject.belongsTo(Degree, {
