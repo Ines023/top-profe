@@ -4,14 +4,11 @@ const { DataTypes } = require('sequelize');
 module.exports = {
 	async up(queryInterface) {
 		await queryInterface.createTable('Sessions', {
-			id: {
-				allowNull: false,
-				autoIncrement: true,
-				primaryKey: true,
-				type: DataTypes.INTEGER,
-			},
 			sid: {
 				type: DataTypes.STRING,
+				allowNull: false,
+				primaryKey: true,
+				unique: true,
 			},
 			expires: {
 				type: DataTypes.DATE,
@@ -19,6 +16,10 @@ module.exports = {
 			data: {
 				type: DataTypes.TEXT('medium'),
 			},
+
+		},
+		{
+			sync: { force: true },
 		});
 	},
 	async down(queryInterface) {

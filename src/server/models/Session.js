@@ -8,12 +8,11 @@ module.exports = (sequelize, DataTypes) => {
 	}
 
 	Session.init({
-		sid: DataTypes.STRING,
+		sid: { type: DataTypes.STRING, primaryKey: true },
 		expires: DataTypes.DATE,
 		data: DataTypes.TEXT('medium'),
 	}, {
 		sequelize,
-		modelName: 'Session',
 	});
 	return Session;
 };
