@@ -81,6 +81,7 @@ typings/
 
 # Server secrets & config file
 src/server/config.json
+src/server/_config.json
 
 # Compiled files
 dist/
