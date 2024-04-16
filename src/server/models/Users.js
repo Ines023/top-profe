@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 			unique: true,
 		},
 		type: {
-			type: DataTypes.ENUM('student', 'professor', 'institutional'),
+			type: DataTypes.ENUM('student', 'professor', 'other'),
 			allowNull: false,
 		},
 		isAdmin: {

@@ -23,7 +23,7 @@ module.exports = {
 				field: 'degreeId',
 			},
 			type: {
-				type: DataTypes.ENUM('student', 'professor', 'institutional'),
+				type: DataTypes.ENUM('student', 'professor', 'other'),
 				field: 'type',
 				allowNull: false,
 			},
