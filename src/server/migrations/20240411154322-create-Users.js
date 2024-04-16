@@ -33,6 +33,12 @@ module.exports = {
 				allowNull: false,
 				default: false,
 			},
+			active: {
+				type: DataTypes.BOOLEAN,
+				field: 'active',
+				allowNull: false,
+				default: false,
+			},
 		});
 	},
 	down: async (queryInterface, Sequelize) => {

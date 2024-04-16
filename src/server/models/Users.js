@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			default: false,
 		},
+		active: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			default: false,
+		},
 	}, {
 		sequelize,
 	});
