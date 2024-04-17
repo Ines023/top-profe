@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const { models } = require('../models');
 
 const regexStudent = /^CentroLectivo:09:(A|W)/;
@@ -14,13 +15,15 @@ const retrieveUserFromSession = passportUser => ({
 			if (regexProfessor.test(classifCode)) return 'professor';
 			return null;
 		})) || 'other',
+	isAdmin: false,
+	active: false,
 });
 
 const registerUser = async (passportUser) => {
 	try {
 		const user = retrieveUserFromSession(passportUser);
 
-		await models.User.create(user);
+		await models.Users.create(user);
 	} catch (error) {
 		console.log(error);
 	}
@@ -30,7 +33,7 @@ const updateUser = async (registeredUser, passportUser) => {
 	try {
 		const user = retrieveUserFromSession(passportUser);
 
-		await registerUser.save(user);
+		await registeredUser.save(user);
 	} catch (error) {
 		console.log(error);
 	}
@@ -38,7 +41,7 @@ const updateUser = async (registeredUser, passportUser) => {
 
 module.exports.handleLogin = async (req, res, next) => {
 	try {
-		const registeredUser = await models.User.findByPk(req.session.passport.user.preferred_username);
+		const registeredUser = await models.Users.findByPk(req.session.passport.user.preferred_username);
 
 		let didSaveUser;
 		if (registeredUser) {
