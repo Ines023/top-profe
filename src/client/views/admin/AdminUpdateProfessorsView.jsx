@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../subcomponents/Modal';
 // eslint-disable-next-line no-unused-vars
 import { fetchGet, fetchPost } from '../../util';
-import AdminProfessorsList from './subcomponents/AdminProfessorsList';
+import AdminProfessorsSubjectsList from './subcomponents/AdminProfessorsSubjectsList';
 
 export default class AdminUpdateProfessorsView extends Component {
 	constructor(props) {
@@ -119,17 +119,17 @@ export default class AdminUpdateProfessorsView extends Component {
 
 				{professors ? (
 					<>
-						<AdminProfessorsList professors={Object.values(professors)} degree={degree} description={`Aquí se muestra un listado de todos los profesores de la titulación ${degree.id} que no figuran en la base de datos.`} />
+						<AdminProfessorsSubjectsList professors={Object.values(professors)} degree={degree} description={`Aquí se muestra un listado de todos los profesores de la titulación ${degree.id} que no figuran en la base de datos.`} />
 						<br />
 						<button type="button" className="box main-button menu-item" onClick={() => this.setState({ showConfirmation: true })}>
-					Añadir profesores
+							Añadir profesores
 							<FontAwesomeIcon className="main-button-icon" icon={faPlus} />
 						</button>
 						<Modal show={showConfirmation} allowClose onClose={() => this.setState({ showConfirmation: false })}>
 							<h2>¿Estás seguro de que quieres importar estos profesores?</h2>
 							<p>Una vez realizada la importación, no es posible revertir el proceso. Asegúrate de que cuentas con una copia de seguridad de la base de datos.</p>
 							<button type="button" className="box main-button menu-item" onClick={() => this.saveProfessors(professors)}>
-						Importar Profesores
+								Importar Profesores
 							</button>
 						</Modal>
 					</>
