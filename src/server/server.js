@@ -98,12 +98,12 @@ Issuer.discover(config.sso.wellKnownEndpoint)
 	});
 
 // Login routes.
-app.get('/login', (req, res, next) => { next(); }, passport.authenticate('oidc', { scope: config.sso.scope }));
+app.get(path.join(config.server.path, '/login'), (req, res, next) => { next(); }, passport.authenticate('oidc', { scope: config.sso.scope }));
 
-app.get('/login/callback', passport.authenticate('oidc'), loginController.handleLogin);
+app.get(path.join(config.server.path, '/login/callback'), passport.authenticate('oidc'), loginController.handleLogin);
 
 // Main API router.
-app.use('/api', router);
+app.use(path.join(config.server.path, '/api'), router);
 // Any other route.
 app.use('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')));
 // The error handler that produces 404/500 HTTP responses.

@@ -1,23 +1,30 @@
 /* eslint-disable max-len */
 const { models } = require('../models');
 
-const regexStudent = /^CentroLectivo:09:(A|W)/;
-const regexProfessor = /^CentroLectivo:09:(D|J|H|M|Q|U|P)/;
+const schoolCode = '09';
+const studentCodes = ['A', 'W'];
+const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P'];
 
-const retrieveUserFromSession = passportUser => ({
-	id: passportUser.preferred_username,
-	email: passportUser.email,
-	type: (
-		Array.isArray(passportUser.upmClassifCodes)
-		&& passportUser.upmClassifCodes.length > 0
-		&& passportUser.upmClassifCodes.filter((classifCode) => {
-			if (regexStudent.test(classifCode)) return 'student';
-			if (regexProfessor.test(classifCode)) return 'professor';
-			return null;
-		})) || 'other',
-	isAdmin: false,
-	active: false,
-});
+const retrieveUserFromSession = (passportUser) => {
+	let userType = 'other';
+
+	if (Array.isArray(passportUser.upmClassifCode)) {
+		passportUser.upmClassifCode.forEach((code) => {
+			if (code.startsWith(`CentroLectivo:${schoolCode}:`)) {
+				if (studentCodes.includes(code.charAt(code.length - 1))) userType = 'student';
+				else if (professorCodes.includes(code.charAt(code.length - 1))) userType = 'professor';
+			}
+		});
+	}
+
+	return {
+		id: passportUser.preferred_username,
+		email: passportUser.email,
+		type: userType,
+		isAdmin: false,
+		active: false,
+	};
+};
 
 const registerUser = async (passportUser) => {
 	try {
