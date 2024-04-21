@@ -36,6 +36,16 @@ module.exports = {
 				type: DataTypes.STRING,
 				field: 'degreeId',
 			},
+			createdAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+			},
+			updatedAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+			},
 		});
 	},
 	down: async (queryInterface, Sequelize) => {

@@ -31,13 +31,23 @@ module.exports = {
 				type: DataTypes.BOOLEAN,
 				field: 'isAdmin',
 				allowNull: false,
-				default: false,
+				defaultValue: false,
 			},
 			active: {
 				type: DataTypes.BOOLEAN,
 				field: 'active',
 				allowNull: false,
-				default: false,
+				defaultValue: false,
+			},
+			createdAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+			},
+			updatedAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
 			},
 		});
 	},

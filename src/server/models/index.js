@@ -6,7 +6,6 @@ const config = require('../databaseConfig');
 const sequelize = new Sequelize(config.database, config.username, config.password, {
 	host: config.host,
 	dialect: config.dialect,
-	define: { timestamps: false },
 });
 
 const Ballot = require('./Ballot')(sequelize, Sequelize.DataTypes);

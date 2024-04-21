@@ -14,7 +14,7 @@ module.exports.getAdminData = (req, res, next) => {
 module.exports.getDegrees = async (req, res, next) => {
 	try {
 		const degrees = await models.Degree.findAll();
-		res.send(degrees);
+		res.status(200).send(degrees);
 	} catch (error) {
 		res.status(500).json({ message: 'Error al obtener las titulaciones.' });
 	}

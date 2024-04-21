@@ -28,6 +28,16 @@ module.exports = {
 				allowNull: false,
 				defaultValue: 'active',
 			},
+			createdAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+			},
+			updatedAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+			},
 		});
 	},
 	down: async (queryInterface, Sequelize) => {

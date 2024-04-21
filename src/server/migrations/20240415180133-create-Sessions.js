@@ -1,4 +1,3 @@
-
 const { DataTypes } = require('sequelize');
 
 module.exports = {
@@ -15,6 +14,16 @@ module.exports = {
 			},
 			data: {
 				type: DataTypes.TEXT('medium'),
+			},
+			createdAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+			},
+			updatedAt: {
+				allowNull: false,
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
 			},
 
 		},

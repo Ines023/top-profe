@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 	}, {
 		sequelize,
+		timestamps: false,
 	});
 	return Vote;
 };
