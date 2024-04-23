@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true,
 			allowNull: false,
 		},
-		vote: {
+		stars: {
 			type: DataTypes.SMALLINT,
 			allowNull: false,
 		},

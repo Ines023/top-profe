@@ -12,9 +12,9 @@ module.exports = {
 				primaryKey: true,
 				allowNull: false,
 			},
-			vote: {
+			stars: {
 				type: DataTypes.SMALLINT,
-				field: 'vote',
+				field: 'stars',
 				allowNull: false,
 			},
 			ballotId: {
