@@ -193,7 +193,7 @@ module.exports.importProfessors = async (req, res, next) => {
 		Object.values(missingProfessors).forEach((professor) => {
 			if (!currentProfessors.find(p => p.id === professor.id)) {
 				models.Professor.create({
-					id: professor.id, name: professor.name, email: professor.email, state: 'active',
+					id: professor.id, name: professor.name, email: professor.email, status: 'active',
 				});
 			}
 

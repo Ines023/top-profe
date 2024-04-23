@@ -22,9 +22,9 @@ module.exports = {
 				field: 'email',
 				allowNull: false,
 			},
-			state: {
+			status: {
 				type: DataTypes.ENUM('active', 'exluded', 'retired'),
-				field: 'state',
+				field: 'status',
 				allowNull: false,
 				defaultValue: 'active',
 			},
