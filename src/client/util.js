@@ -1,22 +1,15 @@
+/* eslint-disable quote-props */
 /**
  * Error handler specifically designed for AJAX requests made to the backend's
  * REST API.
  */
 export function ajaxErrHandler(res) {
-	// Redirect to the Central Authentication System (CAS) login page if the
+	// Redirect to the Single Sign-On (SSO) login page if the
 	// request was unauthorized.
 	if (res.status === 401) {
 		return res.json()
-			.then((errDetails) => {
-				// Compose the backend URL that should handle the redirect after
-				// a successful login (/login?redirect={window.location.href}).
-				const callbackUrl = new URL('/login', errDetails.serviceBase);
-				callbackUrl.searchParams.set('redirect', window.location.href);
-
-				// Insert the callback URL as the service.
-				const ssoRedirectUrl = new URL(errDetails.ssoUrl);
-				ssoRedirectUrl.searchParams.set('service', callbackUrl.href);
-				window.location.href = ssoRedirectUrl.href;
+			.then(() => {
+				window.location.href = '/login';
 				return null;
 			});
 	}
@@ -35,7 +28,11 @@ export function ajaxErrHandler(res) {
  * Send a GET request to the desired URL.
  */
 export function fetchGet(url) {
-	return fetch(url)
+	return fetch(url, {
+		headers: {
+			'Referer': window.location.href,
+		},
+	})
 		.then(ajaxErrHandler);
 }
 
@@ -49,6 +46,7 @@ export function fetchDelete(url, body) {
 		body: JSON.stringify(body),
 		headers: {
 			'Content-Type': 'application/json',
+			'Referer': window.location.href,
 		},
 	})
 		.then(ajaxErrHandler);
@@ -64,6 +62,7 @@ export function fetchPost(url, body) {
 		body: JSON.stringify(body),
 		headers: {
 			'Content-Type': 'application/json',
+			'Referer': window.location.href,
 		},
 	})
 		.then(ajaxErrHandler);

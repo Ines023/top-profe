@@ -22,17 +22,12 @@ module.exports.checkLogin = (
 
 // Rejects queries that aren't from ETSIT students.
 module.exports.restrictLimitedUsers = (req, res, next) => {
-	if (!req.session.accountType.endsWith('alumnos.upm.es') || req.session.org !== '09') {
-		return next(new LimitedUserError());
-	}
+	if (!req.session.type === 'student') return next(new LimitedUserError());
 	return next();
 };
 
 // Rejects queries that aren't from administrators.
 module.exports.restrictAdmins = (req, res, next) => {
-	const adminEmails = Admin.findAll({ attributes: ['email'] });
-	if (process.env.NODE_ENV === 'development' || !(req.session.email in adminEmails)) {
-		return next(new LimitedUserError());
-	}
+	if (!req.session.isAdmin) return next(new LimitedUserError());
 	return next();
 };

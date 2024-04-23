@@ -1,5 +1,3 @@
-const config = require('./config.json');
-
 class BadRequestError extends Error {}
 module.exports.BadRequestError = BadRequestError;
 
@@ -45,8 +43,6 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 		return res.status(401).json({
 			code: 'unauthorized',
 			message: 'Login required',
-			authServerUrl: `${config.sso.ssoUrl}`,
-			redirectUrl: config.sso.redirectUrl,
 		});
 	}
 

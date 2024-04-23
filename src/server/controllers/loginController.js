@@ -5,11 +5,11 @@ const schoolCode = '09';
 const studentCodes = ['A', 'W'];
 const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P'];
 
-const retrieveUserFromSession = (passportUser) => {
+const retrieveUserFromSession = (userInfo) => {
 	let userType = 'other';
 
-	if (Array.isArray(passportUser.upmClassifCode)) {
-		passportUser.upmClassifCode.forEach((code) => {
+	if (Array.isArray(userInfo.upmClassifCode)) {
+		userInfo.upmClassifCode.forEach((code) => {
 			if (code.startsWith(`CentroLectivo:${schoolCode}:`)) {
 				if (studentCodes.includes(code.charAt(code.length - 1))) userType = 'student';
 				else if (professorCodes.includes(code.charAt(code.length - 1))) userType = 'professor';
@@ -18,49 +18,55 @@ const retrieveUserFromSession = (passportUser) => {
 	}
 
 	return {
-		id: passportUser.preferred_username,
-		email: passportUser.email,
+		id: userInfo.preferred_username,
+		email: userInfo.email,
 		type: userType,
 		isAdmin: false,
 		active: false,
 	};
 };
 
-const registerUser = async (passportUser) => {
+const registerUser = async (userInfo) => {
 	try {
-		const user = retrieveUserFromSession(passportUser);
+		const user = retrieveUserFromSession(userInfo);
 
 		await models.Users.create(user);
+		return user;
 	} catch (error) {
 		console.log(error);
+		return null;
 	}
 };
 
-const updateUser = async (registeredUser, passportUser) => {
+const updateUser = async (registeredUser, userInfo) => {
 	try {
-		const user = retrieveUserFromSession(passportUser);
+		const user = retrieveUserFromSession(userInfo);
 
 		await registeredUser.save(user);
+		return user;
 	} catch (error) {
 		console.log(error);
+		return null;
 	}
 };
 
 module.exports.handleLogin = async (req, res, next) => {
 	try {
-		const registeredUser = await models.Users.findByPk(req.session.passport.user.preferred_username);
+		const registeredUser = await models.Users.findByPk(req.session.userInfo.preferred_username);
 
-		let didSaveUser;
+		let savedUser;
 		if (registeredUser) {
-			if (registeredUser.active) req.session.user = registeredUser;
-			else didSaveUser = updateUser(registeredUser, req.session.passport.user);
-		} else didSaveUser = registerUser(req.session.passport.user);
+			if (registeredUser.active) savedUser = registeredUser;
+			else savedUser = updateUser(registeredUser, req.session.userInfo);
+		} else savedUser = registerUser(req.session.userInfo);
 
-		if (!didSaveUser) res.status(500).json({ message: 'Error al actualizar los datos del usuario.' });
+		if (!savedUser) res.status(500).json({ message: 'Error al acceder a los datos del usuario.' });
 
-		next();
+		req.session.user = savedUser;
+
+		return next();
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: 'Error al recuperar el usuario.' });
+		return res.status(500).json({ message: 'Error al recuperar el usuario.' });
 	}
 };
