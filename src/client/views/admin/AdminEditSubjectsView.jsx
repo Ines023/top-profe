@@ -1,14 +1,18 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { fetchGet } from '../../util';
 import AdminSubjectsList from './subcomponents/AdminSubjectsList';
 
-export default class AdminEditSubjectsView extends Component {
+function AdminEditSubjectsView(ComponentClass) {
+	return props => <ComponentClass {...props} params={useParams()} />;
+}
+
+class AdminEditSubjectsViewClass extends Component {
 	constructor(props) {
 		super(props);
-		const { match } = this.props;
-		const { params: { degreeId } } = match;
+		const { params: { degreeId } } = this.props;
 
 		this.state = {
 			isLoaded: false,
@@ -55,3 +59,5 @@ export default class AdminEditSubjectsView extends Component {
 		);
 	}
 }
+
+export default AdminEditSubjectsView(AdminEditSubjectsViewClass);

@@ -26,16 +26,16 @@ export default function InitialMenu() {
 				<br />
 				<small>
 					<i style={{ color: '#FF6555' }}>
-                                Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
-                                Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
+						Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
+						Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
 					</i>
 				</small>
 			</div>
-			<br />
+			{/* <br />
 			<a className="box main-button menu-item" href="/ranking">
 				Ranking global
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
-			</a>
+			</a> */}
 			<br />
 			<a className="box main-button menu-item" href="/asignaturas">
 				Buscar profesores por asignatura

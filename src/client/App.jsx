@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ErrorView from './views/ErrorView';
 import InitialMenu from './views/InitialMenu';
 import LoginErrorView from './views/LoginErrorView';
@@ -18,33 +18,53 @@ import AdminEditProfessorsView from './views/admin/AdminEditProfessorsView';
 export default function App() {
 	return (
 		<BrowserRouter>
-			<Switch>
-				<Route exact path="/" component={InitialMenu} />
-				<Route exact path="/asignaturas" component={SubjectList} />
-				<Route path="/asignaturas/:subjAcr" component={SubjectDetails} />
-				<Route exact path="/profesores" component={ProfessorList} />
-				<Route path="/profesores/:profId" component={ProfessorProfile} />
-				<Route path="/ranking" component={RankingView} />
-
-
-				<Route exact path="/admin" component={AdminMainView} />
-				<Route exact path="/admin/degrees" component={AdminDegreesView} />
-
-				<Route exact path="/admin/update/subjects" component={() => <AdminDegreesView updateSubjects />} />
-				<Route exact path="/admin/update/subjects/:degreeId" component={AdminUpdateSubjectsView} />
-
-				<Route exact path="/admin/subjects" component={() => <AdminDegreesView subjects />} />
-				<Route path="/admin/subjects/:degreeId" component={AdminEditSubjectsView} />
-
-				<Route exact path="/admin/update/professors" component={() => <AdminDegreesView updateProfessors />} />
-				<Route exact path="/admin/update/professors/:degreeId" component={AdminUpdateProfessorsView} />
-
-				<Route exact path="/admin/professors" component={() => <AdminEditProfessorsView />} />
-
-				<Route path="/failed-login" component={LoginErrorView} />
-				<Route path="/500" render={props => <ErrorView {...props} code={500} />} />
-				<Route render={props => <ErrorView {...props} code={404} />} />
-			</Switch>
+			<Routes>
+				<Route path="/" element={<InitialMenu />} />
+				<Route path="asignaturas" element={<SubjectRoutes />} />
+				<Route path="profesores" element={<ProfessorRoutes />} />
+				<Route path="ranking" element={<RankingView />} />
+				<Route path="admin/*" element={<AdminRoutes />} />
+				<Route path="failed-login" element={<LoginErrorView />} />
+				<Route path="500" element={<ErrorView code={500} />} />
+				<Route path="*" element={<ErrorView code={404} />} />
+			</Routes>
 		</BrowserRouter>
+	);
+}
+
+function SubjectRoutes() {
+	return (
+		<Routes>
+			<Route index element={<SubjectList />} />
+			<Route path=":subjAcr" element={<SubjectDetails />} />
+		</Routes>
+	);
+}
+
+function ProfessorRoutes() {
+	return (
+		<Routes>
+			<Route index element={<ProfessorList />} />
+			<Route path=":profId" element={<ProfessorProfile />} />
+		</Routes>
+	);
+}
+
+function AdminRoutes() {
+	return (
+		<Routes>
+			<Route index element={<AdminMainView />} />
+			<Route path="degrees" element={<AdminDegreesView />} />
+			<Route path="update">
+				<Route path="subjects" element={<AdminDegreesView updateSubjects />} />
+				<Route path="subjects/:degreeId" element={<AdminUpdateSubjectsView />} />
+
+				<Route path="professors" element={<AdminDegreesView updateProfessors />} />
+				<Route path="professors/:degreeId" element={<AdminUpdateProfessorsView />} />
+			</Route>
+			<Route path="subjects" element={<AdminDegreesView subjects />} />
+			<Route path="subjects/:degreeId" element={<AdminEditSubjectsView />} />
+			<Route path="professors" element={<AdminEditProfessorsView />} />
+		</Routes>
 	);
 }

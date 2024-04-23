@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../subcomponents/Modal';
@@ -8,14 +8,17 @@ import Modal from '../subcomponents/Modal';
 import { fetchGet, fetchPost } from '../../util';
 import AdminProfessorsSubjectsList from './subcomponents/AdminProfessorsSubjectsList';
 
-export default class AdminUpdateProfessorsView extends Component {
+function AdminUpdateProfessorsView(ComponentClass) {
+	return props => <ComponentClass {...props} params={useParams()} />;
+}
+
+class AdminUpdateProfessorsViewClass extends Component {
 	constructor(props) {
 		super(props);
-		const { match } = this.props;
-		const { params: { degreeId } } = match;
+		const { params: { degreeId } } = this.props;
 
 		this.state = {
-			isLoaded: true,
+			isLoaded: false,
 			isSaved: false,
 			professors: {},
 			degree: {},
@@ -111,7 +114,7 @@ export default class AdminUpdateProfessorsView extends Component {
 		}
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
-		if (isSaved) return (<Redirect to="/admin/professors" />);
+		if (isSaved) return (<Navigate to="/admin/professors" />);
 
 		return (
 			<>
@@ -140,3 +143,5 @@ export default class AdminUpdateProfessorsView extends Component {
 		);
 	}
 }
+
+export default AdminUpdateProfessorsView(AdminUpdateProfessorsViewClass);

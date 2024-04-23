@@ -1,17 +1,21 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../subcomponents/Modal';
 import { fetchGet, fetchPost } from '../../util';
 import AdminSubjectsList from './subcomponents/AdminSubjectsList';
 
-export default class AdminUpdateSubjectsView extends Component {
+function AdminUpdateSubjectsView(ComponentClass) {
+	return props => <ComponentClass {...props} params={useParams()} />;
+}
+
+class AdminUpdateSubjectsViewClass extends Component {
 	constructor(props) {
 		super(props);
-		const { match } = this.props;
-		const { params: { degreeId } } = match;
+		const { params: { degreeId } } = this.props;
+
 
 		this.state = {
 			isLoaded: false,
@@ -68,7 +72,7 @@ export default class AdminUpdateSubjectsView extends Component {
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
-		if (isSaved) return (<Redirect to={`/admin/subjects/${degree.id}`} />);
+		if (isSaved) return (<Navigate to={`/admin/subjects/${degree.id}`} />);
 
 		return (
 			<>
@@ -79,14 +83,14 @@ export default class AdminUpdateSubjectsView extends Component {
 						<AdminSubjectsList subjects={subjects} degree={degree} description={`Aquí se muestra un listado de todas las asignaturas de la titulación ${degree.id} que no figuran en la base de datos.`} />
 						<br />
 						<button type="button" className="box main-button menu-item" onClick={() => this.setState({ showConfirmation: true })}>
-					Añadir asignaturas
+							Añadir asignaturas
 							<FontAwesomeIcon className="main-button-icon" icon={faPlus} />
 						</button>
 						<Modal show={showConfirmation} allowClose onClose={() => this.setState({ showConfirmation: false })}>
 							<h2>¿Estás seguro de que quieres añadir estas asignaturas?</h2>
 							<p>Una vez realizada la importación, no es posible revertir el proceso. Asegúrate de que cuentas con una copia de seguridad de la base de datos.</p>
 							<button type="button" className="box main-button menu-item" onClick={() => this.saveSubjects(subjects)}>
-						Importar asignaturas
+								Importar asignaturas
 							</button>
 						</Modal>
 					</>
@@ -97,3 +101,5 @@ export default class AdminUpdateSubjectsView extends Component {
 		);
 	}
 }
+
+export default AdminUpdateSubjectsView(AdminUpdateSubjectsViewClass);

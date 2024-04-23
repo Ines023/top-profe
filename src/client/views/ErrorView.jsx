@@ -1,7 +1,9 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function ErrorView(props) {
-	const { location: { pathname }, code } = props;
+	const { code } = props;
+	const { pathname } = useLocation();
 
 	let content;
 	if (code === 404) {
