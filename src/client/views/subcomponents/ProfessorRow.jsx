@@ -1,50 +1,38 @@
-import React, { Component } from 'react';
+/* eslint-disable no-nested-ternary */
+import React from 'react';
 import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 
-export default class ProfessorRow extends Component {
-	constructor(props) {
-		super(props);
-		this.handleVote = this.handleVote.bind(this);
-	}
+export default function ProfessorRow(props) {
+	const {
+		profAvg, profCount, profId, profName, onVote, profHash, profStatus, subjectId, voteExists,
+	} = props;
 
-	handleVote(rating) {
-		const {
-			existingReview, onVote, onUndo, profId, subjectAcronym,
-		} = this.props;
-		if (rating !== existingReview) return onVote(profId, subjectAcronym, rating);
-		return onUndo(profId, subjectAcronym, rating);
-	}
-
-	render() {
-		const {
-			existingReview, profAvg, profCount, profId, profName,
-		} = this.props;
-
-		return (
-			<tr>
-				<td>
-					<a href={`/professors/${profId}`}>
-						{profName}
-					</a>
-				</td>
-				<td>
-					{profAvg
-						? `${profAvg.toFixed(2)}/5 (total: ${profCount})`
-						: 'Sin datos'
-					}
-				</td>
-				<td>
+	return (
+		<tr>
+			<td>
+				<a href={`/professors/${profHash}`}>
+					{profName}
+				</a>
+			</td>
+			<td>
+				{profStatus === 'excluded' ? 'OCULTO' : profAvg
+					? `${profAvg.toFixed(2)}/5 (total: ${profCount})`
+					: 'Sin datos'
+				}
+			</td>
+			<td>
+				{voteExists ? 'Voto emitido' : (
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
-						initialRating={existingReview}
-						onClick={this.handleVote}
+						initialRating={voteExists}
+						onClick={rating => onVote(profId, subjectId, rating)}
 					/>
-				</td>
-			</tr>
-		);
-	}
+				)}
+			</td>
+		</tr>
+	);
 }

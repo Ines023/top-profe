@@ -36,7 +36,7 @@ function SubjectRoutes() {
 	return (
 		<Routes>
 			<Route index element={<SubjectList />} />
-			<Route path=":subjAcr" element={<SubjectDetails />} />
+			<Route path=":subjId" element={<SubjectDetails />} />
 		</Routes>
 	);
 }

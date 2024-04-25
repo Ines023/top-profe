@@ -14,7 +14,7 @@ router.use(middlewares.checkLogin);
 router.get('/professors', professorController.getProfessors);
 router.get('/professors/:professorHash', professorController.getProfessorProfile);
 router.get('/subjects', subjectController.getSubjects);
-router.get('/subjects/:subjAcr', controllers.getSubjectDetails);
+router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
 router.get('/rankings', controllers.getRankings);
 
 // Endpoints restricted to verified students.
