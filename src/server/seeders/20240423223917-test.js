@@ -18,15 +18,19 @@ module.exports = {
 		]);
 
 		// Seed Professors
-		await queryInterface.bulkInsert('Professors', [
-			{
-				id: 'professor1', name: faker.person.fullName(), email: faker.internet.email(), status: 'active', createdAt: new Date(), updatedAt: new Date(),
-			},
-			{
-				id: 'professor2', name: faker.person.fullName(), email: faker.internet.email(), status: 'active', createdAt: new Date(), updatedAt: new Date(),
-			},
-			// Add more professors if needed
-		]);
+		const professors = [];
+		for (let i = 0; i < 5; i++) { // Change 5 to desired number of professors
+			const professor = {
+				id: `professor${i + 1}`,
+				name: faker.person.fullName(),
+				email: faker.internet.email(),
+				status: 'active',
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			};
+			professors.push(professor);
+		}
+		await queryInterface.bulkInsert('Professors', professors);
 
 		// Seed Subjects
 		await queryInterface.bulkInsert('Subjects', [
@@ -40,25 +44,30 @@ module.exports = {
 		]);
 
 		// Seed Users
-		await queryInterface.bulkInsert('Users', [
-			{
-				id: 'user1', email: faker.internet.email(), degreeId: 'degree1', type: 'student', isAdmin: 0, active: 1, createdAt: new Date(), updatedAt: new Date(),
-			},
-			{
-				id: 'user2', email: faker.internet.email(), degreeId: 'degree2', type: 'student', isAdmin: 0, active: 1, createdAt: new Date(), updatedAt: new Date(),
-			},
-			// Add more users if needed
-		]);
+		const users = [];
+		for (let i = 0; i < 10; i++) { // Change 10 to desired number of users
+			const user = {
+				id: `user${i + 1}`,
+				email: faker.internet.email(),
+				degreeId: `degree${i % 2 + 1}`,
+				type: 'student',
+				isAdmin: 0,
+				active: 1,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			};
+			users.push(user);
+		}
+		await queryInterface.bulkInsert('Users', users);
 
 		// Seed Ballots
-		const academicYear = '2022-23';
 		const ballots = [];
 		for (let i = 0; i < 10; i++) {
 			const ballot = {
-				academicYear,
-				professorId: `professor${i % 2 + 1}`, // Alternate between two professors
-				subjectId: i % 2 + 1, // Alternate between two subjects
-				degreeId: `degree${i % 2 + 1}`, // Alternate between two degrees
+				academicYear: '2022-23',
+				professorId: `professor${i % professors.length + 1}`, // Ensure professorId stays within the range of added professors
+				subjectId: i % 2 + 1,
+				degreeId: `degree${i % 2 + 1}`,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			};
@@ -71,7 +80,7 @@ module.exports = {
 		for (let i = 0; i < 10; i++) {
 			const register = {
 				valid: 1,
-				studentId: `user${i % 2 + 1}`, // Alternate between two students
+				studentId: `user${i % users.length + 1}`, // Ensure studentId stays within the range of added users
 				ballotId: i + 1,
 			};
 			registers.push(register);
@@ -82,7 +91,7 @@ module.exports = {
 		const votes = [];
 		for (let i = 0; i < 10; i++) {
 			const vote = {
-				id: `vote${i + 1}`,
+				id: i + 1, // Aquí asignamos valores secuenciales para el campo id
 				stars: faker.number.int({ min: 1, max: 5 }),
 				ballotId: i + 1,
 			};
