@@ -23,7 +23,7 @@ module.exports = {
 				allowNull: false,
 			},
 			status: {
-				type: DataTypes.ENUM('active', 'exluded', 'retired'),
+				type: DataTypes.ENUM('active', 'excluded', 'retired'),
 				field: 'status',
 				allowNull: false,
 				defaultValue: 'active',
