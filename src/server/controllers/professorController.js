@@ -11,6 +11,7 @@ module.exports.getProfessors = async (req, res) => {
 		const professors = await models.Professor.findAll({
 			attributes: [
 				'id',
+				'hash',
 				'name',
 				'status',
 				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('ballot->vote.stars')), 2), 'avg'],
@@ -49,10 +50,10 @@ module.exports.getProfessorProfile = async (req, res) => {
 	// Returns a list with all the subjects taught by a specific professor, and
 	// the corresponding reviews.
 
-	const { profId } = req.params;
+	const { professorHash } = req.params;
 
 	try {
-		const professor = await models.Professor.findByPk(profId);
+		const professor = await models.Professor.findOne({ where: { hash: professorHash } });
 
 		const ballots = await models.Ballot.findAll({
 			attributes: [

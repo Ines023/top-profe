@@ -64,9 +64,9 @@ export default class ProfessorList extends Component {
 					</thead>
 					<tbody>
 						{ filteredProfessors.map(professor => (
-							<tr key={professor.id}>
+							<tr key={professor.hash}>
 								<td>
-									<a href={`/professors/${professor.id}`} className={professor.status}>
+									<a href={`/professors/${professor.hash}`} className={professor.status}>
 										{professor.name}
 									</a>
 								</td>

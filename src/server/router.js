@@ -2,6 +2,7 @@ const express = require('express');
 const controllers = require('./controllers');
 const middlewares = require('./middlewares');
 const professorController = require('./controllers/professorController');
+const subjectController = require('./controllers/subjectController');
 const adminController = require('./controllers/adminController');
 
 const router = express.Router();
@@ -11,7 +12,7 @@ router.use(middlewares.checkLogin);
 
 // Endpoints reachable by any authenticated user.
 router.get('/professors', professorController.getProfessors);
-router.get('/professors/:profId', professorController.getProfessorProfile);
+router.get('/professors/:professorHash', professorController.getProfessorProfile);
 router.get('/subjects', subjectController.getSubjects);
 router.get('/subjects/:subjAcr', controllers.getSubjectDetails);
 router.get('/rankings', controllers.getRankings);

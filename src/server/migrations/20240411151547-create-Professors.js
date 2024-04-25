@@ -12,6 +12,11 @@ module.exports = {
 				primaryKey: true,
 				allowNull: false,
 			},
+			hash: {
+				type: DataTypes.STRING,
+				field: 'hash',
+				allowNull: false,
+			},
 			name: {
 				type: DataTypes.STRING,
 				field: 'name',

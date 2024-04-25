@@ -2,6 +2,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
+const { createHash } = require('crypto');
 const { models, sequelize } = require('../models');
 
 const config = require('../config.json');
@@ -193,7 +194,7 @@ module.exports.importProfessors = async (req, res, next) => {
 		Object.values(missingProfessors).forEach(async (professor) => {
 			if (!currentProfessors.find(p => p.id === professor.id)) {
 				await models.Professor.create({
-					id: professor.id, name: professor.name, email: professor.email, status: 'active',
+					id: professor.id, hash: createHash('sha256').update(professor.id).digest('hex'), name: professor.name, email: professor.email, status: 'active',
 				});
 			}
 
