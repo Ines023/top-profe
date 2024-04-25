@@ -34,7 +34,7 @@ module.exports.getSubjectDetails = async (req, res) => {
 			include: [{
 				model: models.Professor,
 				as: 'professor',
-				attributes: ['id', 'hash', 'name'],
+				attributes: ['id', 'hash', 'name', 'status'],
 				required: true,
 			},
 			{

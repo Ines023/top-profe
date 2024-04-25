@@ -21,7 +21,9 @@ export default function SubjectRow(props) {
 	return (
 		<tr>
 			<td>
-				{subjectAcronym || subjectId} &mdash; {subjectName}
+				<a href={`/subjects/${subjectId}`}>
+					{subjectAcronym || subjectId} &mdash; {subjectName}
+				</a>
 			</td>
 			<td className={profStatus}>
 				{profStatus === 'excluded' ? 'OCULTO' : subjectAvg

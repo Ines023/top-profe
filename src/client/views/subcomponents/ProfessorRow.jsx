@@ -13,11 +13,11 @@ export default function ProfessorRow(props) {
 	return (
 		<tr>
 			<td>
-				<a href={`/professors/${profHash}`}>
+				<a className={profStatus} href={`/professors/${profHash}`}>
 					{profName}
 				</a>
 			</td>
-			<td>
+			<td className={profStatus}>
 				{profStatus === 'excluded' ? 'OCULTO' : profAvg
 					? `${profAvg.toFixed(2)}/5 (total: ${profCount})`
 					: 'Sin datos'
