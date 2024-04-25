@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
 import { fetchGet } from '../util';
@@ -65,12 +66,12 @@ export default class ProfessorList extends Component {
 						{ filteredProfessors.map(professor => (
 							<tr key={professor.id}>
 								<td>
-									<a href={`/profesores/${professor.id}`}>
+									<a href={`/profesores/${professor.id}`} className={professor.status}>
 										{professor.name}
 									</a>
 								</td>
-								<td>
-									{professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
+								<td className={professor.status}>
+									{professor.status === 'excluded' ? 'OCULTO' : professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
 								</td>
 							</tr>
 						)) }

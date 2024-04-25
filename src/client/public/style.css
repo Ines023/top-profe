@@ -190,6 +190,14 @@ table.box a {
     color: inherit;
 }
 
+table.box a.excluded {
+    text-decoration: line-through red solid 2px;
+    color: red;
+}
+
+table.box td.excluded {
+    color: red;
+}
 
 table.box a:visited {
     color: inherit;

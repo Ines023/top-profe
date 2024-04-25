@@ -12,6 +12,7 @@ module.exports.getProfessors = async (req, res) => {
 			attributes: [
 				'id',
 				'name',
+				'status',
 				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('ballot->vote.stars')), 2), 'avg'],
 				[Sequelize.fn('COUNT', Sequelize.col('ballot->vote.stars')), 'count'],
 			],
