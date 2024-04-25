@@ -12,26 +12,27 @@ module.exports.getProfessors = async (req, res) => {
 			attributes: [
 				'id',
 				'name',
-				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('Votes.stars')), 2), 'avg'],
-				[Sequelize.fn('COUNT', Sequelize.col('Votes.stars')), 'count'],
+				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('ballot->vote.stars')), 2), 'avg'],
+				[Sequelize.fn('COUNT', Sequelize.col('ballot->vote.stars')), 'count'],
 			],
 			include: [{
 				model: models.Ballot,
+				as: 'ballot',
 				attributes: [],
 				required: true,
 				where: {
-					professorId: Sequelize.col('Professors.id'),
 					academicYear: config.server.academicYear,
 				},
-			}, {
-				model: models.Vote,
-				attributes: [],
-				required: false,
-				on: {
-					ballotId: Sequelize.col('Ballots.id'),
-				},
+				include: [
+					{
+						model: models.Vote,
+						as: 'vote',
+						attributes: [],
+						required: false,
+					},
+				],
 			}],
-			group: ['Professors.id', 'Professors.name'],
+			group: ['Professor.id', 'Professor.name'],
 			order: [['name', 'ASC']],
 		});
 

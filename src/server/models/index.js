@@ -17,27 +17,43 @@ const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
 const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
 const Session = require('./Session')(sequelize, Sequelize.DataTypes);
 
-
-Subject.belongsTo(Degree, {
-	as: 'degree',
-	foreignKey: 'degreeId',
-});
 Ballot.belongsTo(Professor, {
 	as: 'professor',
-	foreignKey: 'professorId',
+	sourceKey: 'professorId',
+	targetKey: 'id',
+
 });
 Ballot.belongsTo(Subject, {
 	as: 'subject',
-	foreignKey: 'subjectId',
+	sourceKey: 'subjectId',
+	targetKey: 'id',
+
 });
 Ballot.belongsTo(Subject, {
 	as: 'degree',
-	foreignKey: 'degreeId',
+	sourceKey: 'degreeId',
+	targetKey: 'id',
+
 });
+Ballot.hasMany(Vote, {
+	as: 'vote',
+	foreignKey: 'ballotId',
+});
+
+Professor.hasMany(Ballot, {
+	as: 'ballot',
+	foreignKey: 'professorId',
+});
+Professor.hasMany(Vote, {
+	as: 'vote',
+	foreignKey: 'id',
+});
+
 User.belongsTo(Degree, {
 	as: 'degree',
 	foreignKey: 'degreeId',
 });
+
 Register.belongsTo(User, {
 	as: 'student',
 	foreignKey: 'studentId',
@@ -46,9 +62,24 @@ Register.belongsTo(Ballot, {
 	as: 'ballot',
 	foreignKey: 'ballotId',
 });
+
+Subject.belongsTo(Degree, {
+	as: 'degree',
+	sourceKey: 'degreeId',
+	targetKey: 'id',
+});
+
 Vote.belongsTo(Ballot, {
 	as: 'ballot',
-	foreignKey: 'ballotId',
+	sourceKey: 'ballotId',
+	targetKey: 'id',
+});
+
+Vote.belongsTo(Professor, {
+	through: Ballot,
+	sourceKey: 'voteId',
+	targetKey: 'id',
+	as: 'vote',
 });
 
 module.exports = sequelize;
