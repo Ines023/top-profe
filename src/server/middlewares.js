@@ -9,9 +9,13 @@ function checkLogin(req, res, next) {
 
 function checkLoginMock(req, res, next) {
 	console.log('[WARNING] Using the mocked login controller!');
-	req.session.accountType = 'alumnos.upm.es';
-	req.session.reviewerHash = '8275924d5082fc42a64e0d6b529c7224';
-	req.session.org = '09';
+	req.session.user = {
+		id: 'p.perez',
+		email: 'p.perez@alumnos.upm.es',
+		type: 'student',
+		isAdmin: true,
+		active: true,
+	};
 	return next();
 }
 
