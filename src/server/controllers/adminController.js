@@ -190,16 +190,16 @@ module.exports.importProfessors = async (req, res, next) => {
 		const currentProfessors = await models.Professor.findAll();
 		const currentBallots = await models.Ballot.findAll({ where: { degreeId, academicYear } });
 
-		Object.values(missingProfessors).forEach((professor) => {
+		Object.values(missingProfessors).forEach(async (professor) => {
 			if (!currentProfessors.find(p => p.id === professor.id)) {
-				models.Professor.create({
+				await models.Professor.create({
 					id: professor.id, name: professor.name, email: professor.email, status: 'active',
 				});
 			}
 
-			professor.subjectId.forEach((subject) => {
+			professor.subjectId.forEach(async (subject) => {
 				if (!currentBallots.find(b => b.professorId === professor.id && b.subjectId === subject)) {
-					models.Ballot.create({
+					await models.Ballot.create({
 						academicYear, professorId: professor.id, subjectId: subject, degreeId,
 					});
 				}
