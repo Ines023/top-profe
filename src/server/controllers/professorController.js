@@ -1,0 +1,55 @@
+const { models, Sequelize } = require('../models');
+
+const config = require('../config.json');
+
+module.exports.getProfessors = async (req, res) => {
+	// Returns a list with all the professors registered in the application,
+	// along with their average scoring.
+
+
+	try {
+		const professors = await models.Professor.findAll({
+			attributes: [
+				'id',
+				'name',
+				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('Votes.stars')), 2), 'avg'],
+				[Sequelize.fn('COUNT', Sequelize.col('Votes.stars')), 'count'],
+			],
+			include: [{
+				model: models.Ballot,
+				attributes: [],
+				required: true,
+				where: {
+					professorId: Sequelize.col('Professors.id'),
+					academicYear: config.server.academicYear,
+				},
+			}, {
+				model: models.Vote,
+				attributes: [],
+				required: false,
+				on: {
+					ballotId: Sequelize.col('Ballots.id'),
+				},
+			}],
+			group: ['Professors.id', 'Professors.name'],
+			order: [['name', 'ASC']],
+		});
+
+
+		res.status(200).json(professors);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error al obtener los datos de los profesores.' });
+	}
+
+
+	// pool.query('SELECT professor.id, professor.name, '
+	// 	+ 'round(avg(review.stars), 2) AS avg, '
+	// 	+ 'count(review.stars) AS count '
+	// 	+ 'FROM professor '
+	// 	+ 'LEFT JOIN review ON review.prof_id = professor.id '
+	// 	+ 'GROUP BY professor.id '
+	// 	+ 'ORDER BY professor.name ASC')
+	// 	.then(professors => res.json({ professors }))
+	// 	.catch(e => next(e));
+};

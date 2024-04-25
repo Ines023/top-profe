@@ -23,6 +23,7 @@
         "@babel/core": "^7.1.2",
         "@babel/preset-env": "^7.1.0",
         "@babel/preset-react": "^7.0.0",
+        "@faker-js/faker": "^8.4.1",
         "babel-loader": "^8.0.4",
         "clean-webpack-plugin": "^0.1.19",
         "concurrently": "^4.0.1",
@@ -45,12 +46,16 @@
         "@fortawesome/free-regular-svg-icons": "^5.4.1",
         "@fortawesome/free-solid-svg-icons": "^5.4.1",
         "@fortawesome/react-fontawesome": "^0.1.3",
-        "express": "^4.16.4",
         "connect-session-sequelize": "^7.1.7",
+        "cookie-parser": "^1.4.6",
+        "express": "^4.16.4",
         "express-session": "^1.15.6",
         "flow-bin": "^0.85.0",
+        "helmet": "^7.1.0",
         "mariadb": "^3.3.0",
         "morgan": "^1.9.1",
+        "openid-client": "^5.6.5",
+        "passport": "^0.7.0",
         "promise-mysql": "^3.3.1",
         "react": "^16.8",
         "react-dom": "^16.8",
@@ -58,10 +63,6 @@
         "react-router-dom": "^6.22.3",
         "react-search-input": "^0.11.3",
         "sequelize": "^6.37.2",
-        "sequelize-cli": "^6.6.2",
-        "openid-client": "^5.6.5",
-        "passport": "^0.7.0",
-        "helmet": "^7.1.0",
-        "cookie-parser": "^1.4.6"
-        }
+        "sequelize-cli": "^6.6.2"
+    }
 }
