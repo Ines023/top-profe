@@ -60,6 +60,7 @@ class ProfessorProfileClass extends Component {
 				<SubjectRow
 					key={ballot.id}
 					profId={professor.id}
+					profStatus={professor.status}
 					subjectId={subject.id}
 					subjectAcronym={subject.acronym}
 					subjectName={subject.name}
@@ -75,6 +76,7 @@ class ProfessorProfileClass extends Component {
 		return (
 			<div>
 				<h2 className="centered">{professor.name}</h2>
+				{professor.status === 'excluded' && <i className="centered excluded">Este profesor no desea que sus valoraciones sean públicas.</i>}
 				<table className="full-width box">
 					<thead>
 						<tr>
