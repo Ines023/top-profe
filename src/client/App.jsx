@@ -20,8 +20,8 @@ export default function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<InitialMenu />} />
-				<Route path="asignaturas" element={<SubjectRoutes />} />
-				<Route path="profesores" element={<ProfessorRoutes />} />
+				<Route path="subjects/*" element={<SubjectRoutes />} />
+				<Route path="professors/*" element={<ProfessorRoutes />} />
 				<Route path="ranking" element={<RankingView />} />
 				<Route path="admin/*" element={<AdminRoutes />} />
 				<Route path="failed-login" element={<LoginErrorView />} />

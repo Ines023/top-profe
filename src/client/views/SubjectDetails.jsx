@@ -83,14 +83,14 @@ export default class SubjectDetails extends Component {
 						<tr>
 							<th>Profesor</th>
 							<th>Media (en {this.subjAcr})</th>
-							<th clasName="starColumn">Tu puntuación</th>
+							<th className="starColumn">Tu puntuación</th>
 						</tr>
 					</thead>
 					<tbody>
 						{ professorRows }
 					</tbody>
 				</table>
-				<a className="back-link" href="/asignaturas">
+				<a className="back-link" href="/subjects">
 					<FontAwesomeIcon className="back-icon" icon={faArrowLeft} />Volver al listado de asignaturas
 				</a>
 			</div>

@@ -59,7 +59,7 @@ export default class ProfessorList extends Component {
 						{ topProfessors.map(professor => (
 							<tr key={professor.id}>
 								<td>
-									<a href={`/profesores/${professor.id}`}>
+									<a href={`/professors/${professor.id}`}>
 										{professor.name}
 									</a>
 								</td>
@@ -85,7 +85,7 @@ export default class ProfessorList extends Component {
 						{ botProfessors.map(professor => (
 							<tr key={professor.id}>
 								<td>
-									<a href={`/profesores/${professor.id}`}>
+									<a href={`/professors/${professor.id}`}>
 										{professor.name}
 									</a>
 								</td>
@@ -110,7 +110,7 @@ export default class ProfessorList extends Component {
 						{ mostVotedProfessors.map(professor => (
 							<tr key={professor.id}>
 								<td>
-									<a href={`/profesores/${professor.id}`}>
+									<a href={`/professors/${professor.id}`}>
 										{professor.name}
 									</a>
 								</td>

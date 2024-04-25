@@ -37,12 +37,12 @@ export default function InitialMenu() {
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a> */}
 			<br />
-			<a className="box main-button menu-item" href="/asignaturas">
+			<a className="box main-button menu-item" href="/subjects">
 				Buscar profesores por asignatura
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>
 			<br />
-			<a className="box main-button menu-item" href="/profesores">
+			<a className="box main-button menu-item" href="/professors">
 				Buscar profesores por nombre
 				<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 			</a>

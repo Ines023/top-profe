@@ -61,12 +61,12 @@ export default class SubjectList extends Component {
 						{ filteredSubjects.map(subject => (
 							<tr key={subject.id}>
 								<td>
-									<a href={`/asignaturas/${subject.acronym}`}>
+									<a href={`/subjects/${subject.acronym}`}>
 										{subject.name}
 									</a>
 								</td>
 								<td>
-									<a href={`/asignaturas/${subject.acronym}`}>
+									<a href={`/subjects/${subject.acronym}`}>
 										{subject.acronym}
 									</a>
 								</td>

@@ -90,7 +90,7 @@ export default class ProfessorProfile extends Component {
 						{ subjectRows }
 					</tbody>
 				</table>
-				<a className="back-link" href="/profesores">
+				<a className="back-link" href="/professors">
 					<FontAwesomeIcon className="back-icon" icon={faArrowLeft} />Volver al listado de profesores
 				</a>
 			</div>

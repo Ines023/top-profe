@@ -26,7 +26,7 @@ export default class ProfessorRow extends Component {
 		return (
 			<tr>
 				<td>
-					<a href={`/profesores/${profId}`}>
+					<a href={`/professors/${profId}`}>
 						{profName}
 					</a>
 				</td>
