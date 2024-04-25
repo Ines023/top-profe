@@ -80,7 +80,7 @@ module.exports = {
 		for (let i = 0; i < 10; i++) {
 			const register = {
 				valid: 1,
-				studentId: `user${i % users.length + 1}`, // Ensure studentId stays within the range of added users
+				userId: `user${i % users.length + 1}`, // Ensure userId stays within the range of added users
 				ballotId: i + 1,
 			};
 			registers.push(register);

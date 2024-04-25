@@ -39,6 +39,10 @@ Ballot.hasMany(Vote, {
 	as: 'vote',
 	foreignKey: 'ballotId',
 });
+Ballot.hasMany(Register, {
+	as: 'register',
+	foreignKey: 'ballotId',
+});
 
 Professor.hasMany(Ballot, {
 	as: 'ballot',
@@ -55,8 +59,8 @@ User.belongsTo(Degree, {
 });
 
 Register.belongsTo(User, {
-	as: 'student',
-	foreignKey: 'studentId',
+	as: 'user',
+	foreignKey: 'userId',
 });
 Register.belongsTo(Ballot, {
 	as: 'ballot',

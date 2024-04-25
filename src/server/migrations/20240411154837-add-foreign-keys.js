@@ -42,9 +42,9 @@ module.exports = {
 			},
 		});
 		await queryInterface.addConstraint('Registers', {
-			fields: ['studentId'],
+			fields: ['userId'],
 			type: 'foreign key',
-			name: 'Registers_studentId_fkey',
+			name: 'Registers_userId_fkey',
 			references: {
 				table: 'Users',
 				field: 'id',
@@ -74,7 +74,7 @@ module.exports = {
 		await queryInterface.removeConstraint('Ballots', 'Ballots_professorId_fkey');
 		await queryInterface.removeConstraint('Ballots', 'Ballots_subjectId_fkey');
 		await queryInterface.removeConstraint('Users', 'Users_degreeId_fkey');
-		await queryInterface.removeConstraint('Registers', 'Registers_studentId_fkey');
+		await queryInterface.removeConstraint('Registers', 'Registers_userId_fkey');
 		await queryInterface.removeConstraint('Registers', 'Registers_ballotId_fkey');
 		await queryInterface.removeConstraint('Votes', 'Votes_ballotId_fkey');
 	},

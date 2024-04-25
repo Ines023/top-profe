@@ -19,9 +19,9 @@ module.exports = {
 				allowNull: false,
 				defaultValue: true,
 			},
-			studentId: {
+			userId: {
 				type: DataTypes.STRING,
-				field: 'studentId',
+				field: 'userId',
 			},
 			ballotId: {
 				type: DataTypes.INTEGER,
