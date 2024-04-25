@@ -12,7 +12,7 @@ router.use(middlewares.checkLogin);
 // Endpoints reachable by any authenticated user.
 router.get('/professors', professorController.getProfessors);
 router.get('/professors/:profId', professorController.getProfessorProfile);
-router.get('/subjects', controllers.getSubjects);
+router.get('/subjects', subjectController.getSubjects);
 router.get('/subjects/:subjAcr', controllers.getSubjectDetails);
 router.get('/rankings', controllers.getRankings);
 

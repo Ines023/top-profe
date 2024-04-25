@@ -20,7 +20,7 @@ export default class SubjectList extends Component {
 			.then((res) => {
 				this.setState({
 					isLoaded: true,
-					subjects: res.subjects,
+					subjects: res,
 				});
 			});
 	}
@@ -53,7 +53,7 @@ export default class SubjectList extends Component {
 					<thead>
 						<tr>
 							<th>Nombre</th>
-							<th>Siglas</th>
+							<th>Identificador</th>
 							<th>Titulación</th>
 						</tr>
 					</thead>
@@ -61,17 +61,17 @@ export default class SubjectList extends Component {
 						{ filteredSubjects.map(subject => (
 							<tr key={subject.id}>
 								<td>
-									<a href={`/subjects/${subject.acronym}`}>
+									<a href={`/subjects/${subject.id}`}>
 										{subject.name}
 									</a>
 								</td>
 								<td>
-									<a href={`/subjects/${subject.acronym}`}>
-										{subject.acronym}
+									<a href={`/subjects/${subject.id}`}>
+										{subject.acronym || subject.id}
 									</a>
 								</td>
 								<td>
-									{subject.degree}
+									{subject.degree.acronym || subject.degree.id}
 								</td>
 							</tr>
 						)) }
