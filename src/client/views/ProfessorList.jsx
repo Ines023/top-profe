@@ -20,7 +20,7 @@ export default class ProfessorList extends Component {
 			.then((res) => {
 				this.setState({
 					isLoaded: true,
-					professors: res.professors,
+					professors: res,
 				});
 			});
 	}
