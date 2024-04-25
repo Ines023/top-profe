@@ -43,15 +43,53 @@ module.exports.getProfessors = async (req, res) => {
 		console.log(error);
 		res.status(500).json({ message: 'Error al obtener los datos de los profesores.' });
 	}
+};
 
+module.exports.getProfessorProfile = async (req, res) => {
+	// Returns a list with all the subjects taught by a specific professor, and
+	// the corresponding reviews.
 
-	// pool.query('SELECT professor.id, professor.name, '
-	// 	+ 'round(avg(review.stars), 2) AS avg, '
-	// 	+ 'count(review.stars) AS count '
-	// 	+ 'FROM professor '
-	// 	+ 'LEFT JOIN review ON review.prof_id = professor.id '
-	// 	+ 'GROUP BY professor.id '
-	// 	+ 'ORDER BY professor.name ASC')
-	// 	.then(professors => res.json({ professors }))
-	// 	.catch(e => next(e));
+	const { profId } = req.params;
+
+	try {
+		const professor = await models.Professor.findByPk(profId);
+
+		const ballots = await models.Ballot.findAll({
+			attributes: [
+				'id',
+				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('vote.stars')), 2), 'avg'],
+				[Sequelize.fn('COUNT', Sequelize.col('vote.stars')), 'count'],
+			],
+			include: [{
+				model: models.Subject,
+				as: 'subject',
+				attributes: ['id', 'acronym', 'name'],
+				required: true,
+			},
+			{
+				model: models.Vote,
+				as: 'vote',
+				attributes: [],
+				required: false,
+			},
+			{
+				model: models.Register,
+				as: 'register',
+				required: false,
+				where: {
+					userId: req.session.user.id,
+				},
+			},
+			],
+			where: {
+				academicYear: config.server.academicYear,
+				professorId: professor.id,
+			},
+			group: ['Ballot.professorId', 'Ballot.subjectId'],
+		});
+		res.status(200).json({ professor, ballots });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error al obtener los datos del profesor.' });
+	}
 };

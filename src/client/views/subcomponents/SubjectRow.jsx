@@ -1,48 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 
-export default class SubjectRow extends Component {
-	constructor(props) {
-		super(props);
-		this.handleVote = this.handleVote.bind(this);
-	}
+export default function SubjectRow(props) {
+	const {
+		voteExists, subjectId, subjectAcronym, subjectName, subjectAvg, subjectCount, profId, onVote,
+	} = props;
 
-	handleVote(rating) {
-		const {
-			existingReview, onVote, onUndo, profId, subjectAcronym,
-		} = this.props;
-		if (rating !== existingReview) return onVote(profId, subjectAcronym, rating);
-		return onUndo(profId, subjectAcronym, rating);
-	}
-
-	render() {
-		const {
-			existingReview, subjectAcronym, subjectName, subjectAvg, subjectCount,
-		} = this.props;
-
-		return (
-			<tr>
-				<td>
-					{subjectAcronym} &mdash; {subjectName}
-				</td>
-				<td>
-					{subjectAvg
-						? `${subjectAvg.toFixed(2)}/5 (total: ${subjectCount})`
-						: 'Sin datos'
-					}
-				</td>
-				<td>
+	return (
+		<tr>
+			<td>
+				{subjectAcronym || subjectId} &mdash; {subjectName}
+			</td>
+			<td>
+				{subjectAvg
+					? `${subjectAvg.toFixed(2)}/5 (total: ${subjectCount})`
+					: 'Sin datos'
+				}
+			</td>
+			<td>
+				{voteExists ? 'Voto emitido' : (
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
-						initialRating={existingReview}
-						onClick={this.handleVote}
+						initialRating={voteExists}
+						onClick={rating => onVote(profId, subjectAcronym, rating)}
 					/>
-				</td>
-			</tr>
-		);
-	}
+				)}
+			</td>
+		</tr>
+	);
 }

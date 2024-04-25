@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
+import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SubjectRow from './subcomponents/SubjectRow';
-import { fetchDelete, fetchGet, fetchPost } from '../util';
+import { fetchGet, fetchPost } from '../util';
 
-export default class ProfessorProfile extends Component {
+function ProfessorProfile(ComponentClass) {
+	return props => <ComponentClass {...props} params={useParams()} />;
+}
+
+class ProfessorProfileClass extends Component {
 	constructor(props) {
 		super(props);
-		const { match } = this.props;
-		const { params: { profId } } = match;
+		const { params: { profId } } = this.props;
 		this.profId = profId;
 
 		this.state = {
 			isLoaded: false,
 			professor: {},
+			ballots: {},
 		};
 
 		this.submitRating = this.submitRating.bind(this);
-		this.undoRating = this.undoRating.bind(this);
 	}
 
 	componentDidMount() {
@@ -30,7 +34,8 @@ export default class ProfessorProfile extends Component {
 			.then((res) => {
 				this.setState({
 					isLoaded: true,
-					professor: res,
+					professor: res.professor,
+					ballots: res.ballots,
 				});
 			});
 	}
@@ -43,37 +48,29 @@ export default class ProfessorProfile extends Component {
 			});
 	}
 
-	undoRating(profId, subject, rating) {
-		fetchDelete(`/api/professors/${profId}/undo`, { subject, rating })
-			.then(() => {
-				// Load again the professor's profile to reflect the new data.
-				this.loadProfessorData();
-			});
-	}
-
 	render() {
-		const { isLoaded, professor } = this.state;
+		const { isLoaded, professor, ballots } = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
 		const subjectRows = [];
-		for (let i = 0; i < professor.subjects.length; i++) {
-			const subject = professor.subjects[i];
+		ballots.forEach((ballot) => {
+			const { subject } = ballot;
 			const row = (
 				<SubjectRow
-					key={i}
-					profId={professor.profId}
+					key={ballot.id}
+					profId={professor.id}
+					subjectId={subject.id}
 					subjectAcronym={subject.acronym}
 					subjectName={subject.name}
-					subjectAvg={subject.avg}
-					subjectCount={subject.count}
-					existingReview={professor.reviewed[subject.acronym]}
+					subjectAvg={ballot.avg}
+					subjectCount={ballot.count}
+					voteExists={ballot.register.length > 0}
 					onVote={this.submitRating}
-					onUndo={this.undoRating}
 				/>
 			);
 			subjectRows.push(row);
-		}
+		});
 
 		return (
 			<div>
@@ -83,7 +80,7 @@ export default class ProfessorProfile extends Component {
 						<tr>
 							<th>Asignatura</th>
 							<th>Media</th>
-							<th className="star-column">Tu puntuación</th>
+							<th className="star-column">Votar</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -97,3 +94,5 @@ export default class ProfessorProfile extends Component {
 		);
 	}
 }
+
+export default ProfessorProfile(ProfessorProfileClass);
