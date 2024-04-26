@@ -57,8 +57,8 @@ module.exports.handleLogin = async (req, res, next) => {
 		let savedUser;
 		if (registeredUser) {
 			if (registeredUser.active) savedUser = registeredUser;
-			else savedUser = updateUser(registeredUser, req.session.userInfo);
-		} else savedUser = registerUser(req.session.userInfo);
+			else savedUser = await updateUser(registeredUser, req.session.userInfo);
+		} else savedUser = await registerUser(req.session.userInfo);
 
 		if (!savedUser) res.status(500).json({ message: 'Error al acceder a los datos del usuario.' });
 
