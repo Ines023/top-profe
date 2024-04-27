@@ -128,6 +128,12 @@ export default class InitialMenu extends Component {
 							Contar con un punto en el que poder consultar datos objetivos sobre la calidad de la docencia en nuestra Escuela.
 						</li>
 					</ul>
+					<small>
+						<i style={{ color: '#FF6555' }}>
+							Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
+							Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
+						</i>
+					</small>
 					<p>
 						Puedes consultar toda la inforamción de esta aplicación <a href="https://dat.etsit.upm.es/servicios/top-profe/">aquí</a>.
 					</p>
@@ -156,13 +162,6 @@ export default class InitialMenu extends Component {
 					<p>
 						Esperamos que te sea útil ;)
 					</p>
-					<br />
-					<small>
-						<i style={{ color: '#FF6555' }}>
-							Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
-							Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
-						</i>
-					</small>
 				</div>
 				{/* <br />
 				<a className="box main-button menu-item" href="/ranking">
