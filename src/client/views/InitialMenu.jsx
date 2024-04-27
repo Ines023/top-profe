@@ -94,7 +94,7 @@ export default class InitialMenu extends Component {
 
 	render() {
 		const {
-			isLoaded, showStudentModal, showProfessorModal, showOptOut, degrees, degreeId,
+			isLoaded, showStudentModal, showProfessorModal, showOptOut, degrees, degreeId, user,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -215,11 +215,15 @@ export default class InitialMenu extends Component {
 					Buscar profesores por nombre
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
-				<br />
-				<a className="box main-button menu-item" href="#" onClick={() => this.setState({ showOptOut: true })}>
-					Ocultar mis valoraciones
-					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
-				</a>
+				{user.type === 'professor' && (
+				<>
+					<br />
+					<a className="box main-button menu-item" href="#" onClick={() => this.setState({ showOptOut: true })}>
+						Ocultar mis valoraciones
+						<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
+					</a>
+				</>
+				)}
 			</div>
 		);
 	}
