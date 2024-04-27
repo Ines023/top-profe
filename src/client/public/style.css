@@ -236,6 +236,12 @@ table.box a.excluded {
     border: 0;
 }
 
+.big-input.search-input select {
+    width: 100%;
+    border: 0;
+    background-color: white;
+}
+
 /* PROFESSOR PROFILE */
 
 table.box thead tr:first-child {
@@ -320,6 +326,8 @@ table.box thead tr:first-child {
 
 .modal-content {
     justify-self: center;
+    max-height: 80vh; /* Limitar la altura máxima del contenido para evitar que se extienda más allá de la pantalla */
+    overflow-y: auto; /* Habilitar el desplazamiento vertical si el contenido es más grande que el contenedor */
 }
 
 .modal-content .error {
