@@ -14,6 +14,14 @@ export function ajaxErrHandler(res) {
 			});
 	}
 
+	if (res.status === 403) {
+		return res.json()
+			.then(() => {
+				window.alert('No puedes realizar esta acción.');
+				return null;
+			});
+	}
+
 	// Redirect to the generic error view on 404s and 500s.
 	if (res.status === 404 || res.status === 500) {
 		window.location.href = `/${res.status}`;

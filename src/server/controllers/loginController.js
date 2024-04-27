@@ -20,6 +20,7 @@ const retrieveUserFromSession = (userInfo) => {
 	return {
 		id: userInfo.preferred_username,
 		email: userInfo.email,
+		degreeId: null,
 		type: userType,
 		isAdmin: false,
 		active: false,

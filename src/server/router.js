@@ -3,6 +3,7 @@ const controllers = require('./controllers');
 const middlewares = require('./middlewares');
 const professorController = require('./controllers/professorController');
 const subjectController = require('./controllers/subjectController');
+const ballotController = require('./controllers/ballotController');
 const adminController = require('./controllers/adminController');
 
 const router = express.Router();
@@ -15,14 +16,16 @@ router.get('/professors', professorController.getProfessors);
 router.get('/professors/:professorHash', professorController.getProfessorProfile);
 router.get('/subjects', subjectController.getSubjects);
 router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
-router.get('/rankings', controllers.getRankings);
+
+// TODO
+// router.get('/rankings', controllers.getRankings);
 
 // Endpoints restricted to verified students.
-router.use(middlewares.restrictLimitedUsers);
-router.post('/professors/:profId/rate', controllers.rateProfessor);
-router.delete('/professors/:profId/undo', controllers.undoRate);
+router.get('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.getVote);
+router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.registerVote);
+router.delete('/ballots/:ballotId', middlewares.restrictLimitedUsers, controllers.undoRate);
 
-// router.use(middlewares.restrictAdmins);
+router.use(middlewares.restrictAdmins);
 router.get('/admin', adminController.getAdminData);
 router.get('/admin/degrees', adminController.getDegrees);
 router.get('/admin/degrees/:degreeId', adminController.getDegree);

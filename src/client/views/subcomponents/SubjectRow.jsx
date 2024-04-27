@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
@@ -7,16 +7,22 @@ import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 
 export default function SubjectRow(props) {
 	const {
+		ballotId,
 		voteExists,
 		subjectId,
 		subjectAcronym,
 		subjectName,
 		subjectAvg,
 		subjectCount,
-		profId,
 		profStatus,
 		onVote,
 	} = props;
+
+	const [voteLoaded, setVoteLoaded] = useState(true);
+
+	useEffect(() => {
+		setVoteLoaded(true);
+	}, [voteExists]);
 
 	return (
 		<tr>
@@ -32,12 +38,12 @@ export default function SubjectRow(props) {
 				}
 			</td>
 			<td>
-				{voteExists ? 'Voto emitido' : (
+				{!voteLoaded ? 'Cargando...' : voteExists ? 'Voto emitido' : (
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
 						initialRating={voteExists}
-						onClick={rating => onVote(profId, subjectAcronym, rating)}
+						onClick={(rating) => { setVoteLoaded(false); onVote(ballotId, rating); }}
 					/>
 				)}
 			</td>

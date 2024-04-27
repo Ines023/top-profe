@@ -40,8 +40,8 @@ class ProfessorProfileClass extends Component {
 			});
 	}
 
-	submitRating(profId, subject, rating) {
-		fetchPost(`/api/professors/${profId}/rate`, { subject, rating })
+	submitRating(ballotId, stars) {
+		fetchPost(`/api/ballots/${ballotId}`, { stars })
 			.then(() => {
 				// Load again the professor's profile to reflect the new data.
 				this.loadProfessorData();
@@ -59,6 +59,7 @@ class ProfessorProfileClass extends Component {
 			const row = (
 				<SubjectRow
 					key={ballot.id}
+					ballotId={ballot.id}
 					profId={professor.id}
 					profStatus={professor.status}
 					subjectId={subject.id}
