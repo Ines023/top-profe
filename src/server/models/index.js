@@ -12,7 +12,7 @@ const Ballot = require('./Ballot')(sequelize, Sequelize.DataTypes);
 const Degree = require('./Degree')(sequelize, Sequelize.DataTypes);
 const Professor = require('./Professor')(sequelize, Sequelize.DataTypes);
 const Register = require('./Register')(sequelize, Sequelize.DataTypes);
-const User = require('./Users')(sequelize, Sequelize.DataTypes);
+const User = require('./User')(sequelize, Sequelize.DataTypes);
 const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
 const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
 const Session = require('./Session')(sequelize, Sequelize.DataTypes);
@@ -42,6 +42,11 @@ Ballot.hasMany(Vote, {
 Ballot.hasMany(Register, {
 	as: 'register',
 	foreignKey: 'ballotId',
+});
+
+Degree.hasMany(Ballot, {
+	as: 'ballot',
+	foreignKey: 'degreeId',
 });
 
 Professor.hasMany(Ballot, {

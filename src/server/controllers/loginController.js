@@ -31,7 +31,7 @@ const registerUser = async (userInfo) => {
 	try {
 		const user = retrieveUserFromSession(userInfo);
 
-		await models.Users.create(user);
+		await models.User.create(user);
 		return user;
 	} catch (error) {
 		console.log(error);
@@ -53,7 +53,7 @@ const updateUser = async (registeredUser, userInfo) => {
 
 module.exports.handleLogin = async (req, res, next) => {
 	try {
-		const registeredUser = await models.Users.findByPk(req.session.userInfo.preferred_username);
+		const registeredUser = await models.User.findByPk(req.session.userInfo.preferred_username);
 
 		let savedUser;
 		if (registeredUser) {
