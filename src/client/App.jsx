@@ -1,5 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+	BrowserRouter, Routes, Route, Link,
+} from 'react-router-dom';
 import ErrorView from './views/ErrorView';
 import InitialMenu from './views/InitialMenu';
 import LoginErrorView from './views/LoginErrorView';
@@ -52,19 +55,42 @@ function ProfessorRoutes() {
 
 function AdminRoutes() {
 	return (
-		<Routes>
-			<Route index element={<AdminMainView />} />
-			<Route path="degrees" element={<AdminDegreesView />} />
-			<Route path="update">
-				<Route path="subjects" element={<AdminDegreesView updateSubjects />} />
-				<Route path="subjects/:degreeId" element={<AdminUpdateSubjectsView />} />
+		<>
+			<nav>
+				<ul className="navbar">
+					<li><Link to="/admin">Inicio</Link></li>
+					<li>
+						<a href="#">Editar</a>
+						<ul className="subnav">
+							<li><Link to="/admin/degrees">Titulaciones</Link></li>
+							<li><Link to="/admin/subjects">Asignaturas</Link></li>
+							<li><Link to="/admin/professors">Profesores</Link></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">Actualizar</a>
+						<ul className="subnav">
+							<li><Link to="/admin/update/subjects">Asignaturas</Link></li>
+							<li><Link to="/admin/update/professors">Profesores</Link></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<br />
+			<Routes>
+				<Route index element={<AdminMainView />} />
+				<Route path="degrees" element={<AdminDegreesView />} />
+				<Route path="update">
+					<Route path="subjects" element={<AdminDegreesView updateSubjects />} />
+					<Route path="subjects/:degreeId" element={<AdminUpdateSubjectsView />} />
 
-				<Route path="professors" element={<AdminDegreesView updateProfessors />} />
-				<Route path="professors/:degreeId" element={<AdminUpdateProfessorsView />} />
-			</Route>
-			<Route path="subjects" element={<AdminDegreesView subjects />} />
-			<Route path="subjects/:degreeId" element={<AdminEditSubjectsView />} />
-			<Route path="professors" element={<AdminEditProfessorsView />} />
-		</Routes>
+					<Route path="professors" element={<AdminDegreesView updateProfessors />} />
+					<Route path="professors/:degreeId" element={<AdminUpdateProfessorsView />} />
+				</Route>
+				<Route path="subjects" element={<AdminDegreesView subjects />} />
+				<Route path="subjects/:degreeId" element={<AdminEditSubjectsView />} />
+				<Route path="professors" element={<AdminEditProfessorsView />} />
+			</Routes>
+		</>
 	);
 }
