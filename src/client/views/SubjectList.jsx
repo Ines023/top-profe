@@ -38,7 +38,7 @@ export default class SubjectList extends Component {
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
 		const filteredSubjects = subjects.filter(createFilter(
-			searchKeyword, ['acronym', 'name', 'degree'],
+			searchKeyword, ['code', 'name', 'degree.acronym'],
 		));
 
 		return (
