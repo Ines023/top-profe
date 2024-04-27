@@ -30,3 +30,52 @@ module.exports.registerVote = async (req, res) => {
 		return res.status(500).json({ message: 'Error al registrar el voto.' });
 	}
 };
+
+module.exports.getVote = async (req, res) => {
+	const { voteId } = req.params;
+
+	try {
+		const vote = await models.Ballot.findByPk(voteId, {
+			include: [{
+				model: models.Ballot,
+				as: 'ballot',
+			}],
+		});
+
+		return res.status(200).json(vote);
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Error al recuperar el voto.' });
+	}
+};
+
+
+module.exports.deleteVote = async (req, res) => {
+	const { voteId } = req.params;
+
+	try {
+		const vote = await models.Ballot.findByPk(voteId, {
+			include: [{
+				model: models.Ballot,
+				as: 'ballot',
+			}],
+		});
+
+		const register = await models.Register.findOne({
+			where: {
+				ballotId: vote.ballot.id,
+				userId: req.session.user.id,
+			},
+		});
+
+		if (vote.ballot.academicYear !== config.server.academicYear) res.status(409).json({ message: 'La votación seleccionada no pertenece al periodo académico activo.' });
+
+		await vote.destroy();
+		await register.destroy();
+
+		return res.status(200);
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Error al eliminar el voto.' });
+	}
+};
