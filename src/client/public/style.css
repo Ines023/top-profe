@@ -49,6 +49,10 @@ header {
     table.box th {
         padding: 12px 15px !important;
     }
+
+    .logo {
+        height: 100px;
+    }
 }
 
 .main-title a:visited {

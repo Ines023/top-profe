@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +14,7 @@ export default class InitialMenu extends Component {
 			isLoaded: false,
 			showStudentModal: false,
 			showProfessorModal: false,
+			showOptOut: false,
 			user: {},
 			degrees: [],
 			degreeId: '',
@@ -19,6 +22,7 @@ export default class InitialMenu extends Component {
 
 		this.setUserActive = this.setUserActive.bind(this);
 		this.setStudentDegree = this.setStudentDegree.bind(this);
+		this.setOptOut = this.setOptOut.bind(this);
 	}
 
 	componentDidMount() {
@@ -79,9 +83,18 @@ export default class InitialMenu extends Component {
 			});
 	}
 
+	setOptOut() {
+		this.setState({
+			showOptOut: false,
+		});
+
+		fetchPost('/api/opt-out', { })
+			.then(r => r.json());
+	}
+
 	render() {
 		const {
-			isLoaded, showStudentModal, showProfessorModal, degrees, degreeId, user,
+			isLoaded, showStudentModal, showProfessorModal, showOptOut, degrees, degreeId,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -144,6 +157,30 @@ export default class InitialMenu extends Component {
 			);
 		}
 
+		if (showOptOut) {
+			return (
+				<Modal show allowClose onClose={() => this.setState({ showOptOut: false })}>
+					<h2>¿Estás segur@ de que quieres ocultar tus valoraciones?</h2>
+					<p>
+						Ocultar tus valoraciones no impedirá que continúen emitiéndose votos para las asignaturas que impartes. Delegación de Alumnos de Telecomunicación utiliza estas valoraciones para poder emitir informes de méritos docentes cuando Rectorado solicita dicha información.
+					</p>
+					<p>
+						Al ocultar tus valoraciones, también renunicias a la posibilidad de recibir premios y menciones por tu actividad docente. Puedes revertir esta opción en cualquier momento mediante correo electrónico a <a href="mailto:da.etsit@upm.es">da.etsit@upm.es</a>.
+					</p>
+					<small>
+						<i style={{ color: '#FF6555' }}>
+							Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
+							Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
+						</i>
+					</small>
+					<br />
+					<button type="button" className="box main-button menu-item" onClick={this.setOptOut}>
+						Estoy de acuerdo
+					</button>
+				</Modal>
+			);
+		}
+
 		return (
 			<div>
 				<div className="box">
@@ -176,6 +213,11 @@ export default class InitialMenu extends Component {
 				<br />
 				<a className="box main-button menu-item" href="/professors">
 					Buscar profesores por nombre
+					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
+				</a>
+				<br />
+				<a className="box main-button menu-item" href="#" onClick={() => this.setState({ showOptOut: true })}>
+					Ocultar mis valoraciones
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
 			</div>

@@ -69,3 +69,20 @@ module.exports.setUserDegree = async (req, res) => {
 		return res.status(500).json({ message: 'Error al recuperar el usuario.' });
 	}
 };
+
+module.exports.setOptOut = async (req, res) => {
+	try {
+		const professor = await models.Professor.findByPk(req.session.user.id);
+
+		if (!professor) return res.status(404).json({ message: 'El profesor especificado no existe.' });
+		if (professor.staus === 'excluded') return res.status(409).json({ message: 'El profesor especificado ya tiene ocultas sus valoraciones.' });
+
+		professor.status = 'excluded';
+		await professor.save();
+
+		return res.status(200).json({ message: 'Profesor actualizado con éxito.' });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Error al recuperar el profesor.' });
+	}
+};

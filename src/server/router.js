@@ -16,6 +16,7 @@ router.use(middlewares.checkLogin);
 router.get('/user', mainController.getUser);
 router.post('/user/activate', mainController.activateUser);
 router.post('/user/degree', mainController.setUserDegree);
+router.post('/opt-out', mainController.setOptOut);
 
 router.get('/degrees', mainController.getDegrees);
 router.get('/professors', professorController.getProfessors);
