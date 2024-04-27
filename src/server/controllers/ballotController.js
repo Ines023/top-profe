@@ -15,7 +15,7 @@ module.exports.registerVote = async (req, res) => {
 
 		const register = await models.Register.findOne({
 			where: {
-				userId: req.user.id,
+				userId: req.session.user.id,
 				ballotId: ballot.id,
 			},
 		});

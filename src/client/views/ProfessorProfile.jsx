@@ -30,6 +30,14 @@ class ProfessorProfileClass extends Component {
 	}
 
 	loadProfessorData() {
+		fetchGet('/api/user')
+			.then(r => r.json())
+			.then((res) => {
+				this.setState({
+					user: res,
+				});
+			});
+
 		fetchGet(`/api/professors/${this.profId}`)
 			.then(r => r.json())
 			.then((res) => {
@@ -37,14 +45,6 @@ class ProfessorProfileClass extends Component {
 					isLoaded: true,
 					professor: res.professor,
 					ballots: res.ballots,
-				});
-			});
-
-		fetchGet('/api/user')
-			.then(r => r.json())
-			.then((res) => {
-				this.setState({
-					user: res,
 				});
 			});
 	}
@@ -75,6 +75,7 @@ class ProfessorProfileClass extends Component {
 					profId={professor.id}
 					profStatus={professor.status}
 					userIsStudent={user.type === 'student'}
+					userIsAdmin={user.isAdmin}
 					subjectDegree={subject.degreeId}
 					studentDegree={user.degreeId}
 					subjectId={subject.id}

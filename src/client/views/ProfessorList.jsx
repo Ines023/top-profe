@@ -9,6 +9,7 @@ export default class ProfessorList extends Component {
 		this.state = {
 			isLoaded: false,
 			professors: [],
+			user: {},
 			searchKeyword: '',
 		};
 
@@ -16,6 +17,14 @@ export default class ProfessorList extends Component {
 	}
 
 	componentDidMount() {
+		fetchGet('/api/user')
+			.then(r => r.json())
+			.then((res) => {
+				this.setState({
+					user: res,
+				});
+			});
+
 		fetchGet('/api/professors')
 			.then(r => r.json())
 			.then((res) => {
@@ -34,7 +43,9 @@ export default class ProfessorList extends Component {
 	}
 
 	render() {
-		const { isLoaded, professors, searchKeyword } = this.state;
+		const {
+			isLoaded, professors, searchKeyword, user,
+		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
@@ -71,7 +82,7 @@ export default class ProfessorList extends Component {
 									</a>
 								</td>
 								<td className={professor.status}>
-									{professor.status === 'excluded' ? 'OCULTO' : professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
+									{(!user.isAdmin && professor.status === 'excluded') ? 'OCULTO' : professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
 								</td>
 							</tr>
 						)) }

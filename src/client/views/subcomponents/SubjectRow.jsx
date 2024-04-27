@@ -17,6 +17,7 @@ export default function SubjectRow(props) {
 		profStatus,
 		onVote,
 		userIsStudent,
+		userIsAdmin,
 		subjectDegree,
 		studentDegree,
 	} = props;
@@ -35,7 +36,7 @@ export default function SubjectRow(props) {
 				</a>
 			</td>
 			<td className={profStatus}>
-				{profStatus === 'excluded' ? 'OCULTO' : subjectAvg
+				{ (!userIsAdmin && profStatus === 'excluded') ? 'OCULTO' : subjectAvg
 					? `${subjectAvg.toFixed(2)}/5 (total: ${subjectCount})`
 					: 'Sin datos'
 				}

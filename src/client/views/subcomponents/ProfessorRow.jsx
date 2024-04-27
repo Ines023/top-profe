@@ -16,6 +16,7 @@ export default function ProfessorRow(props) {
 		profStatus,
 		voteExists,
 		userIsStudent,
+		userIsAdmin,
 		subjectDegree,
 		studentDegree,
 	} = props;
@@ -34,7 +35,7 @@ export default function ProfessorRow(props) {
 				</a>
 			</td>
 			<td className={profStatus}>
-				{profStatus === 'excluded' ? 'OCULTO' : profAvg
+				{(!userIsAdmin && profStatus === 'excluded') ? 'OCULTO' : profAvg
 					? `${profAvg.toFixed(2)}/5 (total: ${profCount})`
 					: 'Sin datos'
 				}

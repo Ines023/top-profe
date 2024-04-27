@@ -30,6 +30,14 @@ class SubjectDetailsClass extends Component {
 	}
 
 	loadSubjectData() {
+		fetchGet('/api/user')
+			.then(r => r.json())
+			.then((res) => {
+				this.setState({
+					user: res,
+				});
+			});
+
 		fetchGet(`/api/subjects/${this.subjId}`)
 			.then(r => r.json())
 			.then((res) => {
@@ -37,14 +45,6 @@ class SubjectDetailsClass extends Component {
 					isLoaded: true,
 					subject: res.subject,
 					ballots: res.ballots,
-				});
-			});
-
-		fetchGet('/api/user')
-			.then(r => r.json())
-			.then((res) => {
-				this.setState({
-					user: res,
 				});
 			});
 	}
@@ -77,6 +77,7 @@ class SubjectDetailsClass extends Component {
 					profAvg={ballot.avg}
 					profCount={ballot.count}
 					userIsStudent={user.type === 'student'}
+					userIsAdmin={user.isAdmin}
 					subjectDegree={subject.degreeId}
 					studentDegree={user.degreeId}
 					voteExists={ballot.register.length > 0}
