@@ -13,6 +13,15 @@ module.exports.registerVote = async (req, res) => {
 		if (ballot.academicYear !== config.server.academicYear) return res.status(409).json({ message: 'La votación seleccionada no pertenece al periodo académico activo.' });
 		if (ballot.degreeId !== req.session.user.degreeId) return res.status(403).json({ message: 'El usuario no pertenece a la titulación de la votación.' });
 
+		const register = await models.Register.findOne({
+			where: {
+				userId: req.user.id,
+				ballotId: ballot.id,
+			},
+		});
+
+		if (register) return res.status(409).json({ message: 'El usuario ya ha emitido un voto para esta votación.' });
+
 		await models.Vote.create({
 			id: createHash('sha256').update(stars + req.session.user.id + ballotId).digest('hex'),
 			ballotId,

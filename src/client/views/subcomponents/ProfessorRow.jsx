@@ -7,7 +7,17 @@ import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProfessorRow(props) {
 	const {
-		ballotId, profAvg, profCount, profName, onVote, profHash, profStatus, voteExists,
+		ballotId,
+		profAvg,
+		profCount,
+		profName,
+		onVote,
+		profHash,
+		profStatus,
+		voteExists,
+		userIsStudent,
+		subjectDegree,
+		studentDegree,
 	} = props;
 
 	const [voteLoaded, setVoteLoaded] = useState(true);
@@ -30,14 +40,14 @@ export default function ProfessorRow(props) {
 				}
 			</td>
 			<td>
-				{!voteLoaded ? 'Cargando...' : voteExists ? 'Voto emitido' : (
+				{(userIsStudent && subjectDegree === studentDegree) ? (!voteLoaded ? 'Cargando...' : voteExists ? 'Voto emitido' : (
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
 						initialRating={voteExists}
 						onClick={(rating) => { setVoteLoaded(false); onVote(ballotId, rating); }}
 					/>
-				)}
+				)) : 'Bloqueado'}
 			</td>
 		</tr>
 	);

@@ -19,6 +19,7 @@ class SubjectDetailsClass extends Component {
 			isLoaded: false,
 			subject: {},
 			ballots: {},
+			user: {},
 		};
 
 		this.submitRating = this.submitRating.bind(this);
@@ -38,6 +39,14 @@ class SubjectDetailsClass extends Component {
 					ballots: res.ballots,
 				});
 			});
+
+		fetchGet('/api/user')
+			.then(r => r.json())
+			.then((res) => {
+				this.setState({
+					user: res,
+				});
+			});
 	}
 
 	submitRating(ballotId, stars) {
@@ -49,7 +58,9 @@ class SubjectDetailsClass extends Component {
 	}
 
 	render() {
-		const { isLoaded, subject, ballots } = this.state;
+		const {
+			isLoaded, subject, ballots, user,
+		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
@@ -65,7 +76,9 @@ class SubjectDetailsClass extends Component {
 					profName={professor.name}
 					profAvg={ballot.avg}
 					profCount={ballot.count}
-					subjectId={this.subjId}
+					userIsStudent={user.type === 'student'}
+					subjectDegree={subject.degreeId}
+					studentDegree={user.degreeId}
 					voteExists={ballot.register.length > 0}
 					onVote={this.submitRating}
 				/>
