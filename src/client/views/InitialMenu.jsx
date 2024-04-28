@@ -13,7 +13,7 @@ export default class InitialMenu extends Component {
 		this.state = {
 			isLoaded: false,
 			showStudentModal: false,
-			showProfessorModal: false,
+			showFirstTimeModal: false,
 			showOptOut: false,
 			user: {},
 			degrees: [],
@@ -39,9 +39,8 @@ export default class InitialMenu extends Component {
 					});
 					return null;
 				}
+				if (!user.active) this.setState({ showFirstTimeModal: true });
 				if (!user.active && user.type === 'student') this.setState({ showStudentModal: true });
-				else if (!user.active && user.type === 'professor') this.setState({ showProfessorModal: true });
-				else this.setUserActive();
 				return null;
 			});
 
@@ -64,7 +63,7 @@ export default class InitialMenu extends Component {
 				this.setState({
 					isLoaded: true,
 					showStudentModal: false,
-					showProfessorModal: false,
+					showFirstTimeModal: false,
 				});
 			});
 	}
@@ -79,7 +78,6 @@ export default class InitialMenu extends Component {
 		fetchPost('/api/user/degree', { degreeId })
 			.then(r => r.json())
 			.then(() => {
-				this.setUserActive();
 			});
 	}
 
@@ -94,7 +92,7 @@ export default class InitialMenu extends Component {
 
 	render() {
 		const {
-			isLoaded, showStudentModal, showProfessorModal, showOptOut, degrees, degreeId, user,
+			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -119,9 +117,9 @@ export default class InitialMenu extends Component {
 			);
 		}
 
-		if (showProfessorModal) {
+		if (showFirstTimeModal) {
 			return (
-				<Modal show onClose={() => this.setState({ showProfessorModal: false })}>
+				<Modal show onClose={() => this.setState({ showFirstTimeModal: false })}>
 					<h2>¡Bienvenid@ a Top Profe!</h2>
 					<p>
 						Top Profe es una web creada por DAT que permite a los estudiantes calificar a los profesores en función de su experiencia tras recibir sus clases.
