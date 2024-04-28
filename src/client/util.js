@@ -3,6 +3,9 @@
  * Error handler specifically designed for AJAX requests made to the backend's
  * REST API.
  */
+
+import toast from 'react-hot-toast';
+
 export function ajaxErrHandler(res) {
 	// Redirect to the Single Sign-On (SSO) login page if the
 	// request was unauthorized.
@@ -14,17 +17,34 @@ export function ajaxErrHandler(res) {
 			});
 	}
 
-	if (res.status === 403) {
-		return res.json()
-			.then(() => {
-				window.alert('No puedes realizar esta acción.');
+	if (res.status === 400 || res.status === 403 || res.status === 404) {
+		res.json()
+			.then((jsonResponse) => {
+				toast.error(jsonResponse.message);
 				return null;
 			});
+		return res;
 	}
 
-	// Redirect to the generic error view on 404s and 500s.
-	if (res.status === 404 || res.status === 500) {
+	if (res.status === 409) {
+		res.json()
+			.then((jsonResponse) => {
+				toast(jsonResponse.message, {
+					icon: '⚠️',
+				});
+				return null;
+			});
+		return res;
+	}
+
+	// Redirect to the generic error view on 500s.
+	if (res.status === 500) {
 		window.location.href = `/${res.status}`;
+		res.json()
+			.then((jsonResponse) => {
+				toast.error(jsonResponse.message);
+				return null;
+			});
 		return null;
 	}
 

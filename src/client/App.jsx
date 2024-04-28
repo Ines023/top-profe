@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import {
-	BrowserRouter, Routes, Route, Link,
+	BrowserRouter, Routes, Route,
 } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import ErrorView from './views/ErrorView';
 import InitialMenu from './views/InitialMenu';
 import LoginErrorView from './views/LoginErrorView';
@@ -17,10 +18,12 @@ import AdminUpdateSubjectsView from './views/admin/AdminUpdateSubjectsView';
 import AdminUpdateProfessorsView from './views/admin/AdminUpdateProfessorsView';
 import AdminEditSubjectsView from './views/admin/AdminEditSubjectsView';
 import AdminEditProfessorsView from './views/admin/AdminEditProfessorsView';
+import AdminNavbar from './views/admin/subcomponents/AdminNavbar';
 
 export default function App() {
 	return (
 		<BrowserRouter>
+			<Toaster toastOptions={{ className: 'toast' }} />
 			<Routes>
 				<Route path="/" element={<InitialMenu />} />
 				<Route path="subjects/*" element={<SubjectRoutes />} />
@@ -56,26 +59,7 @@ function ProfessorRoutes() {
 function AdminRoutes() {
 	return (
 		<>
-			<nav>
-				<ul className="navbar">
-					<li><Link to="/admin">Inicio</Link></li>
-					<li>
-						<a href="#">Editar</a>
-						<ul className="subnav">
-							<li><Link to="/admin/degrees">Titulaciones</Link></li>
-							<li><Link to="/admin/subjects">Asignaturas</Link></li>
-							<li><Link to="/admin/professors">Profesores</Link></li>
-						</ul>
-					</li>
-					<li>
-						<a href="#">Actualizar</a>
-						<ul className="subnav">
-							<li><Link to="/admin/update/subjects">Asignaturas</Link></li>
-							<li><Link to="/admin/update/professors">Profesores</Link></li>
-						</ul>
-					</li>
-				</ul>
-			</nav>
+			<AdminNavbar />
 			<br />
 			<Routes>
 				<Route index element={<AdminMainView />} />

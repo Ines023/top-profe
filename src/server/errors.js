@@ -21,35 +21,35 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 		|| err.code === 'ER_DUP_ENTRY') {
 		return res.status(400).json({
 			code: 'bad_request',
-			message: 'Bad request',
+			message: 'Petición mal formada.',
 		});
 	}
 
 	if (err instanceof LimitedUserError) {
 		return res.status(403).json({
 			code: 'limited_user',
-			message: 'This user is not allowed to make such action',
+			message: 'No tienes permisos para realizar esta acción.',
 		});
 	}
 
 	if (err instanceof NotFoundError) {
 		return res.status(404).json({
 			code: 'not_found',
-			message: 'Page not found',
+			message: 'Página no encontrada.',
 		});
 	}
 
 	if (err instanceof UnauthorizedError) {
 		return res.status(401).json({
 			code: 'unauthorized',
-			message: 'Login required',
+			message: 'Se requiere inicio de sesión.',
 		});
 	}
 
 	// Some other unknown error.
 	res.status(500).json({
 		code: 'internal_server_error',
-		message: 'Internal server error',
+		message: 'Error interno del servidor.',
 	});
 	return next(err); // Let it pass the middleware so Sentry can catch it.
 };

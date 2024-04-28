@@ -5,7 +5,6 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { fetchGet } from '../../util';
 
-
 export default class AdminMainView extends Component {
 	constructor(props) {
 		super(props);

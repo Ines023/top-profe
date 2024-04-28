@@ -9,6 +9,10 @@
     body {
         font-size: 1.5em !important;
     }
+
+    .toast {
+        font-size: 0.85em !important;
+    }
 }
 
 body {
@@ -37,7 +41,7 @@ header {
 
 /* For mobile */
 @media screen and (max-width: 500px) {
-    body {
+    body, .toast {
         font-size: 1.1em;
     }
 
@@ -407,6 +411,13 @@ table.box thead tr:first-child {
 .subnav li a:hover {
     background-color: white;
     color: black;
+}
+
+.toast {
+    background-color: white;
+    border: 5px solid black;
+    border-radius: 0;
+    padding: 15px;
 }
 
 /* Media query para dispositivos móviles */
