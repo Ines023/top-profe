@@ -1,5 +1,4 @@
 const express = require('express');
-const controllers = require('./controllers');
 const middlewares = require('./middlewares');
 const mainController = require('./controllers/mainController');
 const professorController = require('./controllers/professorController');
@@ -30,7 +29,7 @@ router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
 // Endpoints restricted to verified students.
 router.get('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.getVote);
 router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.registerVote);
-router.delete('/ballots/:ballotId', middlewares.restrictLimitedUsers, controllers.undoRate);
+router.delete('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.deleteVote);
 
 router.use(middlewares.restrictAdmins);
 router.get('/admin', adminController.getAdminData);
