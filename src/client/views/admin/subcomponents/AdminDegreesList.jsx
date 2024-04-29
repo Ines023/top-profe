@@ -17,7 +17,7 @@ export default class AdminDegreesList extends Component {
 
 	componentDidMount() {
 		fetchGet('/api/admin/degrees')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,

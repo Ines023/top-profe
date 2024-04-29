@@ -18,7 +18,7 @@ export default class ProfessorList extends Component {
 
 	componentDidMount() {
 		fetchGet('/api/user')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					user: res,
@@ -26,7 +26,7 @@ export default class ProfessorList extends Component {
 			});
 
 		fetchGet('/api/professors')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,

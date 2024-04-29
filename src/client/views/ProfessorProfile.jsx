@@ -31,7 +31,7 @@ class ProfessorProfileClass extends Component {
 
 	loadProfessorData() {
 		fetchGet('/api/user')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					user: res,
@@ -39,7 +39,7 @@ class ProfessorProfileClass extends Component {
 			});
 
 		fetchGet(`/api/professors/${this.profId}`)
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,

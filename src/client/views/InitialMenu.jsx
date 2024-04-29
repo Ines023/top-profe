@@ -27,7 +27,7 @@ export default class InitialMenu extends Component {
 
 	componentDidMount() {
 		fetchGet('/api/user')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					user: res,
@@ -45,7 +45,7 @@ export default class InitialMenu extends Component {
 			});
 
 		fetchGet('/api/degrees')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,
@@ -58,7 +58,7 @@ export default class InitialMenu extends Component {
 
 	setUserActive() {
 		fetchPost('/api/user/activate', {})
-			.then(r => r.json())
+			.then(r => (r?.status === 200) && r.json())
 			.then(() => {
 				this.setState({
 					isLoaded: true,
@@ -87,7 +87,7 @@ export default class InitialMenu extends Component {
 		});
 
 		fetchPost('/api/opt-out', { })
-			.then(r => r.json());
+			.then(r => (r?.status ===200) && r.json());
 	}
 
 	render() {

@@ -14,7 +14,7 @@ export default class ProfessorList extends Component {
 
 	componentDidMount() {
 		fetchGet('/api/rankings')
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,

@@ -46,7 +46,7 @@ class AdminUpdateProfessorsViewClass extends Component {
 		}
 
 		fetchGet(`/api/admin/degrees/${this.degreeId}`)
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					degree: res,
@@ -54,7 +54,7 @@ class AdminUpdateProfessorsViewClass extends Component {
 			});
 
 		fetchGet(`/api/admin/update/professors/${this.degreeId}/${academicYear}`)
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					askYear: false,
@@ -75,7 +75,7 @@ class AdminUpdateProfessorsViewClass extends Component {
 		fetchPost(`/api/admin/update/professors/${this.degreeId}/${academicYear}`, {
 			missingProfessors: professors,
 		})
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then(() => {
 				this.setState({
 					isLoaded: true,

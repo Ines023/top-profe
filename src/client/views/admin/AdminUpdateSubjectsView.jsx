@@ -31,7 +31,7 @@ class AdminUpdateSubjectsViewClass extends Component {
 
 	componentDidMount() {
 		fetchGet(`/api/admin/degrees/${this.degreeId}`)
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					degree: res,
@@ -39,7 +39,7 @@ class AdminUpdateSubjectsViewClass extends Component {
 			});
 
 		fetchGet(`/api/admin/update/subjects/${this.degreeId}`)
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,
@@ -57,7 +57,7 @@ class AdminUpdateSubjectsViewClass extends Component {
 		fetchPost(`/api/admin/update/subjects/${this.degreeId}`, {
 			missingSubjects: subjects,
 		})
-			.then(r => r.json())
+			.then(r => (r?.status ===200) && r.json())
 			.then(() => {
 				this.setState({
 					isLoaded: true,
