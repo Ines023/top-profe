@@ -15,7 +15,7 @@ export default class AdminEditProfessorsView extends Component {
 
 	componentDidMount() {
 		fetchGet('/api/admin/professors')
-			.then(r => (r?.status ===200) && r.json())
+			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
 					professors: res,

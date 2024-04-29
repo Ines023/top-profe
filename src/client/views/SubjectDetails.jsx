@@ -31,7 +31,7 @@ class SubjectDetailsClass extends Component {
 
 	loadSubjectData() {
 		fetchGet('/api/user')
-			.then(r => (r?.status ===200) && r.json())
+			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
 					user: res,
@@ -39,7 +39,7 @@ class SubjectDetailsClass extends Component {
 			});
 
 		fetchGet(`/api/subjects/${this.subjId}`)
-			.then(r => (r?.status ===200) && r.json())
+			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,

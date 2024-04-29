@@ -31,7 +31,7 @@ class AdminUpdateSubjectsViewClass extends Component {
 
 	componentDidMount() {
 		fetchGet(`/api/admin/degrees/${this.degreeId}`)
-			.then(r => (r?.status ===200) && r.json())
+			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
 					degree: res,
