@@ -77,7 +77,7 @@ module.exports.setOptOut = async (req, res) => {
 		if (!professor) return res.status(404).json({ message: 'El profesor especificado no existe.' });
 		if (professor.status === 'excluded') return res.status(409).json({ message: 'El profesor especificado ya tiene ocultas sus valoraciones.' });
 
-		const user = await models.user.findByPk(req.session.user.id);
+		const user = await models.User.findByPk(req.session.user.id);
 
 		user.excluded = true;
 		professor.status = 'excluded';
