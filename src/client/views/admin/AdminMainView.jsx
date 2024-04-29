@@ -17,7 +17,8 @@ export default class AdminMainView extends Component {
 	componentDidMount() {
 		fetchGet('/api/admin')
 			.then(r => (r?.status === 200) && r.json())
-			.then(() => {
+			.then((res) => {
+				if (!res) return;
 				this.setState({
 					isLoaded: true,
 				});
