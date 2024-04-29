@@ -21,6 +21,7 @@ export function ajaxErrHandler(res) {
 		res.json()
 			.then((jsonResponse) => {
 				if (jsonResponse.code === 'excluded_user') window.location.href = `/${res.status}`;
+				if (jsonResponse.code === 'non_active_user') window.location.href = '/';
 				else toast.error(jsonResponse.message);
 				return null;
 			});

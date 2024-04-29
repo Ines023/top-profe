@@ -4,6 +4,9 @@ module.exports.BadRequestError = BadRequestError;
 class LimitedUserError extends Error {}
 module.exports.LimitedUserError = LimitedUserError;
 
+class NonActiveUserError extends Error {}
+module.exports.NonActiveUserError = NonActiveUserError;
+
 class ExcludedUserError extends Error {}
 module.exports.ExcludedUserError = ExcludedUserError;
 
@@ -39,6 +42,13 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 		return res.status(403).json({
 			code: 'excluded_user',
 			message: 'Tu usuario se encuentra excluído de la aplicación.',
+		});
+	}
+
+	if (err instanceof NonActiveUserError) {
+		return res.status(403).json({
+			code: 'non_active_user',
+			message: 'Tu usuario no se encuentra activado.',
 		});
 	}
 

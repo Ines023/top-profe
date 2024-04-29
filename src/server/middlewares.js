@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-const { UnauthorizedError, LimitedUserError, ExcludedUserError } = require('./errors');
+const { UnauthorizedError, LimitedUserError, ExcludedUserError, NonActiveUserError } = require('./errors');
 
 function checkLogin(req, res, next) {
 	if (!req.session.user?.id) return next(new UnauthorizedError());
@@ -24,6 +24,12 @@ function checkLoginMock(req, res, next) {
 module.exports.checkLogin = (
 	(process.env.NODE_ENV === 'development') ? checkLoginMock
 		: checkLogin);
+
+// Rejects queries from excluded users.
+module.exports.checkActive = (req, res, next) => {
+	if (!req.session.user.active) return next(new NonActiveUserError());
+	return next();
+};
 
 // Rejects queries from excluded users.
 module.exports.restrictExcluded = (req, res, next) => {

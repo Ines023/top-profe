@@ -18,9 +18,13 @@ router.use(middlewares.restrictExcluded);
 router.get('/user', mainController.getUser);
 router.post('/user/activate', mainController.activateUser);
 router.post('/user/degree', mainController.setUserDegree);
+router.get('/degrees', mainController.getDegrees);
+
+// Endpoints require active users.
+router.use(middlewares.checkActive);
+
 router.post('/opt-out', mainController.setOptOut);
 
-router.get('/degrees', mainController.getDegrees);
 router.get('/professors', professorController.getProfessors);
 router.get('/professors/:professorHash', professorController.getProfessorProfile);
 router.get('/subjects', subjectController.getSubjects);
