@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/DAT-ETSIT/top-profe/raw/master/src/client/public/dat_topprofe.png" alt="DAT Top Profe" width="80%"/>
+<img src="./src/client/public/dat_topprofe.png" alt="DAT Top Profe" width="80%"/>
 <p/>
 <br />
 
