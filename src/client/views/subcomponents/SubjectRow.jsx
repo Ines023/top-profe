@@ -32,7 +32,7 @@ export default function SubjectRow(props) {
 		<tr>
 			<td>
 				<a href={`/subjects/${subjectId}`}>
-					{subjectAcronym || subjectId} &mdash; {subjectName}
+					{subjectName} ({subjectAcronym || subjectId})
 				</a>
 			</td>
 			<td className={profStatus}>
