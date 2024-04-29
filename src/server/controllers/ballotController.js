@@ -1,4 +1,5 @@
-const { createHash } = require('crypto');
+/* eslint-disable max-len */
+const { createHash, randomBytes } = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { models } = require('../models');
@@ -62,8 +63,10 @@ module.exports.registerVote = async (req, res) => {
 
 		if (existingRegister) return res.status(409).json({ message: 'El usuario ya ha emitido un voto para esta votación.' });
 
+		const salt = randomBytes(16).toString('hex');
+
 		const vote = await models.Vote.create({
-			id: createHash('sha256').update(stars + req.session.user.id + ballotId).digest('hex'),
+			id: createHash('sha256').update(stars + req.session.user.id + ballotId + salt).digest('hex'),
 			ballotId,
 			stars,
 		});
@@ -73,7 +76,7 @@ module.exports.registerVote = async (req, res) => {
 			userId: req.session.user.id,
 		});
 
-		const mailContents = await prepareMailTemplate(ballot.professor.name, ballot.subject.name, ballot.subject.id, stars, vote.id, 'asdfasdf');
+		const mailContents = await prepareMailTemplate(ballot.professor.name, ballot.subject.name, ballot.subject.id, stars, vote.id, salt);
 		if (!mailContents) throw new Error('Error al modificar la plantilla del correo de confirmación.');
 
 		if (!await sendVoteMail(req.session.user.email, mailContents)) {
