@@ -6,7 +6,22 @@ export default function ErrorView(props) {
 	const { pathname } = useLocation();
 
 	let content;
-	if (code === 404) {
+
+	switch (code) {
+	case 403:
+		content = (
+			<div>
+				<h3>
+					Tu usuario se ha dado de baja
+				</h3>
+				<p>
+					Tu acceso a la aplicación se encuentra bloqueado. Si deseas restaurar tu acceso, puedes escribirnos a <a href="mailto:da.etsit@upm.es">da.etsit@upm.es</a>.
+				</p>
+			</div>
+		);
+		break;
+
+	case 404:
 		content = (
 			<div>
 				<h3>
@@ -18,7 +33,8 @@ export default function ErrorView(props) {
 				</p>
 			</div>
 		);
-	} else {
+		break;
+	default:
 		content = (
 			<div>
 				<h3>
@@ -27,10 +43,11 @@ export default function ErrorView(props) {
 				<p>
 					Ha habido un problema inesperado al atender tu petición.
 					Por favor, avísanos para que podamos arreglarlo enviando un
-					correo a <a href="mailto:dat@sscc.etsit.upm.es">dat@sscc.etsit.upm.es</a>.
+					correo a <a href="mailto:infraestructuras.da.etsit@upm.es">infraestructuras.da.etsit@upm.es</a>.
 				</p>
 			</div>
 		);
+		break;
 	}
 
 	return (

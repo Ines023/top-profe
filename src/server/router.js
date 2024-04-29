@@ -11,6 +11,9 @@ const router = express.Router();
 // All endpoints require authentication.
 router.use(middlewares.checkLogin);
 
+// Excluded users cannot access application.
+router.use(middlewares.restrictExcluded);
+
 // Endpoints reachable by any authenticated user.
 router.get('/user', mainController.getUser);
 router.post('/user/activate', mainController.activateUser);

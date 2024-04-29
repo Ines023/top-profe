@@ -27,15 +27,21 @@ module.exports = {
 				field: 'type',
 				allowNull: false,
 			},
-			isAdmin: {
+			admin: {
 				type: DataTypes.BOOLEAN,
-				field: 'isAdmin',
+				field: 'admin',
 				allowNull: false,
 				defaultValue: false,
 			},
 			active: {
 				type: DataTypes.BOOLEAN,
 				field: 'active',
+				allowNull: false,
+				defaultValue: false,
+			},
+			excluded: {
+				type: DataTypes.BOOLEAN,
+				field: 'excluded',
 				allowNull: false,
 				defaultValue: false,
 			},

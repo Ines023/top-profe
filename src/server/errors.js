@@ -4,6 +4,9 @@ module.exports.BadRequestError = BadRequestError;
 class LimitedUserError extends Error {}
 module.exports.LimitedUserError = LimitedUserError;
 
+class ExcludedUserError extends Error {}
+module.exports.ExcludedUserError = ExcludedUserError;
+
 class NotFoundError extends Error {}
 module.exports.NotFoundError = NotFoundError;
 
@@ -29,6 +32,13 @@ module.exports.globalErrorHandler = (err, req, res, next) => {
 		return res.status(403).json({
 			code: 'limited_user',
 			message: 'No tienes permisos para realizar esta acción.',
+		});
+	}
+
+	if (err instanceof ExcludedUserError) {
+		return res.status(403).json({
+			code: 'excluded_user',
+			message: 'Tu usuario se encuentra excluído de la aplicación.',
 		});
 	}
 

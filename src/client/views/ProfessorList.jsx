@@ -82,7 +82,7 @@ export default class ProfessorList extends Component {
 									</a>
 								</td>
 								<td className={professor.status}>
-									{(!user.isAdmin && professor.status === 'excluded') ? 'OCULTO' : professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
+									{(!user.admin && professor.status === 'excluded') ? 'OCULTO' : professor.avg ? `${professor.avg.toFixed(2)}/5 (total: ${professor.count})` : '-'}
 								</td>
 							</tr>
 						)) }

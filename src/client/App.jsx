@@ -31,6 +31,7 @@ export default function App() {
 				<Route path="ranking" element={<RankingView />} />
 				<Route path="admin/*" element={<AdminRoutes />} />
 				<Route path="failed-login" element={<LoginErrorView />} />
+				<Route path="403" element={<ErrorView code={403} />} />
 				<Route path="500" element={<ErrorView code={500} />} />
 				<Route path="*" element={<ErrorView code={404} />} />
 			</Routes>

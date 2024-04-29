@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-const { UnauthorizedError, LimitedUserError } = require('./errors');
+const { UnauthorizedError, LimitedUserError, ExcludedUserError } = require('./errors');
 
 function checkLogin(req, res, next) {
 	if (!req.session.user?.id) return next(new UnauthorizedError());
@@ -13,8 +13,9 @@ function checkLoginMock(req, res, next) {
 		email: 'p.perez@alumnos.upm.es',
 		degreeId: null,
 		type: 'student',
-		isAdmin: true,
+		admin: true,
 		active: true,
+		excluded: false
 	};
 	return next();
 }
@@ -24,6 +25,12 @@ module.exports.checkLogin = (
 	(process.env.NODE_ENV === 'development') ? checkLoginMock
 		: checkLogin);
 
+// Rejects queries from excluded users.
+module.exports.restrictExcluded = (req, res, next) => {
+	if (req.session.user.excluded) return next(new ExcludedUserError());
+	return next();
+};
+
 // Rejects queries that aren't from ETSIT students.
 module.exports.restrictLimitedUsers = (req, res, next) => {
 	if (req.session.user.type !== 'student') return next(new LimitedUserError());
@@ -32,6 +39,6 @@ module.exports.restrictLimitedUsers = (req, res, next) => {
 
 // Rejects queries that aren't from administrators.
 module.exports.restrictAdmins = (req, res, next) => {
-	if (!req.session.user.isAdmin) return next(new LimitedUserError());
+	if (!req.session.user.admin) return next(new LimitedUserError());
 	return next();
 };

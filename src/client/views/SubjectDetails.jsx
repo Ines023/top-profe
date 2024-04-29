@@ -77,7 +77,7 @@ class SubjectDetailsClass extends Component {
 					profAvg={ballot.avg}
 					profCount={ballot.count}
 					userIsStudent={user.type === 'student'}
-					userIsAdmin={user.isAdmin}
+					userIsAdmin={user.admin}
 					subjectDegree={subject.degreeId}
 					studentDegree={user.degreeId}
 					voteExists={ballot.register.length > 0}

@@ -18,12 +18,17 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.ENUM('student', 'professor', 'other'),
 			allowNull: false,
 		},
-		isAdmin: {
+		admin: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			default: false,
 		},
 		active: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			default: false,
+		},
+		excluded: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			default: false,

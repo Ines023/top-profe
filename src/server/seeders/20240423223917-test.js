@@ -51,8 +51,9 @@ module.exports = {
 				email: faker.internet.email(),
 				degreeId: `degree${i % 2 + 1}`,
 				type: 'student',
-				isAdmin: 0,
+				admin: 0,
 				active: 1,
+				excluded: 0,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			};

@@ -75,7 +75,7 @@ class ProfessorProfileClass extends Component {
 					profId={professor.id}
 					profStatus={professor.status}
 					userIsStudent={user.type === 'student'}
-					userIsAdmin={user.isAdmin}
+					userIsAdmin={user.admin}
 					subjectDegree={subject.degreeId}
 					studentDegree={user.degreeId}
 					subjectId={subject.id}

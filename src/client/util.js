@@ -20,7 +20,8 @@ export function ajaxErrHandler(res) {
 	if (res.status === 400 || res.status === 403 || res.status === 404) {
 		res.json()
 			.then((jsonResponse) => {
-				toast.error(jsonResponse.message);
+				if (jsonResponse.code === 'excluded_user') window.location.href = `/${res.status}`;
+				else toast.error(jsonResponse.message);
 				return null;
 			});
 		return res;

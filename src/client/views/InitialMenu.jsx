@@ -76,7 +76,7 @@ export default class InitialMenu extends Component {
 		});
 
 		fetchPost('/api/user/degree', { degreeId })
-			.then(r => r.json())
+			.then(r => (r?.status === 200) ? r.json() : this.componentDidMount())
 			.then(() => {
 			});
 	}

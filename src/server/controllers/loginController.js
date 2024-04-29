@@ -5,7 +5,7 @@ const schoolCode = '09';
 const studentCodes = ['A', 'W'];
 const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P'];
 
-const retrieveUserFromSession = (userInfo) => {
+const retrieveUserFromSession = (userInfo, excluded = true) => {
 	let userType = 'other';
 
 	if (Array.isArray(userInfo.upmClassifCode)) {
@@ -22,8 +22,9 @@ const retrieveUserFromSession = (userInfo) => {
 		email: userInfo.email,
 		degreeId: null,
 		type: userType,
-		isAdmin: false,
+		admin: false,
 		active: false,
+		excluded,
 	};
 };
 
@@ -41,7 +42,7 @@ const registerUser = async (userInfo) => {
 
 const updateUser = async (registeredUser, userInfo) => {
 	try {
-		const user = retrieveUserFromSession(userInfo);
+		const user = retrieveUserFromSession(userInfo, registeredUser.excluded);
 
 		await registeredUser.save(user);
 		return user;
