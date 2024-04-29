@@ -67,7 +67,7 @@ module.exports = {
 		// Required by the dev server to work with react-router.
 		historyApiFallback: true,
 		// Used during development to allow port forwarding to host015 from local machine
-		disableHostCheck: true,
+		// disableHostCheck: true,
 	},
 	plugins: [
 		new CleanWebpackPlugin([outputDirectory]),

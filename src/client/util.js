@@ -10,11 +10,12 @@ export function ajaxErrHandler(res) {
 	// Redirect to the Single Sign-On (SSO) login page if the
 	// request was unauthorized.
 	if (res.status === 401) {
-		return res.json()
+		res.json()
 			.then(() => {
 				window.location.href = '/login';
 				return null;
 			});
+		return res;
 	}
 
 	if (res.status === 400 || res.status === 403 || res.status === 404) {
