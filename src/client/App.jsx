@@ -19,6 +19,7 @@ import AdminUpdateProfessorsView from './views/admin/AdminUpdateProfessorsView';
 import AdminEditSubjectsView from './views/admin/AdminEditSubjectsView';
 import AdminEditProfessorsView from './views/admin/AdminEditProfessorsView';
 import AdminNavbar from './views/admin/subcomponents/AdminNavbar';
+import VoteView from './views/VoteView';
 
 export default function App() {
 	return (
@@ -30,6 +31,7 @@ export default function App() {
 				<Route path="professors/*" element={<ProfessorRoutes />} />
 				<Route path="ranking" element={<RankingView />} />
 				<Route path="admin/*" element={<AdminRoutes />} />
+				<Route path="votes/:voteId" element={<VoteView />} />
 				<Route path="failed-login" element={<LoginErrorView />} />
 				<Route path="403" element={<ErrorView code={403} />} />
 				<Route path="500" element={<ErrorView code={500} />} />

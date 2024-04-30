@@ -8,7 +8,6 @@ function checkLogin(req, res, next) {
 		.then((user) => {
 			if (!user) throw new Error('El objeto usuario está vacío.');
 			req.session.user = user;
-			console.log(`El usuario ahora contiene ${JSON.stringify(req.session.user)}`);
 			return next();
 		})
 		.catch((err) => {

@@ -2,7 +2,7 @@
 const { createHash, randomBytes } = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const { models } = require('../models');
+const { models, Sequelize } = require('../models');
 const { sendVoteMail } = require('../mail');
 
 const config = require('../config.json');
@@ -94,14 +94,32 @@ module.exports.registerVote = async (req, res) => {
 
 module.exports.getVote = async (req, res) => {
 	const { voteId } = req.params;
+	const { key } = req.query;
 
 	try {
-		const vote = await models.Ballot.findByPk(voteId, {
+		const vote = await models.Vote.findByPk(voteId, {
+			attributes: ['id', 'stars'],
 			include: [{
 				model: models.Ballot,
 				as: 'ballot',
+				attributes: ['id',
+					[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('stars')), 2), 'avg'],
+					[Sequelize.fn('COUNT', Sequelize.col('stars')), 'count'],
+				],
+				include: [{
+					model: models.Professor,
+					as: 'professor',
+				},
+				{
+					model: models.Subject,
+					as: 'subject',
+				}],
 			}],
 		});
+
+		if (!vote.id) return res.status(404).json({ message: 'El voto especificado no existe.' });
+
+		if (createHash('sha256').update(vote.stars + req.session.user.id + vote.ballot.id + key).digest('hex') !== vote.id) return res.status(403).json({ message: 'No tienes permiso para visualizar este voto.' });
 
 		return res.status(200).json(vote);
 	} catch (error) {
@@ -113,12 +131,15 @@ module.exports.getVote = async (req, res) => {
 
 module.exports.deleteVote = async (req, res) => {
 	const { voteId } = req.params;
+	const { key } = req.query;
 
 	try {
-		const vote = await models.Ballot.findByPk(voteId, {
+		const vote = await models.Vote.findByPk(voteId, {
+			attributes: ['id', 'stars'],
 			include: [{
 				model: models.Ballot,
 				as: 'ballot',
+				attributes: ['id', 'academicYear'],
 			}],
 		});
 
@@ -129,12 +150,16 @@ module.exports.deleteVote = async (req, res) => {
 			},
 		});
 
+		if (!vote.id) return res.status(404).json({ message: 'El voto especificado no existe.' });
+
 		if (vote.ballot.academicYear !== config.server.academicYear) res.status(409).json({ message: 'La votación seleccionada no pertenece al periodo académico activo.' });
+
+		if (createHash('sha256').update(vote.stars + req.session.user.id + vote.ballot.id + key).digest('hex') !== vote.id) return res.status(403).json({ message: 'No tienes permiso para visualizar este voto.' });
 
 		await vote.destroy();
 		await register.destroy();
 
-		return res.status(200);
+		return res.status(200).json({ message: 'Voto eliminado.' });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: 'Error al eliminar el voto.' });

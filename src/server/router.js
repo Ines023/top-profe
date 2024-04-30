@@ -34,9 +34,9 @@ router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
 // router.get('/rankings', controllers.getRankings);
 
 // Endpoints restricted to verified students.
-router.get('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.getVote);
 router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.registerVote);
-router.delete('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.deleteVote);
+router.get('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.getVote);
+router.delete('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.deleteVote);
 
 router.use(middlewares.restrictAdmins);
 router.get('/admin', mainController.getUser);
