@@ -67,7 +67,6 @@ class ProfessorProfileClass extends Component {
 		const subjectRows = [];
 		ballots.forEach((ballot) => {
 			const { subject } = ballot;
-			console.log(subject);
 			const row = (
 				<SubjectRow
 					key={ballot.id}

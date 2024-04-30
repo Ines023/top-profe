@@ -1,9 +1,21 @@
 /* eslint-disable max-len */
 const { UnauthorizedError, LimitedUserError, ExcludedUserError, NonActiveUserError } = require('./errors');
+const { models } = require('./models');
 
 function checkLogin(req, res, next) {
 	if (!req.session.user?.id) return next(new UnauthorizedError());
-	return next();
+	models.User.findByPk(req.session.user.id, { raw: true })
+		.then((user) => {
+			if (!user) throw new Error('El objeto usuario está vacío.');
+			req.session.user = user;
+			console.log(`El usuario ahora contiene ${JSON.stringify(req.session.user)}`);
+			return next();
+		})
+		.catch((err) => {
+			console.log(err);
+			return res.status(500).json({ message: 'Ha ocurrido un error recuperando el usuario.' });
+		});
+	
 }
 
 function checkLoginMock(req, res, next) {

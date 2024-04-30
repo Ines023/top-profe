@@ -39,7 +39,7 @@ router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotContro
 router.delete('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.deleteVote);
 
 router.use(middlewares.restrictAdmins);
-router.get('/admin', adminController.getAdminData);
+router.get('/admin', mainController.getUser);
 router.get('/admin/degrees', adminController.getDegrees);
 router.get('/admin/degrees/:degreeId', adminController.getDegree);
 

@@ -7,11 +7,6 @@ const { models, sequelize } = require('../models');
 
 const config = require('../config.json');
 
-module.exports.getAdminData = (req, res, next) => {
-	res.header('Content-Type', 'application/json');
-	res.status(200).json({ userinfo: req.session.user });
-};
-
 module.exports.getDegrees = async (req, res, next) => {
 	try {
 		const degrees = await models.Degree.findAll();

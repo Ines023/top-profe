@@ -23,14 +23,8 @@ module.exports.getDegrees = async (req, res) => {
 };
 
 module.exports.getUser = async (req, res) => {
-	try {
-		const registeredUser = await models.User.findByPk(req.session.user.id, { raw: true });
-
-		res.status(200).json(registeredUser);
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: 'Error al recuperar el usuario.' });
-	}
+	res.header('Content-Type', 'application/json');
+	res.status(200).json(req.session.user);
 };
 
 module.exports.activateUser = async (req, res) => {
