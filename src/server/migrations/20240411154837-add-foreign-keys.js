@@ -13,6 +13,8 @@ module.exports = {
 				table: 'Degrees',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
 		});
 		await queryInterface.addConstraint('Ballots', {
 			fields: ['professorId'],
@@ -22,6 +24,8 @@ module.exports = {
 				table: 'Professors',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
 		});
 		await queryInterface.addConstraint('Ballots', {
 			fields: ['subjectId'],
@@ -31,6 +35,8 @@ module.exports = {
 				table: 'Subjects',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
 		});
 		await queryInterface.addConstraint('Users', {
 			fields: ['degreeId'],
@@ -40,6 +46,8 @@ module.exports = {
 				table: 'Degrees',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'SET NULL',
 		});
 		await queryInterface.addConstraint('Registers', {
 			fields: ['userId'],
@@ -49,6 +57,8 @@ module.exports = {
 				table: 'Users',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
 		});
 		await queryInterface.addConstraint('Registers', {
 			fields: ['ballotId'],
@@ -58,6 +68,8 @@ module.exports = {
 				table: 'Ballots',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
 		});
 		await queryInterface.addConstraint('Votes', {
 			fields: ['ballotId'],
@@ -67,6 +79,8 @@ module.exports = {
 				table: 'Ballots',
 				field: 'id',
 			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
 		});
 	},
 	down: async (queryInterface, Sequelize) => {

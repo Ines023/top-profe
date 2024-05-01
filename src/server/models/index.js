@@ -21,55 +21,63 @@ Ballot.belongsTo(Professor, {
 	as: 'professor',
 	sourceKey: 'professorId',
 	targetKey: 'id',
-
+	onDelete: 'CASCADE',
 });
 Ballot.belongsTo(Subject, {
 	as: 'subject',
 	sourceKey: 'subjectId',
 	targetKey: 'id',
-
+	onDelete: 'CASCADE',
 });
-Ballot.belongsTo(Subject, {
+Ballot.belongsTo(Degree, {
 	as: 'degree',
 	sourceKey: 'degreeId',
 	targetKey: 'id',
-
+	onDelete: 'CASCADE',
 });
 Ballot.hasMany(Vote, {
 	as: 'vote',
 	foreignKey: 'ballotId',
+	onDelete: 'CASCADE',
 });
 Ballot.hasMany(Register, {
 	as: 'register',
 	foreignKey: 'ballotId',
+	onDelete: 'CASCADE',
 });
 
 Degree.hasMany(Ballot, {
 	as: 'ballot',
 	foreignKey: 'degreeId',
+	onDelete: 'CASCADE',
 });
 
 Professor.hasMany(Ballot, {
 	as: 'ballot',
 	foreignKey: 'professorId',
+	onDelete: 'CASCADE',
 });
 Professor.hasMany(Vote, {
 	as: 'vote',
 	foreignKey: 'id',
+	onDelete: 'CASCADE',
 });
 
 User.belongsTo(Degree, {
 	as: 'degree',
 	foreignKey: 'degreeId',
+	onDelete: 'SET NULL',
 });
 
 Register.belongsTo(User, {
 	as: 'user',
 	foreignKey: 'userId',
+	onDelete: 'CASCADE',
 });
 Register.belongsTo(Ballot, {
 	as: 'ballot',
 	foreignKey: 'ballotId',
+	onDelete: 'CASCADE',
 });
 
 Subject.belongsTo(Degree, {
@@ -82,6 +90,7 @@ Vote.belongsTo(Ballot, {
 	as: 'ballot',
 	sourceKey: 'ballotId',
 	targetKey: 'id',
+	onDelete: 'CASCADE',
 });
 
 Vote.belongsTo(Professor, {
