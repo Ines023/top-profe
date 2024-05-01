@@ -3,7 +3,7 @@ const { models } = require('../models');
 
 const schoolCode = '09';
 const studentCodes = ['A', 'W'];
-const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P'];
+const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P', 'C'];
 
 const retrieveUserFromSession = (userInfo, excluded = true) => {
 	let userType = 'other';
@@ -12,7 +12,7 @@ const retrieveUserFromSession = (userInfo, excluded = true) => {
 		userInfo.upmClassifCode.forEach((code) => {
 			if (code.startsWith(`CentroLectivo:${schoolCode}:`)) {
 				if (studentCodes.includes(code.charAt(code.length - 1))) userType = 'student';
-				else if (professorCodes.includes(code.charAt(code.length - 1))) userType = 'professor';
+				if (professorCodes.includes(code.charAt(code.length - 1))) userType = 'professor';
 			}
 		});
 	}
