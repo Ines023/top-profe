@@ -60,7 +60,7 @@ module.exports.fetchSubjects = async (req, res, next) => {
 		const apiResponse = await fetch(api.baseURL + api.subjects.split('{degreeId}').join(req.params.degreeId));
 		const fetchedSubjects = await apiResponse.json();
 
-		Object.values(fetchedSubjects).forEach(((subject) => { if (subject.departamentos.length === 0 || subject.curso === '' || !('1S' in subject.imparticion || '2S' in subject.imparticion)) delete fetchedSubjects[subject.codigo]; }));
+		Object.values(fetchedSubjects).forEach(((subject) => { if (subject.ofertada === 'N' || subject.departamentos.length === 0 || subject.curso === '' || !('1S' in subject.imparticion || '2S' in subject.imparticion)) delete fetchedSubjects[subject.codigo]; }));
 
 		const missingIDs = Object.keys(fetchedSubjects).filter(codigo => !currentSubjectsIDs.includes(parseInt(codigo, 10)));
 
