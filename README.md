@@ -6,20 +6,16 @@
 Sometimes, students need to assess which professor fits their needs best.
 That's why we have created (actually revamped) Top Profe.
 
-The goal of this tool is to help fellow students get additional insights
-about the people teaching in a certain educational institution, as well as
-letting professors know when they're doing great and when they have room to
-improve.
+The goal of this tool is to help fellow students get additional insights about the people teaching in a certain educational institution, as well as letting professors know when they're doing great and when they have room to improve.
 
-The user-facing strings and routes are in Spanish and they hardcoded (i.e.
-not i18n-ready out of the box), but it shouldn't be too hard to translate them.
+The user-facing strings are in Spanish and they hardcoded (i.e. not i18n-ready out of the box), but it shouldn't be too hard to translate them.
 
 # Requirements
 
 Top Profe needs the following software to work properly:
 
-  * Node.js v10+
-  * Yarn 1.13+
+  * Node.js v20.12+
+  * Yarn 1.22.22+
   * A MySQL database.
 
 # Setup
@@ -43,24 +39,40 @@ $ yarn install
 ```json
 {
     "database": {
-        "host": "<your.mysql.database.host>",
+        "host": "<your mysql database host>",
         "port": "<the database's port, 3306 by default>",
         "user": "<the database's user>",
         "password": "<the password for that user>",
-        "dbName": "<the name of the database to use>"
+        "dbName": "<the name of the database to use>",
+        "dialect": "<the dialect used by your db, mariadb by defalt>"
     },
     "server": {
         "url": "<https://topprofes.public.url>",
+        "path": "<path where the app will be served, / by default>",
         "port": "<port for the server to listen>",
-        "usingProxy": true,
-        "sessionSecret": "<some secure random secret>"
+        "usingProxy": false,
+        "sessionSecret": "<some secure random secret>",
+        "academicYear": "<the current academic year in 20XX-YY format>"
     },
-    "cas": {
-        "ssoUrl": "<https://your.cas.sso.login.url>"
+    "email": {
+        "host": "<your smtp server host>",
+        "port": "<your smtp server port>",
+        "ssl": "<use SSL for smtp connection, true for both SSL and STARTTLS>",
+        "user": "<your smtp server user>",
+        "password": "<your smtp server pass>"
     },
-    "sentry": {
-        "enabled": true,
-        "dsn": "https://<token>@sentry.io/<id>"
+    "sso": {
+        "realm": "<your SSO realm>",
+        "client": "<your SSO client>",
+        "secret": "<your SSO secret>",
+        "scope": "<your SSO scope, 'openid email profile' by default>",
+        "wellKnownEndpoint": "<your SSO .well-known endpoint>",
+        "redirectUris": ["<your login callback URL(s)>"]
+    },
+    "api": {
+        "baseURL": "<base URL from where the subjects will be fetched>",
+        "subjects": "<subjects API endpoint>",
+        "subjectGuides": "<subjects guides API endpoint>"
     }
 }
 ```
@@ -68,18 +80,7 @@ $ yarn install
   reverse proxy. In affirmative case, it is required to set the
   "X-Forwarded-Proto" header accordingly (it should always be HTTPS).
 
-  You can keep track of any errors in the backend (besides the logs) via
-  [Sentry](https://sentry.io). If you want to use this feature, set
-  `sentry.enabled` to `true` and specify your DSN's URL.
-
-4. Create the SQL tables for the application to work. You must have created a
-   database for Top Profe beforehand.
-
-```sh
-$ mysql -u <db_username> -p <db_name> < dbsetup.sql
-```
-
-5. Run it!
+4. Run it!
 
 ```sh
 $ yarn start
@@ -87,4 +88,4 @@ $ yarn start
 
 ---
 
-&copy; 2022 Delegación de Alumnos de Telecomunicación
+&copy; 2024 Delegación de Alumnos de Telecomunicación
