@@ -151,8 +151,6 @@ class AdminUpdateProfessorsViewClass extends Component {
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 		if (isSaved) return (<Navigate to="/admin/professors" />);
 
-		console.log("missingGuides contiene: " + missingGuides)
-
 		return (
 			<>
 				{missingGuides.length > 0 &&

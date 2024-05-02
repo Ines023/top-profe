@@ -31,8 +31,6 @@ export default class AdminEditProfessorsView extends Component {
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
-		console.log(professors);
-
 		return (
 			<>
 				<h1 className="centered">Editar profesores</h1>
