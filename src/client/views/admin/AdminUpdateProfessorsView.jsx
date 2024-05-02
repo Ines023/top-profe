@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faPlus, faDownload } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../subcomponents/Modal';
 // eslint-disable-next-line no-unused-vars
 import { fetchGet, fetchPost } from '../../util';
@@ -20,8 +20,9 @@ class AdminUpdateProfessorsViewClass extends Component {
 		this.state = {
 			isLoaded: false,
 			isSaved: false,
-			professors: {},
 			degree: {},
+			professors: {},
+			missingGuides: [],
 			askYear: true,
 			academicYear: '',
 			showError: false,
@@ -31,7 +32,9 @@ class AdminUpdateProfessorsViewClass extends Component {
 		this.degreeId = degreeId;
 
 		this.fetchProfessors = this.fetchProfessors.bind(this);
-		this.saveSubjects = this.saveProfessors.bind(this);
+		this.saveProfessors = this.saveProfessors.bind(this);
+		this.exportToCSV = this.exportToCSV.bind(this);
+
 	}
 
 	fetchProfessors() {
@@ -59,7 +62,8 @@ class AdminUpdateProfessorsViewClass extends Component {
 				this.setState({
 					askYear: false,
 					isLoaded: true,
-					professors: res,
+					professors: res.newProfessors,
+					missingGuides: res.missingGuides
 				});
 			});
 	}
@@ -84,9 +88,34 @@ class AdminUpdateProfessorsViewClass extends Component {
 			});
 	}
 
+	exportToCSV() {
+		const { missingGuides, academicYear } = this.state;
+
+		const fieldNames = ['code', 'semester', 'name', 'year']
+
+		const header = fieldNames.join(',') + '\n';
+
+		// Convertir el array de objetos a formato CSV
+		const csvContent = missingGuides.map(row => Object.values(row).join(',')).join('\n');
+
+		const url = URL.createObjectURL(new Blob([header, csvContent], { type: 'text/csv' }))
+
+		// Crear un enlace para descargar el archivo
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = `missingGuides_${this.degreeId}_${academicYear}.csv`;
+
+		document.body.appendChild(link);
+
+		link.click();
+
+		link.parentNode.removeChild(link);
+	}
+
+
 	render() {
 		const {
-			isLoaded, isSaved, professors, degree, askYear, academicYear, showError, showConfirmation,
+			isLoaded, isSaved, professors, missingGuides, degree, askYear, academicYear, showError, showConfirmation,
 		} = this.state;
 
 		const showErrorClassName = showError ? 'error display-block' : 'error display-none';
@@ -109,6 +138,12 @@ class AdminUpdateProfessorsViewClass extends Component {
 					<button type="button" className="box main-button menu-item" onClick={this.fetchProfessors}>
 						Iniciar búsqueda
 					</button>
+					<br />
+					<br />
+					<a className="box main-button menu-item" href={`/admin/update/professors/${this.degreeId}/upload`} >
+						Importar desde archivo
+						<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
+					</a>
 				</Modal>
 			);
 		}
@@ -116,8 +151,19 @@ class AdminUpdateProfessorsViewClass extends Component {
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 		if (isSaved) return (<Navigate to="/admin/professors" />);
 
+		console.log("missingGuides contiene: " + missingGuides)
+
 		return (
 			<>
+				{missingGuides.length > 0 &&
+					<>
+					<a type="button" className="box main-button menu-item" href='#' onClick={this.exportToCSV}>
+						Descargar listado de guías no encontradas
+						<FontAwesomeIcon className="main-button-icon" icon={faDownload} />
+					</a>
+					<br />
+					</>}
+
 				<h1 className="centered">Actualizar profesores</h1>
 
 				{professors ? (

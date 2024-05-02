@@ -115,7 +115,7 @@ h2.centered {
 
 .box.main-button .main-button-icon {
     float: right;
-    font-size: 1.4em;
+    font-size: 1.4em !important;
 }
 
 button .main-button-icon {

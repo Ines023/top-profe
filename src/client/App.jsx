@@ -16,6 +16,7 @@ import SubjectDetails from './views/SubjectDetails';
 import SubjectList from './views/SubjectList';
 import AdminUpdateSubjectsView from './views/admin/AdminUpdateSubjectsView';
 import AdminUpdateProfessorsView from './views/admin/AdminUpdateProfessorsView';
+import AdminUploadProfessorsView from './views/admin/AdminUploadProfessorsView';
 import AdminEditSubjectsView from './views/admin/AdminEditSubjectsView';
 import AdminEditProfessorsView from './views/admin/AdminEditProfessorsView';
 import AdminNavbar from './views/admin/subcomponents/AdminNavbar';
@@ -73,6 +74,7 @@ function AdminRoutes() {
 
 					<Route path="professors" element={<AdminDegreesView updateProfessors />} />
 					<Route path="professors/:degreeId" element={<AdminUpdateProfessorsView />} />
+					<Route path="professors/:degreeId/upload" element={<AdminUploadProfessorsView />} />
 				</Route>
 				<Route path="subjects" element={<AdminDegreesView subjects />} />
 				<Route path="subjects/:degreeId" element={<AdminEditSubjectsView />} />

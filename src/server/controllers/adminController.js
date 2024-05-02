@@ -102,6 +102,8 @@ module.exports.fetchProfessors = async (req, res, next) => {
 
 		const professorsBySubject = {};
 
+		const missingGuides = [];
+
 		const currentSubjects = await models.Subject.findAll({ where: { degreeId } });
 
 		const currentBallots = await models.Ballot.findAll({ where: { degreeId, academicYear } });
@@ -124,7 +126,20 @@ module.exports.fetchProfessors = async (req, res, next) => {
 				try {
 					subjectGuide = await apiResponseGauss.json();
 				} catch (error) {
-					console.log(`No se ha encontrado guía para: ${subject.id}`);
+					missingGuides.push({
+						id: subject.id,
+						semester: subject.semester === '0' ? '1' : subject.semester,
+						name: subject.name,
+						year: subject.year,
+					});
+					if (subject.semester === '0') {
+						missingGuides.push({
+							id: subject.id,
+							semester: '2',
+							name: subject.name,
+							year: subject.year,
+						});
+					}
 					break;
 				}
 
@@ -154,7 +169,7 @@ module.exports.fetchProfessors = async (req, res, next) => {
 		}));
 
 		// This trick loads all the professors into a dictionary with their username as key and their subjects as an array.
-		const newProfesores = Object.entries(professorsBySubject).reduce((acc, [subjectId, subjects]) => {
+		const newProfessors = Object.entries(professorsBySubject).reduce((acc, [subjectId, subjects]) => {
 			subjects.forEach((subject) => {
 				const id = subject.email.split('@')[0];
 				if (!acc[id]) {
@@ -171,7 +186,7 @@ module.exports.fetchProfessors = async (req, res, next) => {
 			return acc;
 		}, {});
 
-		res.status(200).send(newProfesores);
+		res.status(200).json({ newProfessors, missingGuides });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: 'Error al obtener los datos de los profesores.' });
