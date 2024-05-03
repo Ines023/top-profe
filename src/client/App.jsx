@@ -25,7 +25,7 @@ import VoteView from './views/VoteView';
 export default function App() {
 	return (
 		<BrowserRouter>
-			<Toaster toastOptions={{ className: 'toast' }} />
+			<Toaster toastOptions={{ className: 'toast', duration: 3000 }} />
 			<Routes>
 				<Route path="/" element={<InitialMenu />} />
 				<Route path="subjects/*" element={<SubjectRoutes />} />

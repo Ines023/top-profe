@@ -33,17 +33,17 @@ export default function ProfessorRow(props) {
 		toast(t => (
 			<span>
 				<span>Emitiendo voto...</span>
-				<button type="button" className="box main-button toast-button menu-item" onClick={() => { cancelVote = true; toast.success('Voto cancelado', { id: t.id, icon: <CheckmarkIcon /> }); }}>Cancelar</button>
+				<button type="button" className="box main-button toast-button menu-item" onClick={() => { cancelVote = true; toast.success('Voto cancelado', { id: t.id, icon: <CheckmarkIcon />, duration: 3000 }); }}>Cancelar</button>
 			</span>
 		),
 		{
 			icon: <LoaderIcon />,
-			duration: 4000,
+			duration: 2500,
 		});
 		setTimeout(() => {
 			if (!cancelVote) onVote(ballotId, rating);
 			else setVoteLoaded(true);
-		}, 4000);
+		}, 2500);
 	});
 
 	return (
