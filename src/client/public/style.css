@@ -308,6 +308,24 @@ table.box thead tr:first-child {
     padding: 1em 0;
 }
 
+.footer span {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer span a {
+    color: #000;
+    text-decoration: none;
+}
+
+.footer span a:hover {
+    text-decoration: underline;
+}
+
+#github {
+    margin-left: 10px;
+}
+
 /* MODAL STYLES */
 
 .modal {

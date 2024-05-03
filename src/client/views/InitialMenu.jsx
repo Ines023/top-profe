@@ -168,7 +168,7 @@ export default class InitialMenu extends Component {
 						Ocultar tus valoraciones no impedirá que continúen emitiéndose votos para las asignaturas que impartes. Delegación de Alumnos de Telecomunicación utiliza estas valoraciones para poder emitir informes de méritos docentes cuando Rectorado solicita dicha información.
 					</p>
 					<p>
-						Al ocultar tus valoraciones, también renunicias a la posibilidad de recibir premios y menciones por tu actividad docente. Puedes revertir esta opción en cualquier momento mediante correo electrónico a <a href="mailto:da.etsit@upm.es">da.etsit@upm.es</a>.
+						Al ocultar tus valoraciones, también renuncias a la posibilidad de recibir premios y menciones por tu actividad docente. Puedes revertir esta opción en cualquier momento mediante correo electrónico a <a href="mailto:da.etsit@upm.es">da.etsit@upm.es</a>.
 					</p>
 					<small>
 						Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.

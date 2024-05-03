@@ -1,6 +1,6 @@
 {
     "name": "top-profe",
-    "version": "0.0.1",
+    "version": "2.0.0",
     "description": "Teaching review tool based on crowdsourcing.",
     "main": "src/server/server.js",
     "scripts": {
@@ -43,6 +43,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.6",
+        "@fortawesome/free-brands-svg-icons": "^6.5.2",
         "@fortawesome/free-regular-svg-icons": "^5.4.1",
         "@fortawesome/free-solid-svg-icons": "^5.4.1",
         "@fortawesome/react-fontawesome": "^0.1.3",
