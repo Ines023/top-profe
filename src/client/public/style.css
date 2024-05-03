@@ -180,6 +180,14 @@ table.box th {
     padding: 20px;
 }
 
+table.box th span:hover {
+    cursor: pointer
+}
+
+table.box th span .main-button-icon {
+    margin-left: 5px;
+}
+
 th.star-column {
     min-width: 150px;
 }

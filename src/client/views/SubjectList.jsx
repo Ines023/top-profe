@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { fetchGet } from '../util';
 
 export default class SubjectList extends Component {
@@ -9,6 +11,10 @@ export default class SubjectList extends Component {
 			isLoaded: false,
 			subjects: [],
 			searchKeyword: '',
+			sortConfig: {
+				key: null,
+				direction: 'ascending',
+			},
 		};
 
 		this.searchUpdated = this.searchUpdated.bind(this);
@@ -32,13 +38,36 @@ export default class SubjectList extends Component {
 		});
 	}
 
+	sortBy = (key) => {
+		let { sortConfig } = this.state;
+		let direction = 'ascending';
+		if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+			direction = 'descending';
+		}
+		sortConfig = { key, direction };
+		this.setState({ sortConfig });
+	};
+
 	render() {
-		const { isLoaded, searchKeyword, subjects } = this.state;
+		const { isLoaded, searchKeyword, subjects, sortConfig } = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
-		const filteredSubjects = subjects.filter(createFilter(
-			searchKeyword, ['code', 'name', 'degree.acronym'],
+		let sortedSubjects = [...subjects];
+		if (sortConfig.key) {
+			sortedSubjects.sort((a, b) => {
+				if (a[sortConfig.key] < b[sortConfig.key]) {
+					return sortConfig.direction === 'ascending' ? -1 : 1;
+				}
+				if (a[sortConfig.key] > b[sortConfig.key]) {
+					return sortConfig.direction === 'ascending' ? 1 : -1;
+				}
+				return 0;
+			});
+		}
+
+		const filteredSubjects = sortedSubjects.filter(createFilter(
+			searchKeyword, ['name', 'acronym', 'degree.acronym'],
 		));
 
 		return (
@@ -52,9 +81,30 @@ export default class SubjectList extends Component {
 				<table className="full-width box">
 					<thead>
 						<tr>
-							<th>Nombre</th>
-							<th>Identificador</th>
-							<th>Titulación</th>
+							<th>
+								<span onClick={() => this.sortBy('name')}>
+									Nombre
+									{sortConfig.key === 'name' && (
+										<FontAwesomeIcon className="main-button-icon" icon={sortConfig.direction === 'ascending' ? faArrowUp : faArrowDown} />
+									)}
+								</span>
+							</th>
+							<th>
+								<span onClick={() => this.sortBy('acronym')}>
+									Identificador
+									{sortConfig.key === 'acronym' && (
+										<FontAwesomeIcon className="main-button-icon" icon={sortConfig.direction === 'ascending' ? faArrowUp : faArrowDown} />
+									)}
+								</span>
+							</th>
+							<th>
+								<span onClick={() => this.sortBy('degree.acronym')}>
+									Titulación
+									{sortConfig.key === 'degree.acronym' && (
+										<FontAwesomeIcon className="main-button-icon" icon={sortConfig.direction === 'ascending' ? faArrowUp : faArrowDown} />
+									)}
+								</span>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
