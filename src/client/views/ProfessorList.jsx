@@ -14,7 +14,7 @@ export default class ProfessorList extends Component {
 			user: {},
 			searchKeyword: '',
 			sortConfig: {
-				key: null,
+				key: 'name',
 				direction: 'ascending',
 			},
 		};

@@ -12,12 +12,14 @@ export default class SubjectList extends Component {
 			subjects: [],
 			searchKeyword: '',
 			sortConfig: {
-				key: null,
+				key: 'name',
 				direction: 'ascending',
 			},
+			selectedDegree: '',
 		};
 
 		this.searchUpdated = this.searchUpdated.bind(this);
+		this.handleDegreeChange = this.handleDegreeChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -48,12 +50,25 @@ export default class SubjectList extends Component {
 		this.setState({ sortConfig });
 	};
 
+	handleDegreeChange(event) {
+		const selectedDegree = event.target.value;
+		this.setState({ selectedDegree });
+	}
+
 	render() {
-		const { isLoaded, searchKeyword, subjects, sortConfig } = this.state;
+		const { isLoaded, searchKeyword, subjects, sortConfig, selectedDegree } = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
-		let sortedSubjects = [...subjects];
+		let filteredSubjects = subjects.filter(createFilter(
+			searchKeyword, ['name', 'acronym', 'degree.acronym'],
+		));
+
+		if (selectedDegree) {
+			filteredSubjects = filteredSubjects.filter(subject => subject.degree.acronym === selectedDegree);
+		}
+
+		let sortedSubjects = [...filteredSubjects];
 		if (sortConfig.key) {
 			sortedSubjects.sort((a, b) => {
 				if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -66,13 +81,23 @@ export default class SubjectList extends Component {
 			});
 		}
 
-		const filteredSubjects = sortedSubjects.filter(createFilter(
-			searchKeyword, ['name', 'acronym', 'degree.acronym'],
-		));
+		const uniqueDegrees = [...new Set(subjects.map(subject => subject.degree.acronym))];
 
 		return (
 			<div>
 				<h2 className="centered">Asignaturas</h2>
+				<div className="filter-section">
+					<label htmlFor="degreeFilter">Filtrar por titulación: </label>
+					<div className="big-input search-input box">
+						<select id="degreeFilter" onChange={this.handleDegreeChange} value={selectedDegree}>
+							<option value="">Todos</option>
+							{uniqueDegrees.map(degree => (
+								<option key={degree} value={degree}>{degree}</option>
+							))}
+						</select>
+					</div>
+					<br />
+				</div>
 				<SearchInput className="big-input search-input box" placeholder="Buscar asignatura..." throttle={0} onChange={this.searchUpdated} />
 				<br />
 				<p>
@@ -108,7 +133,7 @@ export default class SubjectList extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{ filteredSubjects.map(subject => (
+						{sortedSubjects.map(subject => (
 							<tr key={subject.id}>
 								<td>
 									<a href={`/subjects/${subject.id}`}>
@@ -124,7 +149,7 @@ export default class SubjectList extends Component {
 									{subject.degree.acronym || subject.degree.id}
 								</td>
 							</tr>
-						)) }
+						))}
 					</tbody>
 				</table>
 			</div>
