@@ -4,6 +4,7 @@ import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+import toast, { LoaderIcon, CheckmarkIcon } from 'react-hot-toast';
 
 export default function SubjectRow(props) {
 	const {
@@ -28,6 +29,24 @@ export default function SubjectRow(props) {
 		setVoteLoaded(true);
 	}, [voteExists]);
 
+	const sendVote = ((rating) => {
+		let cancelVote = false;
+		toast(t => (
+			<span>
+				<span>Emitiendo voto...</span>
+				<button type="button" className="box main-button toast-button menu-item" onClick={() => { cancelVote = true; toast.success('Voto cancelado', { id: t.id, icon: <CheckmarkIcon /> }); }}>Cancelar</button>
+			</span>
+		),
+		{
+			icon: <LoaderIcon />,
+			duration: 4000,
+		});
+		setTimeout(() => {
+			if (!cancelVote) onVote(ballotId, rating);
+			else setVoteLoaded(true);
+		}, 4000);
+	});
+
 	return (
 		<tr>
 			<td>
@@ -36,7 +55,7 @@ export default function SubjectRow(props) {
 				</a>
 			</td>
 			<td className={profStatus}>
-				{ (!userIsAdmin && profStatus === 'excluded') ? 'OCULTO' : subjectAvg
+				{(!userIsAdmin && profStatus === 'excluded') ? 'OCULTO' : subjectAvg
 					? `${subjectAvg.toFixed(2)}/5 (total: ${subjectCount})`
 					: 'Sin datos'
 				}
@@ -47,7 +66,7 @@ export default function SubjectRow(props) {
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
 						initialRating={voteExists}
-						onClick={(rating) => { setVoteLoaded(false); onVote(ballotId, rating); }}
+						onClick={(rating) => { setVoteLoaded(false); sendVote(rating); }}
 					/>
 				)) : 'Bloqueado'}
 			</td>

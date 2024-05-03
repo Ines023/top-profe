@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Modal from './subcomponents/Modal';
 import { fetchGet, fetchPost } from '../util';
+import toast from 'react-hot-toast';
 
 export default class InitialMenu extends Component {
 	constructor() {

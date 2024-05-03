@@ -108,6 +108,15 @@ h2.centered {
     padding: 25px;
 }
 
+.box.main-button.toast-button {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    padding: 10px;
+    margin: 5px;
+}
+
 .box.main-button:hover {
     background: linear-gradient(65deg, rgb(246, 85, 85) 0%, rgb(245, 85, 86) 0%, rgb(252, 207, 49) 100%);
     background: -webkit-linear-gradient(65deg, rgb(246, 85, 85) 0%, rgb(245, 85, 86) 0%, rgb(252, 207, 49) 100%);
