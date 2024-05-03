@@ -4,7 +4,7 @@ import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
-import toast, { LoaderIcon } from 'react-hot-toast';
+import toast, { LoaderIcon, CheckmarkIcon } from 'react-hot-toast';
 
 export default function ProfessorRow(props) {
 	const {
