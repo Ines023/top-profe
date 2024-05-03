@@ -7,6 +7,7 @@ import Modal from '../subcomponents/Modal';
 // eslint-disable-next-line no-unused-vars
 import { fetchGet, fetchPost } from '../../util';
 import AdminProfessorsSubjectsList from './subcomponents/AdminProfessorsSubjectsList';
+import toast from 'react-hot-toast';
 
 function AdminUpdateProfessorsView(ComponentClass) {
 	return props => <ComponentClass {...props} params={useParams()} />;
@@ -40,6 +41,12 @@ class AdminUpdateProfessorsViewClass extends Component {
 	fetchProfessors() {
 		const { academicYear } = this.state;
 
+		const loadingToast = toast.loading('Recuperando profesores...');
+		this.setState({
+			askYear: false,
+			isLoaded: false,
+		});
+
 		const re = /^\d{4}-\d{2}$/;
 		if (!re.test(academicYear)) {
 			this.setState({
@@ -65,11 +72,13 @@ class AdminUpdateProfessorsViewClass extends Component {
 					professors: res.newProfessors,
 					missingGuides: res.missingGuides
 				});
+				toast.success('Profesores cargados', { id: loadingToast });
 			});
 	}
 
 	saveProfessors(professors) {
 		const { academicYear } = this.state;
+		const loadingToast = toast.loading('Importando asignaturas...');
 
 		this.setState({
 			showConfirmation: false,
@@ -85,6 +94,7 @@ class AdminUpdateProfessorsViewClass extends Component {
 					isLoaded: true,
 					isSaved: true,
 				});
+				toast.success('Profesores importados', { id: loadingToast });
 			});
 	}
 

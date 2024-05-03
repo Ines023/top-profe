@@ -6,6 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../subcomponents/Modal';
 import { fetchGet, fetchPost } from '../../util';
 import AdminSubjectsList from './subcomponents/AdminSubjectsList';
+import toast from 'react-hot-toast';
 
 function AdminUpdateSubjectsView(ComponentClass) {
 	return props => <ComponentClass {...props} params={useParams()} />;
@@ -49,6 +50,7 @@ class AdminUpdateSubjectsViewClass extends Component {
 	}
 
 	saveSubjects(subjects) {
+		const loadingToast = toast.loading('Importando asignaturas...');
 		this.setState({
 			showConfirmation: false,
 			isLoaded: false,
@@ -63,6 +65,7 @@ class AdminUpdateSubjectsViewClass extends Component {
 					isLoaded: true,
 					isSaved: true,
 				});
+				toast.success('Asignaturas importadas', { id: loadingToast });
 			});
 	}
 
