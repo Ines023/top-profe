@@ -310,7 +310,8 @@ table.box thead tr:first-child {
 
 .footer span {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    margin: none 10px;
 }
 
 .footer span a {
