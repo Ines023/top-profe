@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Modal from './subcomponents/Modal';
 import { fetchGet, fetchPost } from '../util';
-import toast from 'react-hot-toast';
 
 export default class InitialMenu extends Component {
 	constructor() {
@@ -111,6 +110,13 @@ export default class InitialMenu extends Component {
 						</select>
 					</div>
 					<br />
+					<small>
+						Al seleccionar una titulación, afirmas que te encuentras matriculado en la misma durante el curso académico.
+						Las votaciones emitidas harán referencia a la labor docente de los profesores durante el transcurso del mismo, a fin de constatar la evolución de su enseñanza.
+						Delegación de Alumnos de Telecomunicación se reserva el derecho a limitar o bloquear el acceso a esta aplicación en caso de detección de comportamientos fraudulentos.
+					</small>
+					<br />
+					<br />
 					<button type="button" className="box main-button menu-item" onClick={this.setStudentDegree}>
 						Confirmar Titulación
 					</button>
@@ -141,13 +147,11 @@ export default class InitialMenu extends Component {
 						</li>
 					</ul>
 					<small>
-						<i style={{ color: '#FF6555' }}>
-							Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
-							Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
-						</i>
+						Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
+						Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
 					</small>
 					<p>
-						Puedes consultar toda la inforamción de esta aplicación <a href="https://dat.etsit.upm.es/servicios/top-profe/">aquí</a>.
+						Puedes consultar toda la información de esta aplicación <a href="https://dat.etsit.upm.es/servicios/top-profe/">aquí</a>.
 					</p>
 					<button type="button" className="box main-button menu-item" onClick={this.setUserActive}>
 						Entendido
@@ -167,11 +171,10 @@ export default class InitialMenu extends Component {
 						Al ocultar tus valoraciones, también renunicias a la posibilidad de recibir premios y menciones por tu actividad docente. Puedes revertir esta opción en cualquier momento mediante correo electrónico a <a href="mailto:da.etsit@upm.es">da.etsit@upm.es</a>.
 					</p>
 					<small>
-						<i style={{ color: '#FF6555' }}>
-							Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
-							Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
-						</i>
+						Top Profe no es una herramienta oficial de valoración al basarse en votos emitidos por los alumnos de la ETSIT.
+						Delegación de Alumnos de Telecomunicación no se responsabiliza de las valoraciones de los usuarios al tratarse de votaciones anónimas.
 					</small>
+					<br />
 					<br />
 					<button type="button" className="box main-button menu-item" onClick={this.setOptOut}>
 						Estoy de acuerdo

@@ -337,7 +337,7 @@ table.box thead tr:first-child {
 .modal-main .close-button {
     position: absolute;
     left: 10px;
-    top: 10px
+    top: 10px;
 }
 
 .modal-main .box.main-button .main-button-icon {
@@ -346,11 +346,10 @@ table.box thead tr:first-child {
 }
 
 .modal-content {
+    margin: 10px;
     justify-self: center;
     max-height: 80vh;
-    /* Limitar la altura máxima del contenido para evitar que se extienda más allá de la pantalla */
     overflow-y: auto;
-    /* Habilitar el desplazamiento vertical si el contenido es más grande que el contenedor */
 }
 
 .modal-content .error {
