@@ -63,7 +63,7 @@
         "react-hot-toast": "^2.4.1",
         "react-rating": "^1.4.1",
         "react-router-dom": "^6.22.3",
-        "react-search-input": "^0.11.3",
+        "react-search-input": "https://github.com/DAT-ETSIT/react-search-input",
         "sequelize": "^6.37.2",
         "sequelize-cli": "^6.6.2"
     }

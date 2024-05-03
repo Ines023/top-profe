@@ -61,7 +61,7 @@ export default class SubjectList extends Component {
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
 		let filteredSubjects = subjects.filter(createFilter(
-			searchKeyword, ['name', 'acronym', 'degree.acronym'],
+			searchKeyword, ['name', 'acronym', 'degree.acronym'], {accentSensitive: true}
 		));
 
 		if (selectedDegree) {

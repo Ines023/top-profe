@@ -6522,10 +6522,9 @@ react-router@6.22.3:
   dependencies:
     "@remix-run/router" "1.15.3"
 
-react-search-input@^0.11.3:
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/react-search-input/-/react-search-input-0.11.3.tgz#3dd1f9fc584b6bc40a6ee133ae042b6fbb7ae8dd"
-  integrity sha512-Yo05lNR5YLeIY+mTEk0lMkYHX0qkTlElJmxMTw5JlZPu92EP8YWwIY3QSbEFULvX4wiTfyDdUovTUpp2VockpA==
+"react-search-input@https://github.com/DAT-ETSIT/react-search-input":
+  version "0.11.4"
+  resolved "https://github.com/DAT-ETSIT/react-search-input#a258b8d4417684344f4f8f5ca92e2ff4852e2b92"
   dependencies:
     fuse.js "^3.0.0"
     prop-types "^15.5.8"
