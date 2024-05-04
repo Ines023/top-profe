@@ -98,3 +98,20 @@ export function fetchPost(url, body) {
 	})
 		.then(ajaxErrHandler);
 }
+
+
+/**
+ * Send a PUT request to the desired URL, with the body as a JSON-encoded
+ * content.
+ */
+export function fetchPut(url, body) {
+	return fetch(url, {
+		method: 'PUT',
+		body: JSON.stringify(body),
+		headers: {
+			'Content-Type': 'application/json',
+			'Referer': window.location.href,
+		},
+	})
+		.then(ajaxErrHandler);
+}

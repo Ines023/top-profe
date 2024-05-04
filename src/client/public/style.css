@@ -302,6 +302,30 @@ table.box a.excluded {
     background-color: white;
 }
 
+.big-input.search-input.table-select {
+    font-size: 1em;
+    width: 100%;
+    border: 0;
+    background-color: white;
+    padding: 5px !important;
+}
+
+.big-input.search-input.table-select>* {
+    font-size: 1em;
+    width: 100%;
+    background-color: white;
+    padding: 5px !important;
+}
+
+.big-input.search-input.table-select.long {
+    min-width: 100px;
+}
+
+.big-input.search-input.table-select.type {
+    font-size: 0.95em;
+    min-width: 100px;
+}
+
 /* PROFESSOR PROFILE */
 
 table.box thead tr:first-child {

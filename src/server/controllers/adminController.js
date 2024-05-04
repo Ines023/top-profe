@@ -233,3 +233,38 @@ module.exports.getProfessors = async (req, res, next) => {
 		res.status(500).json({ message: 'Error al obtener los profesores.' });
 	}
 };
+
+module.exports.getUsers = async (req, res, next) => {
+	try {
+		const currentUsers = await models.User.findAll({ raw: true });
+
+		return res.status(200).json(currentUsers);
+	} catch (error) {
+		return res.status(500).json({ message: 'Error al obtener los usuarios.' });
+	}
+};
+
+module.exports.updateUser = async (req, res, next) => {
+	const { user } = req.body;
+	try {
+		const currentUser = await models.User.findByPk(user.id);
+
+		if (!currentUser) return res.status(404).json({ message: 'Usuario no encontrado.' });
+
+		const {
+			id, type, degreeId, active, admin, excluded,
+		} = user;
+		currentUser.id = id;
+		currentUser.type = type;
+		currentUser.degreeId = degreeId;
+		currentUser.active = active;
+		currentUser.admin = admin;
+		currentUser.excluded = excluded;
+
+		await currentUser.save();
+
+		return res.status(200).json({ message: 'Usuario actualizado.' });
+	} catch (error) {
+		return res.status(500).json({ message: 'Error al actualizar el usuario.' });
+	}
+};

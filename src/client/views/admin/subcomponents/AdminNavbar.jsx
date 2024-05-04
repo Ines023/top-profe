@@ -39,6 +39,7 @@ export default class AdminNavbar extends Component {
 							<li>
 								<a href="#">Editar</a>
 								<ul className="subnav">
+									<li><Link to="/admin/users">Usuarios</Link></li>
 									<li><Link to="/admin/degrees">Titulaciones</Link></li>
 									<li><Link to="/admin/subjects">Asignaturas</Link></li>
 									<li><Link to="/admin/professors">Profesores</Link></li>

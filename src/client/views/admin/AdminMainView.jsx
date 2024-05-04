@@ -34,6 +34,11 @@ export default class AdminMainView extends Component {
 
 		return (
 			<>
+				<Link className="box main-button menu-item" to="users">
+					Editar usuarios
+					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
+				</Link>
+				<br />
 				<Link className="box main-button menu-item" to="degrees">
 					Editar titulaciones
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />

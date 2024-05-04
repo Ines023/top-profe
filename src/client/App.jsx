@@ -19,6 +19,7 @@ import AdminUpdateProfessorsView from './views/admin/AdminUpdateProfessorsView';
 import AdminUploadProfessorsView from './views/admin/AdminUploadProfessorsView';
 import AdminEditSubjectsView from './views/admin/AdminEditSubjectsView';
 import AdminEditProfessorsView from './views/admin/AdminEditProfessorsView';
+import AdminEditUsersView from './views/admin/AdminEditUsersView';
 import AdminNavbar from './views/admin/subcomponents/AdminNavbar';
 import VoteView from './views/VoteView';
 
@@ -79,6 +80,7 @@ function AdminRoutes() {
 				<Route path="subjects" element={<AdminDegreesView subjects />} />
 				<Route path="subjects/:degreeId" element={<AdminEditSubjectsView />} />
 				<Route path="professors" element={<AdminEditProfessorsView />} />
+				<Route path="users" element={<AdminEditUsersView />} />
 			</Routes>
 		</>
 	);
