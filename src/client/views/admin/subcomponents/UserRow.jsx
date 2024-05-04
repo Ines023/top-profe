@@ -38,6 +38,7 @@ export default function UserRow({ user, degrees, updateUser }) {
 			<td>
 				<div className="big-input search-input box table-select long">
 					<select onChange={handleDegreeChange} value={user.degreeId}>
+						<option key="null" value="">NULL</option>
 						{degrees.map(degree => (
 							<option key={degree.id} value={degree.id}>{degree.acronym}</option>
 						))}

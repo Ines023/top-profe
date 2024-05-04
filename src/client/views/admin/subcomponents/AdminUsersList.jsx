@@ -1,9 +1,10 @@
-/* eslint-disable max-len */
 import React, { Component } from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
 import UserRow from './UserRow';
 import { fetchGet, fetchPut } from '../../../util';
 import toast from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 export default class AdminUsersSubjectsList extends Component {
 	constructor(props) {
@@ -14,6 +15,10 @@ export default class AdminUsersSubjectsList extends Component {
 			users: [],
 			degrees: [],
 			isLoaded: false,
+			sortConfig: {
+				key: 'id',
+				direction: 'ascending',
+			},
 		};
 
 		this.searchUpdated = this.searchUpdated.bind(this);
@@ -27,32 +32,32 @@ export default class AdminUsersSubjectsList extends Component {
 
 	loadUsers() {
 		fetchGet('/api/admin/degrees')
-		.then(r => (r?.status === 200) && r.json())
-		.then((res) => {
-			this.setState({
-				degrees: res,
-				isLoaded: true,
+			.then(r => (r?.status === 200) && r.json())
+			.then((res) => {
+				this.setState({
+					degrees: res,
+					isLoaded: true,
+				});
 			});
-		});
 
 		fetchGet('/api/admin/users')
-		.then(r => (r?.status === 200) && r.json())
-		.then((res) => {
-			this.setState({
-				users: res,
-				isLoaded: true,
+			.then(r => (r?.status === 200) && r.json())
+			.then((res) => {
+				this.setState({
+					users: res,
+					isLoaded: true,
+				});
 			});
-		});
 	}
 
 	updateUser(user, field, value) {
 		const loadingToast = toast.loading(`Actualizando ${user.id}`);
-		const newUser = {...user, [field]: value}
+		const newUser = { ...user, [field]: value };
 		fetchPut('/api/admin/users', { user: newUser })
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
-				toast.success('Usuario actualizado', {id: loadingToast});
-				this.loadUsers()
+				toast.success('Usuario actualizado', { id: loadingToast });
+				this.loadUsers();
 			});
 	}
 
@@ -63,9 +68,19 @@ export default class AdminUsersSubjectsList extends Component {
 		});
 	}
 
+	sortBy = (key) => {
+		let { sortConfig } = this.state;
+		let direction = 'ascending';
+		if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+			direction = 'descending';
+		}
+		sortConfig = { key, direction };
+		this.setState({ sortConfig });
+	};
+
 	render() {
 		const {
-			searchKeyword, users, degrees, isLoaded
+			searchKeyword, users, degrees, isLoaded, sortConfig
 		} = this.state;
 
 		const { description } = this.props;
@@ -74,10 +89,29 @@ export default class AdminUsersSubjectsList extends Component {
 			searchKeyword, ['id', 'degreeId', 'type'],
 		));
 
-
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
-		if (!users.length > 0) return(<h2 className="centered">No hay usuarios cargdos</h2>)
+		if (!users.length > 0) return (<h2 className="centered">No hay usuarios cargados</h2>);
+
+		let sortedUsers = [...filteredUsers];
+		if (sortConfig.key) {
+			sortedUsers.sort((a, b) => {
+				if (a[sortConfig.key] < b[sortConfig.key]) {
+					return sortConfig.direction === 'ascending' ? -1 : 1;
+				}
+				if (a[sortConfig.key] > b[sortConfig.key]) {
+					return sortConfig.direction === 'ascending' ? 1 : -1;
+				}
+				return 0;
+			});
+		}
+
+		const renderArrowIcon = (columnName) => {
+			if (sortConfig.key === columnName) {
+				return <FontAwesomeIcon icon={sortConfig.direction === 'ascending' ? faArrowUp : faArrowDown} />;
+			}
+			return null;
+		};
 
 		return (
 			<>
@@ -96,16 +130,16 @@ export default class AdminUsersSubjectsList extends Component {
 					<table className="full-width box">
 						<thead>
 							<tr>
-								<th>Id</th>
-								<th>Tipo</th>
-								<th>Titulación</th>
-								<th>Activo</th>
-								<th>Admin</th>
-								<th>Excluído</th>
+								<th><span onClick={() => this.sortBy('id')}>Id {renderArrowIcon('id')}</span></th>
+								<th><span onClick={() => this.sortBy('type')}>Tipo {renderArrowIcon('type')}</span></th>
+								<th><span onClick={() => this.sortBy('degreeId')}>Titulación {renderArrowIcon('degreeId')}</span></th>
+								<th><span onClick={() => this.sortBy('active')}>Activo {renderArrowIcon('active')}</span></th>
+								<th><span onClick={() => this.sortBy('admin')}>Admin {renderArrowIcon('admin')}</span></th>
+								<th><span onClick={() => this.sortBy('excluded')}>Excluído {renderArrowIcon('excluded')}</span></th>
 							</tr>
 						</thead>
 						<tbody>
-							{filteredUsers.map(user => (
+							{sortedUsers.map(user => (
 								<UserRow key={user.id} user={user} degrees={degrees} updateUser={this.updateUser} />
 							))}
 						</tbody>
