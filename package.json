@@ -18,7 +18,7 @@
     },
     "repository": "https://github.com/DAT-ETSIT/top-profe",
     "author": "Delegación de Alumnos de Telecomunicación",
-    "license": "MIT",
+    "license": "GPL-3.0",
     "devDependencies": {
         "@babel/core": "^7.1.2",
         "@babel/preset-env": "^7.1.0",
