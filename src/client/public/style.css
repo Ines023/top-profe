@@ -41,7 +41,9 @@ header {
 
 /* For mobile */
 @media screen and (max-width: 500px) {
-    body, .toast {
+
+    body,
+    .toast {
         font-size: 1.1em;
     }
 
@@ -353,7 +355,20 @@ table.box thead tr:first-child {
 }
 
 #github {
+    margin-right: 10px;
     margin-left: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
 }
 
 /* MODAL STYLES */
