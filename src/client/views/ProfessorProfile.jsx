@@ -82,6 +82,7 @@ class ProfessorProfileClass extends Component {
 					subjectName={subject.name}
 					subjectAvg={ballot.avg}
 					subjectCount={ballot.count}
+					degreeAcronym={subject.degree.acronym}
 					voteExists={ballot.register.length > 0}
 					onVote={this.submitRating}
 				/>

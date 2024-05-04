@@ -21,6 +21,7 @@ export default function SubjectRow(props) {
 		userIsAdmin,
 		subjectDegree,
 		studentDegree,
+		degreeAcronym,
 	} = props;
 
 	const [voteLoaded, setVoteLoaded] = useState(true);
@@ -49,9 +50,11 @@ export default function SubjectRow(props) {
 
 	return (
 		<tr>
-			<td>
+			<td className="subject-cell">
 				<a href={`/subjects/${subjectId}`}>
-					{subjectName} ({subjectAcronym || subjectId})
+					<span className="mobile">{subjectAcronym || subjectName}</span>
+					<span className="desktop">{subjectName}</span>
+					({degreeAcronym})
 				</a>
 			</td>
 			<td className={profStatus}>

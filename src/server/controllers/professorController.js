@@ -66,6 +66,11 @@ module.exports.getProfessorProfile = async (req, res) => {
 				as: 'subject',
 				attributes: ['id', 'acronym', 'name', 'degreeId'],
 				required: true,
+				include: [{
+					model: models.Degree,
+					as: 'degree',
+					attributes: ['id', 'acronym'],
+				}],
 			},
 			{
 				model: models.Vote,

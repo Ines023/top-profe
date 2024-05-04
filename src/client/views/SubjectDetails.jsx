@@ -89,13 +89,13 @@ class SubjectDetailsClass extends Component {
 
 		return (
 			<div>
-				<h2 className="centered">{subject.name}</h2>
+				<h2 className="centered">{subject.name} ({subject.degree.acronym})</h2>
 				<table className="full-width box">
 					<thead>
 						<tr>
 							<th>Profesor</th>
 							<th>Media (en {subject.acronym || subject.id})</th>
-							<th className="starColumn">Votar</th>
+							<th className="star-column">Votar</th>
 						</tr>
 					</thead>
 					<tbody>

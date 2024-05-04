@@ -108,16 +108,8 @@ export default class SubjectList extends Component {
 						<tr>
 							<th>
 								<span onClick={() => this.sortBy('name')}>
-									Nombre
+									Asignatura
 									{sortConfig.key === 'name' && (
-										<FontAwesomeIcon className="main-button-icon" icon={sortConfig.direction === 'ascending' ? faArrowUp : faArrowDown} />
-									)}
-								</span>
-							</th>
-							<th>
-								<span onClick={() => this.sortBy('acronym')}>
-									Identificador
-									{sortConfig.key === 'acronym' && (
 										<FontAwesomeIcon className="main-button-icon" icon={sortConfig.direction === 'ascending' ? faArrowUp : faArrowDown} />
 									)}
 								</span>
@@ -137,12 +129,7 @@ export default class SubjectList extends Component {
 							<tr key={subject.id}>
 								<td>
 									<a href={`/subjects/${subject.id}`}>
-										{subject.name}
-									</a>
-								</td>
-								<td>
-									<a href={`/subjects/${subject.id}`}>
-										{subject.acronym || subject.id}
+										{subject.name} ({subject.acronym || subject.id})
 									</a>
 								</td>
 								<td>

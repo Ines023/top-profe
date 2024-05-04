@@ -23,7 +23,16 @@ module.exports.getSubjectDetails = async (req, res) => {
 	const { subjectId } = req.params;
 
 	try {
-		const subject = await models.Subject.findOne({ where: { id: subjectId } });
+		const subject = await models.Subject.findOne({
+			where: {
+				id: subjectId,
+			},
+			include: [{
+				model: models.Degree,
+				as: 'degree',
+				attributes: ['id', 'acronym'],
+			}],
+		});
 
 		const ballots = await models.Ballot.findAll({
 			attributes: [

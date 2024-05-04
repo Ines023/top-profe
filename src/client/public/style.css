@@ -63,12 +63,17 @@ header {
     color: inherit;
 }
 
-.content,
+.content {
+    max-width: 850px;
+    margin: 0 auto;
+    margin-top: 5vh;
+}
+
 .footer {
     max-width: 850px;
     margin: 0 auto;
     margin-top: 5vh;
-    text-align: justify;
+    text-align: center;
 }
 
 .footer {
@@ -187,6 +192,30 @@ table.box th span:hover {
 table.box th span .main-button-icon {
     margin-left: 5px;
 }
+
+.subject-cell {
+    display: flex;
+    align-items: center;
+}
+
+.mobile {
+    display: block;
+}
+
+.desktop {
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: block;
+    }
+}
+
 
 th.star-column {
     min-width: 150px;
