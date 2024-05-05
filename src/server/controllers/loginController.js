@@ -12,10 +12,10 @@ const retrieveUserFromSession = (userInfo, excluded = true) => {
 		userInfo.upmClassifCode.forEach((code) => {
 			if (code.startsWith(`CentroLectivo:${schoolCode}:`)) {
 				if (studentCodes.includes(code.charAt(code.length - 1))) userType = 'student';
-				if (professorCodes.includes(code.charAt(code.length - 1)) && userInfo.eduPersonAffiliation.contains('faculty')) userType = 'professor';
+				if (professorCodes.includes(code.charAt(code.length - 1))) userType = 'professor';
 			}
 			if (code.startsWith(`CentroPerfil:${schoolCode}:`)) {
-				if (professorCodes.includes(code.charAt(code.length - 1)) && userInfo.eduPersonAffiliation.contains('faculty')) userType = 'professor';
+				if (professorCodes.includes(code.charAt(code.length - 1))) userType = 'professor';
 			}
 		});
 	}
