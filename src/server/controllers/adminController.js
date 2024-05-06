@@ -254,6 +254,9 @@ module.exports.updateUser = async (req, res, next) => {
 		const {
 			id, type, degreeId, active, admin, excluded,
 		} = user;
+
+		if (id === req.session.user.id && (!!+admin !== currentUser.admin || !!+excluded !== currentUser.excluded)) return res.status(409).json({ message: 'No puedes modificar este parámetro para tu propio usuario.' });
+
 		currentUser.id = id;
 		currentUser.type = type;
 		currentUser.degreeId = degreeId;

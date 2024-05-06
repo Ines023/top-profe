@@ -49,7 +49,7 @@ app.use(session({
 	store: sessionStore,
 	cookie: {
 		// Make the cookies HTTPS-only if this is a production deployment.
-		secure: process.env.NODE_ENV === 'production',
+		// secure: process.env.NODE_ENV === 'production',
 		// The cookie shouldn't be valid after 20 minutes of inactivity.
 		maxAge: 20 * 60 * 1000, // milliseconds
 	},

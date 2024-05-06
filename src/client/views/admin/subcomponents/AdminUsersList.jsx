@@ -55,10 +55,9 @@ export default class AdminUsersSubjectsList extends Component {
 		const newUser = { ...user, [field]: value };
 		fetchPut('/api/admin/users', { user: newUser })
 			.then(r => (r?.status === 200) && r.json())
-			.then((res) => {
-				toast.success('Usuario actualizado', { id: loadingToast });
-				this.loadUsers();
-			});
+			.then((res) => 
+				res ? toast.success('Usuario actualizado', { id: loadingToast }) : toast.dismiss(loadingToast))
+			.finally(() => this.loadUsers());
 	}
 
 	searchUpdated(searchKeyword) {
