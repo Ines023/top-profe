@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import SubjectRow from './subcomponents/SubjectRow';
 import { fetchGet, fetchPost } from '../util';
+import toast, { LoaderIcon, CheckmarkIcon } from 'react-hot-toast';
 
 function ProfessorProfile(ComponentClass) {
 	return props => <ComponentClass {...props} params={useParams()} />;
@@ -51,7 +52,17 @@ class ProfessorProfileClass extends Component {
 
 	submitRating(ballotId, stars) {
 		fetchPost(`/api/ballots/${ballotId}`, { stars })
-			.then(() => {
+			.then(r => (r?.status === 200) && r.json())
+			.then((res) => {
+				toast(t => (
+					<span className='custom-toast'>
+						<span>Voto enviado</span>
+						<button type="button" className="box main-button toast-button menu-item" onClick={() => window.open(res.voteURL, '_blank')}>Ver (sólo esta vez)</button>
+					</span>
+				),
+				{
+					icon: <CheckmarkIcon />,
+				});
 				// Load again the professor's profile to reflect the new data.
 				this.loadProfessorData();
 			});

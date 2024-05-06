@@ -124,6 +124,17 @@ h2.centered {
     margin: 5px;
 }
 
+.custom-toast {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.custom-toast span {
+    display: flex;
+    justify-content: center;
+}
+
 button.box.main-button {
     font-family: 'Hind', sans-serif;
 }
@@ -534,4 +545,9 @@ table.box thead tr:first-child {
     .navbar li:not(:first-child) {
         display: none;
     }
+}
+
+span#vote-buttons {
+    display: flex;
+    justify-content: space-evenly;
 }

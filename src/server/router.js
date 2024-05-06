@@ -36,6 +36,7 @@ router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
 // Endpoints restricted to verified students.
 router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.registerVote);
 router.get('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.getVote);
+router.get('/votes/:voteId/confirmation', middlewares.restrictLimitedUsers, ballotController.getVoteConfirmation);
 router.delete('/votes/:voteId', middlewares.restrictLimitedUsers, ballotController.deleteVote);
 
 router.use(middlewares.restrictAdmins);

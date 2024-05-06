@@ -2,7 +2,7 @@ import React, { Component, useEffect } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faStar as faStarSolid, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faStar as faStarSolid, faTrash, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import Modal from './subcomponents/Modal';
 import { fetchDelete, fetchGet } from '../util';
@@ -30,6 +30,7 @@ class VoteViewClass extends Component {
 		};
 
 		this.deleteRating = this.deleteRating.bind(this);
+		this.getConfirmation = this.getConfirmation.bind(this);
 	}
 
 	componentDidMount() {
@@ -71,12 +72,27 @@ class VoteViewClass extends Component {
 				toast.success('Voto eliminado.');
 			})
 			.catch(() => {
-				loadingToast.dismiss();
+				toast.dismiss(loadingToast);
 				toast.error('Error eliminando el voto.');
 			})
 			.finally(() => this.setState({
 				redirect: true
 			}))
+	}
+
+	getConfirmation() {
+		const key = new URLSearchParams(window.location.search).get('key');
+
+		const loadingToast = toast.loading('Enviando confirmación...');
+		fetchGet(`/api/votes/${this.voteId}/confirmation?key=${key}`)
+			.then(r => (r?.status === 200) && r.json())
+			.then((res) => {
+				toast.dismiss(loadingToast);
+				toast.success('Confirmación enviada.');
+			})
+			.catch(() => {
+				toast.dismiss(loadingToast);
+			});
 	}
 
 	render() {
@@ -91,6 +107,7 @@ class VoteViewClass extends Component {
 		return (
 			<div>
 				<h2 className="centered">{professor.name}</h2>
+				<i>Esta página muestra el contenido de tu voto. Para poder consultarlo o eliminarlo en un futuro, agrega esta página a tus marcadores.</i>
 				<table className="full-width box">
 					<thead>
 						<tr>
@@ -124,10 +141,16 @@ class VoteViewClass extends Component {
 					</tbody>
 				</table>
 				<br />
+				<span id="vote-buttons">
 				<button type="button" className="box main-button menu-item" onClick={() => this.setState({ showConfirmation: true })}>
 					Eliminar voto
 					<FontAwesomeIcon className="main-button-icon" icon={faTrash} />
 				</button>
+				<button type="button" className="box main-button menu-item" onClick={() => this.getConfirmation()}>
+					Enviar confirmación
+					<FontAwesomeIcon className="main-button-icon" icon={faEnvelope} />
+				</button>
+				</span>
 				<Modal show={showConfirmation} allowClose onClose={() => this.setState({ showConfirmation: false })}>
 					<h2>¿Estás seguro de que quieres eliminar este voto?</h2>
 					<p>Esta acción no es reversible.</p>

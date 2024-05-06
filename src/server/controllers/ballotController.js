@@ -72,21 +72,12 @@ module.exports.registerVote = async (req, res) => {
 			stars,
 		});
 
-		const register = await models.Register.create({
+		await models.Register.create({
 			ballotId,
 			userId: req.session.user.id,
 		});
 
-		const mailContents = await prepareMailTemplate(ballot.professor.name, ballot.subject.name, ballot.subject.id, stars, vote.id, salt);
-		if (!mailContents) throw new Error('Error al modificar la plantilla del correo de confirmación.');
-
-		if (!await sendVoteMail(req.session.user.email, mailContents)) {
-			vote.destroy();
-			register.destroy();
-			return res.status(503).json({ message: 'Error al enviar el correo de confirmación.' });
-		}
-
-		return res.status(200).json({ message: 'Voto registrado.' });
+		return res.status(200).json({ message: 'Voto registrado.', voteURL: `${config.server.url}/votes/${vote.id}?key=${salt}` });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: 'Error al registrar el voto.' });
@@ -128,6 +119,47 @@ module.exports.getVote = async (req, res) => {
 		return res.status(500).json({ message: 'Error al recuperar el voto.' });
 	}
 };
+
+module.exports.getVoteConfirmation = async (req, res) => {
+	const { voteId } = req.params;
+	const { key } = req.query;
+
+	try {
+		const vote = await models.Vote.findByPk(voteId, {
+			attributes: ['id', 'stars'],
+			include: [{
+				model: models.Ballot,
+				as: 'ballot',
+				attributes: ['id',
+					[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('stars')), 2), 'avg'],
+					[Sequelize.fn('COUNT', Sequelize.col('stars')), 'count'],
+				],
+				include: [{
+					model: models.Professor,
+					as: 'professor',
+				},
+				{
+					model: models.Subject,
+					as: 'subject',
+				}],
+			}],
+		});
+
+		if (!vote.id) return res.status(404).json({ message: 'El voto especificado no existe.' });
+
+		if (createHash('sha256').update(vote.stars + req.session.user.id + vote.ballot.id + key).digest('hex') !== vote.id) return res.status(403).json({ message: 'No tienes permiso para visualizar este voto.' });
+
+		const mailContents = await prepareMailTemplate(vote.ballot.professor.name, vote.ballot.subject.name, vote.ballot.subject.id, vote.stars, vote.id, key);
+		if (!mailContents) throw new Error('Error al modificar la plantilla del correo de confirmación.');
+
+		if (!await sendVoteMail(req.session.user.email, mailContents)) return res.status(503).json({ message: 'Error al enviar el correo de confirmación.' });
+
+		return res.status(200).json(vote);
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Error al recuperar el voto.' });
+	}
+}
 
 
 module.exports.deleteVote = async (req, res) => {
