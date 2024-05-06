@@ -51,6 +51,7 @@ module.exports.registerVote = async (req, res) => {
 			}],
 		});
 
+		if (stars < 1 || stars > 5) return res.status(400).json({ message: 'El valor de la votación no es válido.' });
 		if (ballot.academicYear !== config.server.academicYear) return res.status(409).json({ message: 'La votación seleccionada no pertenece al periodo académico activo.' });
 		if (ballot.degreeId !== req.session.user.degreeId) return res.status(403).json({ message: 'El usuario no pertenece a la titulación de la votación.' });
 
