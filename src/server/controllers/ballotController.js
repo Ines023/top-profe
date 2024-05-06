@@ -83,7 +83,7 @@ module.exports.registerVote = async (req, res) => {
 		if (!await sendVoteMail(req.session.user.email, mailContents)) {
 			vote.destroy();
 			register.destroy();
-			throw new Error('Error al enviar el correo de confirmación.');
+			return res.status(503).json({ message: 'Error al enviar el correo de confirmación.' });
 		}
 
 		return res.status(200).json({ message: 'Voto registrado.' });

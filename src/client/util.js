@@ -18,7 +18,7 @@ export function ajaxErrHandler(res) {
 		return res;
 	}
 
-	if (res.status === 400 || res.status === 403 || res.status === 404) {
+	if (res.status === 400 || res.status === 403 || res.status === 404 || res.status === 503) {
 		res.json()
 			.then((jsonResponse) => {
 				if (jsonResponse.code === 'excluded_user') window.location.href = `/${res.status}`;
