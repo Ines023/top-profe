@@ -64,12 +64,13 @@ export default function SubjectRow(props) {
 				}
 			</td>
 			<td>
-				{(userIsStudent && subjectDegree === studentDegree) ? (!voteLoaded ? 'Cargando...' : voteExists ? 'Voto emitido' : (
+				{(userIsStudent && subjectDegree === studentDegree) ? (voteExists ? 'Voto emitido' : (
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
 						initialRating={voteExists}
 						onClick={(rating) => { setVoteLoaded(false); sendVote(rating); }}
+						readonly={!voteLoaded}
 					/>
 				)) : 'Bloqueado'}
 			</td>
