@@ -5,7 +5,7 @@ const schoolCode = '09';
 const studentCodes = ['A', 'W'];
 const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P', 'C'];
 
-const retrieveUserFromSession = (userInfo, excluded = true) => {
+const retrieveUserFromSession = (userInfo, excluded = false) => {
 	let userType = 'other';
 
 	if (Array.isArray(userInfo.upmClassifCode)) {
