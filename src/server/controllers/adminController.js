@@ -234,6 +234,29 @@ module.exports.getProfessors = async (req, res, next) => {
 	}
 };
 
+module.exports.updateProfessor = async (req, res, next) => {
+	const { professor } = req.body;
+	try {
+		const currrentProfessor = await models.Professor.findByPk(professor.id);
+
+		if (!currrentProfessor) return res.status(404).json({ message: 'Profesor no encontrado.' });
+
+		const {
+			id, name, status,
+		} = professor;
+
+		currrentProfessor.id = id;
+		currrentProfessor.name = name;
+		currrentProfessor.status = status;
+
+		await currrentProfessor.save();
+
+		return res.status(200).json({ message: 'Profesor actualizado.' });
+	} catch (error) {
+		return res.status(500).json({ message: 'Error al actualizar el profesor.' });
+	}
+};
+
 module.exports.getUsers = async (req, res, next) => {
 	try {
 		const currentUsers = await models.User.findAll({ raw: true });

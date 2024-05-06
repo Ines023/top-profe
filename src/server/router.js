@@ -52,6 +52,7 @@ router.get('/admin/update/professors/:degreeId/:academicYear', adminController.f
 router.post('/admin/update/professors/:degreeId/:academicYear', adminController.importProfessors);
 
 router.get('/admin/professors', adminController.getProfessors);
+router.put('/admin/professors', adminController.updateProfessor);
 
 router.get('/admin/users', adminController.getUsers);
 router.put('/admin/users', adminController.updateUser);

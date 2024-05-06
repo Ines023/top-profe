@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { Component } from 'react';
+import React from 'react';
 import AdminUsersList from './subcomponents/AdminUsersList';
 
 export default function AdminEditUsersView() {
