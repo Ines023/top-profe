@@ -34,6 +34,9 @@ module.exports.getProfessors = async (req, res) => {
 					},
 				],
 			}],
+			where: {
+				[Sequelize.Op.not]: { status: 'retired' },
+			},
 			group: ['Professor.id', 'Professor.name'],
 			order: [['name', 'ASC']],
 		});

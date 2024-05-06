@@ -45,6 +45,9 @@ module.exports.getSubjectDetails = async (req, res) => {
 				as: 'professor',
 				attributes: ['id', 'hash', 'name', 'status'],
 				required: true,
+				where: {
+					[Sequelize.Op.not]: { status: 'retired' },
+				},
 			},
 			{
 				model: models.Vote,
