@@ -8,6 +8,8 @@ const adminController = require('./controllers/adminController');
 
 const router = express.Router();
 
+router.get('/votes', mainController.getVotes);
+
 // All endpoints require authentication.
 router.use(middlewares.checkLogin);
 

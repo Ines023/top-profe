@@ -1,6 +1,17 @@
-const { models } = require('../models');
+const { models	 } = require('../models');
 
 const config = require('../config.json');
+
+module.exports.getVotes = async (req, res) => {
+	try {
+		const votes = await models.Vote.count();
+
+		return res.status(200).json({ votes });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Error al obtener el recuento de votos.' });
+	}
+};
 
 module.exports.getDegrees = async (req, res) => {
 	try {

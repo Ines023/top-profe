@@ -18,6 +18,7 @@ export default class InitialMenu extends Component {
 			user: {},
 			degrees: [],
 			degreeId: '',
+			votes: 0,
 		};
 
 		this.setUserActive = this.setUserActive.bind(this);
@@ -54,6 +55,12 @@ export default class InitialMenu extends Component {
 				const { degrees } = this.state;
 				if (degrees) this.setState({ degreeId: degrees[0].id });
 			});
+
+		fetchGet('/api/votes')
+			.then(r => (r?.status === 200) && r.json())
+			.then((res) => {
+				res && this.setState({ votes: res.votes });
+			});
 	}
 
 	setUserActive() {
@@ -86,13 +93,13 @@ export default class InitialMenu extends Component {
 			showOptOut: false,
 		});
 
-		fetchPost('/api/opt-out', { })
+		fetchPost('/api/opt-out', {})
 			.then(r => (r?.status === 200) && r.json());
 	}
 
 	render() {
 		const {
-			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user,
+			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user, votes,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -201,6 +208,10 @@ export default class InitialMenu extends Component {
 					<p>
 						Esperamos que te sea útil ;)
 					</p>
+					<br />
+					<div className="centered">
+						<p>Votos en el curso 2023-24: <strong>{votes}</strong></p>
+					</div>
 				</div>
 				{/* <br />
 				<a className="box main-button menu-item" href="/ranking">
@@ -218,13 +229,13 @@ export default class InitialMenu extends Component {
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
 				{user.type === 'professor' && (
-				<>
-					<br />
-					<a className="box main-button menu-item" href="#" onClick={() => this.setState({ showOptOut: true })}>
-						Ocultar mis valoraciones
-						<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
-					</a>
-				</>
+					<>
+						<br />
+						<a className="box main-button menu-item" href="#" onClick={() => this.setState({ showOptOut: true })}>
+							Ocultar mis valoraciones
+							<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
+						</a>
+					</>
 				)}
 			</div>
 		);
