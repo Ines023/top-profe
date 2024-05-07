@@ -4,7 +4,7 @@ import Rating from 'react-rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
-import toast, { LoaderIcon, CheckmarkIcon } from 'react-hot-toast';
+import toast, { LoaderIcon, ErrorIcon } from 'react-hot-toast';
 
 export default function ProfessorRow(props) {
 	const {
@@ -23,6 +23,7 @@ export default function ProfessorRow(props) {
 	} = props;
 
 	const [voteLoaded, setVoteLoaded] = useState(true);
+	const [voteValue, setVoteValue] = useState();
 
 	useEffect(() => {
 		setVoteLoaded(true);
@@ -33,7 +34,7 @@ export default function ProfessorRow(props) {
 		toast(t => (
 			<span>
 				<span>Emitiendo voto...</span>
-				<button type="button" className="box main-button toast-button menu-item" onClick={() => { cancelVote = true; toast.success('Voto cancelado', { id: t.id, icon: <CheckmarkIcon />, duration: 3000 }); }}>Cancelar</button>
+				<button type="button" className="box main-button toast-button menu-item" onClick={() => { cancelVote = true; setVoteValue(); toast.success('Voto cancelado.', { id: t.id, icon: <ErrorIcon />, duration: 1500 }); }}>Cancelar</button>
 			</span>
 		),
 		{
@@ -64,8 +65,8 @@ export default function ProfessorRow(props) {
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}
-						initialRating={voteExists}
-						onClick={(rating) => { setVoteLoaded(false); sendVote(rating); }}
+						initialRating={voteValue}
+						onClick={(rating) => { setVoteValue(rating); setVoteLoaded(false); sendVote(rating); }}
 						readonly={!voteLoaded}
 					/>
 				)) : 'Bloqueado'}

@@ -551,3 +551,15 @@ span#vote-buttons {
     display: flex;
     justify-content: space-evenly;
 }
+
+@media screen and (max-width: 600px) {
+
+    span#vote-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    span#vote-buttons button {
+        margin: 5px;
+    }
+}
