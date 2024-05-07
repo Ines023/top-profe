@@ -72,7 +72,7 @@ class AdminUpdateProfessorsViewClass extends Component {
 					professors: res.newProfessors,
 					missingGuides: res.missingGuides
 				});
-				toast.success('Profesores cargados', { id: loadingToast });
+				toast.success('Profesores cargados.', { id: loadingToast });
 			});
 	}
 
@@ -94,7 +94,7 @@ class AdminUpdateProfessorsViewClass extends Component {
 					isLoaded: true,
 					isSaved: true,
 				});
-				toast.success('Profesores importados', { id: loadingToast });
+				toast.success('Profesores importados.', { id: loadingToast });
 			});
 	}
 

@@ -56,7 +56,7 @@ class SubjectDetailsClass extends Component {
 			.then((res) => {
 				toast(t => (
 					<span className='custom-toast'>
-						<span>Voto enviado</span>
+						<span>Voto enviado.</span>
 						<button type="button" className="box main-button toast-button menu-item" onClick={() => window.open(res.voteURL, '_blank')}>Ver (sólo esta vez)</button>
 					</span>
 				),

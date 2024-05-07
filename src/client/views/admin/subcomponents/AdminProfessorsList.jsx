@@ -47,7 +47,7 @@ export default class AdminProfessorsSubjectsList extends Component {
 		fetchPut('/api/admin/professors', { professor: newProfessor })
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => 
-				res ? toast.success('Profesor actualizado', { id: loadingToast }) : toast.dismiss(loadingToast))
+				res ? toast.success('Profesor actualizado.', { id: loadingToast }) : toast.dismiss(loadingToast))
 			.finally(() => this.loadProfessors());
 	};
 
