@@ -22,6 +22,9 @@ module.exports.getSubjects = async (req, res) => {
 module.exports.getSubjectDetails = async (req, res) => {
 	const { subjectId } = req.params;
 
+	const adminAvgQuery = req.session.user.admin ? Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('vote.stars')), 2) : 99;
+	const adminCountQuery = req.session.user.admin ? Sequelize.fn('COUNT', Sequelize.col('vote.stars')) : 0;
+
 	try {
 		const subject = await models.Subject.findOne({
 			where: {
@@ -37,8 +40,20 @@ module.exports.getSubjectDetails = async (req, res) => {
 		const ballots = await models.Ballot.findAll({
 			attributes: [
 				'id',
-				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('vote.stars')), 2), 'avg'],
-				[Sequelize.fn('COUNT', Sequelize.col('vote.stars')), 'count'],
+				[
+					Sequelize.fn('IF',
+						Sequelize.where(Sequelize.col('professor.status'), '=', 'excluded'),
+						adminAvgQuery,
+						Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('vote.stars')), 2)),
+					'avg',
+				],
+				[
+					Sequelize.fn('IF',
+						Sequelize.where(Sequelize.col('professor.status'), '=', 'excluded'),
+						adminCountQuery,
+						Sequelize.fn('COUNT', Sequelize.col('vote.stars'))),
+					'count',
+				],
 			],
 			include: [{
 				model: models.Professor,

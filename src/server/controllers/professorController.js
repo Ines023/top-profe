@@ -6,6 +6,8 @@ module.exports.getProfessors = async (req, res) => {
 	// Returns a list with all the professors registered in the application,
 	// along with their average scoring.
 
+	const adminAvgQuery = req.session.user.admin ? Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('ballot->vote.stars')), 2) : 99;
+	const adminCountQuery = req.session.user.admin ? Sequelize.fn('COUNT', Sequelize.col('ballot->vote.stars')) : 0;
 
 	try {
 		const professors = await models.Professor.findAll({
@@ -14,8 +16,20 @@ module.exports.getProfessors = async (req, res) => {
 				'hash',
 				'name',
 				'status',
-				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('ballot->vote.stars')), 2), 'avg'],
-				[Sequelize.fn('COUNT', Sequelize.col('ballot->vote.stars')), 'count'],
+				[
+					Sequelize.fn('IF',
+						Sequelize.where(Sequelize.col('status'), '=', 'excluded'),
+						adminAvgQuery,
+						Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('ballot->vote.stars')), 2)),
+					'avg',
+				],
+				[
+					Sequelize.fn('IF',
+						Sequelize.where(Sequelize.col('status'), '=', 'excluded'),
+						adminCountQuery,
+						Sequelize.fn('COUNT', Sequelize.col('ballot->vote.stars'))),
+					'count',
+				],
 			],
 			include: [{
 				model: models.Ballot,
@@ -61,8 +75,20 @@ module.exports.getProfessorProfile = async (req, res) => {
 		const ballots = await models.Ballot.findAll({
 			attributes: [
 				'id',
-				[Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('vote.stars')), 2), 'avg'],
-				[Sequelize.fn('COUNT', Sequelize.col('vote.stars')), 'count'],
+				[
+					Sequelize.fn('IF',
+						professor.status === 'excluded' && !req.session.user.admin,
+						99,
+						Sequelize.fn('ROUND', Sequelize.fn('AVG', Sequelize.col('vote.stars')), 2)),
+					'avg',
+				],
+				[
+					Sequelize.fn('IF',
+						professor.status === 'excluded' && !req.session.user.admin,
+						0,
+						Sequelize.fn('COUNT', Sequelize.col('vote.stars'))),
+					'count',
+				],
 			],
 			include: [{
 				model: models.Subject,
