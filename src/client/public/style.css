@@ -265,9 +265,6 @@ table.box a:visited {
     color: inherit;
 }
 
-table.box a.excluded {
-    text-decoration: line-through red solid 2px;
-}
 
 .excluded {
     color: red !important;
