@@ -4,6 +4,7 @@ const mainController = require('./controllers/mainController');
 const professorController = require('./controllers/professorController');
 const subjectController = require('./controllers/subjectController');
 const ballotController = require('./controllers/ballotController');
+const rankingController = require('./controllers/rankingController');
 const adminController = require('./controllers/adminController');
 
 const router = express.Router();
@@ -33,7 +34,7 @@ router.get('/subjects', subjectController.getSubjects);
 router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
 
 // TODO
-// router.get('/rankings', controllers.getRankings);
+router.get('/rankings/votes', rankingController.getMostVoted);
 
 // Endpoints restricted to verified students.
 router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.registerVote);

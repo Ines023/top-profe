@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Modal from './subcomponents/Modal';
 import { fetchGet, fetchPost } from '../util';
+const config = require('../../server/config.json');
 
 export default class InitialMenu extends Component {
 	constructor() {
@@ -210,14 +211,14 @@ export default class InitialMenu extends Component {
 					</p>
 					<br />
 					<div className="centered">
-						<p>Votos en el curso 2023-24: <strong>{votes}</strong></p>
+						<p>Votos en el curso {config.server.academicYear}: <strong>{votes}</strong></p>
 					</div>
 				</div>
-				{/* <br />
+				<br />
 				<a className="box main-button menu-item" href="/ranking">
-					Ranking global
+					Ranking {config.server.academicYear}
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
-				</a> */}
+				</a>
 				<br />
 				<a className="box main-button menu-item" href="/subjects">
 					Buscar profesores por asignatura

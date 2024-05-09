@@ -10,6 +10,7 @@ import LoginErrorView from './views/LoginErrorView';
 import ProfessorList from './views/ProfessorList';
 import ProfessorProfile from './views/ProfessorProfile';
 import RankingView from './views/RankingView';
+import ProvisionalRankingView from './views/ProvisionalRankingView';
 import AdminMainView from './views/admin/AdminMainView';
 import AdminDegreesView from './views/admin/AdminDegreesView';
 import SubjectDetails from './views/SubjectDetails';
@@ -31,7 +32,7 @@ export default function App() {
 				<Route path="/" element={<InitialMenu />} />
 				<Route path="subjects/*" element={<SubjectRoutes />} />
 				<Route path="professors/*" element={<ProfessorRoutes />} />
-				<Route path="ranking" element={<RankingView />} />
+				<Route path="ranking" element={<ProvisionalRankingView />} />
 				<Route path="admin/*" element={<AdminRoutes />} />
 				<Route path="votes/:voteId" element={<VoteView />} />
 				<Route path="failed-login" element={<LoginErrorView />} />
