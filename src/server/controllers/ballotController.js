@@ -39,6 +39,8 @@ module.exports.registerVote = async (req, res) => {
 	const { ballotId } = req.params;
 	const { stars } = req.body;
 
+	const parsedStars = parseInt(stars, 10);
+
 	try {
 		const ballot = await models.Ballot.findByPk(ballotId, {
 			include: [{
@@ -51,7 +53,7 @@ module.exports.registerVote = async (req, res) => {
 			}],
 		});
 
-		if (stars < 1 || stars > 5) return res.status(400).json({ message: 'El valor de la votación no es válido.' });
+		if (parsedStars < 1 || parsedStars > 5) return res.status(400).json({ message: 'El valor de la votación no es válido.' });
 		if (ballot.academicYear !== config.server.academicYear) return res.status(409).json({ message: 'La votación seleccionada no pertenece al periodo académico activo.' });
 		if (ballot.degreeId !== req.session.user.degreeId) return res.status(403).json({ message: 'El usuario no pertenece a la titulación de la votación.' });
 
@@ -67,9 +69,9 @@ module.exports.registerVote = async (req, res) => {
 		const salt = randomBytes(16).toString('hex');
 
 		const vote = await models.Vote.create({
-			id: createHash('sha256').update(stars + req.session.user.id + ballotId + salt).digest('hex'),
+			id: createHash('sha256').update(parsedStars + req.session.user.id + ballotId + salt).digest('hex'),
 			ballotId,
-			stars,
+			stars: parsedStars,
 		});
 
 		await models.Register.create({
