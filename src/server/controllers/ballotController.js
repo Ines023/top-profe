@@ -74,10 +74,19 @@ module.exports.registerVote = async (req, res) => {
 			stars: parsedStars,
 		});
 
-		await models.Register.create({
+		const register = models.Register.create({
 			ballotId,
 			userId: req.session.user.id,
 		});
+		
+		const mailContents = await prepareMailTemplate(ballot.professor.name, ballot.subject.name, ballot.subject.id, stars, vote.id, salt);
+		if (!mailContents) throw new Error('Error al modificar la plantilla del correo de confirmación.');
+
+		if (!await sendVoteMail(req.session.user.email, mailContents)) {
+			vote.destroy();
+			register.destroy();
+			return res.status(503).json({ message: 'Error al enviar el correo de confirmación.' });
+		}
 
 		return res.status(200).json({ message: 'Voto registrado.', voteURL: `${config.server.url}/votes/${vote.id}?key=${salt}` });
 	} catch (error) {
