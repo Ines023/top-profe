@@ -15,6 +15,7 @@ const Register = require('./Register')(sequelize, Sequelize.DataTypes);
 const User = require('./User')(sequelize, Sequelize.DataTypes);
 const Subject = require('./Subject')(sequelize, Sequelize.DataTypes);
 const Vote = require('./Vote')(sequelize, Sequelize.DataTypes);
+const Note = require('./Note')(sequelize, Sequelize.DataTypes);
 const Session = require('./Session')(sequelize, Sequelize.DataTypes);
 
 Ballot.belongsTo(Professor, {
@@ -54,6 +55,10 @@ Professor.hasMany(Vote, {
 	as: 'vote',
 	foreignKey: 'id',
 });
+Professor.hasMany(Note, {
+	as: 'note',
+	foreignKey: 'professorId',
+});
 
 User.belongsTo(Degree, {
 	as: 'degree',
@@ -87,6 +92,12 @@ Vote.belongsTo(Professor, {
 	sourceKey: 'voteId',
 	targetKey: 'id',
 	as: 'vote',
+});
+
+Note.belongsTo(Professor, {
+	as: 'professor',
+	sourceKey: 'professorId',
+	targetKey: 'id',
 });
 
 module.exports = sequelize;
