@@ -78,7 +78,7 @@ export default class ProfessorList extends Component {
 			});
 		}
 
-		const filteredProfessors = sortedProfessors.filter(createFilter(searchKeyword, 'name'));
+		const filteredProfessors = sortedProfessors.filter(createFilter(searchKeyword, 'name', {accentSensitive: true}));
 
 		return (
 			<div>
