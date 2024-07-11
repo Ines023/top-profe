@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 const { models } = require('../models');
 
-const schoolCode = '09';
+const config = require('../config.json');
+
+const { schoolCode } = config.server;
 const studentCodes = ['A', 'W'];
 const professorCodes = ['D', 'J', 'H', 'M', 'Q', 'U', 'P', 'C'];
 

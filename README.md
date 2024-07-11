@@ -52,6 +52,7 @@ $ yarn install
         "port": "<port for the server to listen>",
         "usingProxy": false,
         "sessionSecret": "<some secure random secret>",
+        "schoolCode": "<id of the school in XX format>",
         "academicYear": "<the current academic year in 20XX-YY format>"
     },
     "email": {
@@ -80,7 +81,13 @@ $ yarn install
   reverse proxy. In affirmative case, it is required to set the
   "X-Forwarded-Proto" header accordingly (it should always be HTTPS).
 
-4. Run it!
+4. Create all the database tables and constraints with Sequelize:
+
+```bash
+$ yarn run db:migrate
+```
+
+5. Run it!
 
 ```sh
 $ yarn start
