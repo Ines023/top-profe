@@ -41,6 +41,8 @@ module.exports.registerVote = async (req, res) => {
 
 	const parsedStars = parseInt(stars, 10);
 
+	if (config.server.disableVotes && !req.session.user.admin) return res.status(403).json({ message: 'Ya no es posible emitir votos.' });
+
 	try {
 		const ballot = await models.Ballot.findByPk(ballotId, {
 			include: [{
@@ -78,7 +80,7 @@ module.exports.registerVote = async (req, res) => {
 			ballotId,
 			userId: req.session.user.id,
 		});
-		
+
 		const mailContents = await prepareMailTemplate(ballot.professor.name, ballot.subject.name, ballot.subject.id, stars, vote.id, salt);
 		if (!mailContents) throw new Error('Error al modificar la plantilla del correo de confirmación.');
 
@@ -170,7 +172,7 @@ module.exports.getVoteConfirmation = async (req, res) => {
 		console.log(error);
 		return res.status(500).json({ message: 'Error al recuperar el voto.' });
 	}
-}
+};
 
 
 module.exports.deleteVote = async (req, res) => {

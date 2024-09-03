@@ -19,14 +19,17 @@ export function ajaxErrHandler(res) {
 	}
 
 	if (res.status === 400 || res.status === 403 || res.status === 404 || res.status === 503) {
-		res.json()
+		return res.json()
 			.then((jsonResponse) => {
-				if (jsonResponse.code === 'excluded_user') window.location.href = `/${res.status}`;
-				else if (jsonResponse.code === 'non_active_user') window.location.href = '/';
-				else toast.error(jsonResponse.message);
-				return null;
+				if (jsonResponse.code === 'excluded_user') {
+					window.location.href = `/${res.status}`;
+				} else if (jsonResponse.code === 'non_active_user') {
+					window.location.href = '/';
+				} else {
+					toast.error(jsonResponse.message);
+				}
+				return Promise.reject(res); // Rechazar la promesa si ocurre un error.
 			});
-		return res;
 	}
 
 	if (res.status === 409) {
