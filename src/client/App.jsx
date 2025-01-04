@@ -9,8 +9,7 @@ import InitialMenu from './views/InitialMenu';
 import LoginErrorView from './views/LoginErrorView';
 import ProfessorList from './views/ProfessorList';
 import ProfessorProfile from './views/ProfessorProfile';
-import CompletedRankingView from './views/CompletedRankingView';
-import ProvisionalRankingView from './views/ProvisionalRankingView';
+import RankingView from './views/RankingView';
 import AdminMainView from './views/admin/AdminMainView';
 import AdminDegreesView from './views/admin/AdminDegreesView';
 import SubjectDetails from './views/SubjectDetails';
@@ -32,7 +31,7 @@ export default function App() {
 				<Route path="/" element={<InitialMenu />} />
 				<Route path="subjects/*" element={<SubjectRoutes />} />
 				<Route path="professors/*" element={<ProfessorRoutes />} />
-				<Route path="rankings/*" element={<RankingsRoutes />} />
+				<Route path="rankings/*" element={<RankingView />} />
 				<Route path="admin/*" element={<AdminRoutes />} />
 				<Route path="votes/:voteId" element={<VoteView />} />
 				<Route path="failed-login" element={<LoginErrorView />} />
@@ -84,14 +83,5 @@ function AdminRoutes() {
 				<Route path="users" element={<AdminEditUsersView />} />
 			</Routes>
 		</>
-	);
-}
-
-function RankingsRoutes() {
-	return (
-		<Routes>
-			<Route path="provisional" element={<ProvisionalRankingView />} />
-			<Route path="completed/:academicYear" element={<CompletedRankingView />} />
-		</Routes>
 	);
 }
