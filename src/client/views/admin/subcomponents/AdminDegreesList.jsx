@@ -56,6 +56,9 @@ export default class AdminDegreesList extends Component {
 				<p className="">
 					Aquí se muestra un listado de todas las titulaciones disponibles.
 				</p>
+				<a type="button" className="box main-button menu-item" href='${nextView}/all'>
+					Actualizar todas las asignaturas
+				</a>
 				<table className="full-width box">
 					<thead>
 						<tr>
