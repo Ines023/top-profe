@@ -8,7 +8,7 @@ const { sendVoteMail } = require('../mail');
 const config = require('../config.json');
 
 function prepareMailTemplate(professorName, subjectName, subjectId, stars, voteId, voteKey) {
-	const data = fs.readFileSync(path.resolve(__dirname, '../mailTemplate.html'), 'utf8');
+	const data = fs.readFileSync(path.resolve(__dirname, '../../client/mail/mailTemplate.html'), 'utf8');
 	if (!data) {
 		console.error('Error al leer el archivo.');
 		return null;
