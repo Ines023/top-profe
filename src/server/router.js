@@ -33,9 +33,7 @@ router.get('/professors/:professorHash', professorController.getProfessorProfile
 router.get('/subjects', subjectController.getSubjects);
 router.get('/subjects/:subjectId', subjectController.getSubjectDetails);
 
-// TODO: Implement the following endpoints.
-router.get('/rankings/provisional', rankingController.getMostVoted);
-router.get('/rankings/completed', rankingController.getFinalRanking);
+router.get('/rankings', rankingController.getRanking);
 
 // Endpoints restricted to verified students.
 router.post('/ballots/:ballotId', middlewares.restrictLimitedUsers, ballotController.registerVote);
