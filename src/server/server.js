@@ -24,13 +24,10 @@ app.use(express.urlencoded({
 	extended: true,
 }));
 
-//TODO: express.json is repeated.
-
+// Middleware for reading form-encoded POST payloads.
 app.use(express.json({ limit: '15mb' }));
 // Produce logs via morgan's middleware.
 app.use(morgan('common'));
-// Middleware for reading form-encoded POST payloads.
-app.use(express.json());
 // Serve the frontend files.
 app.use(express.static('dist'));
 // Let Express know if we are using a reverse proxy.
