@@ -3,6 +3,34 @@ const { models, Sequelize } = require('../models');
 const config = require('../config.json');
 
 
+const validateAcademicYear = async (academicYear) => {
+	//Validates the format of the query parameter academicYear
+
+    const academicYearRegex = /^\d{4}-\d{2}$/;
+    if (!academicYearRegex.test(academicYear)) {
+        return { valid: false, message: 'El formato del año académico es incorrecto. Debe ser YYYY-YY.' };
+    }
+
+    const [startYear, endYear] = academicYear.split('-').map(Number);
+
+    if ((startYear + 1) % 100 !== endYear) {
+        return { valid: false, message: 'El año académico no es consecutivo. Debe ser YYYY-YY con años consecutivos.' };
+    }
+
+    const minAcademicYear = await models.Ballot.min('academicYear');
+    const minStartYear = parseInt(minAcademicYear.split('-')[0], 10);
+
+    if (startYear < minStartYear) {
+        return { valid: false, message: 'El año académico no puede ser inferior al mínimo registrado.' };
+    }
+
+    if (academicYear > config.server.currentAcademicYear) {
+        return { valid: false, message: 'El año académico no puede ser superior al actual.' };
+    }
+
+    return { valid: true };
+};
+
 module.exports.getRanking = async (req, res) => {
 	// IF YOU CONSULT THE CURRENT ACADEMIC YEAR: 
 	// Returns a list with the 10 most voted professors registered in the application,
@@ -17,24 +45,9 @@ module.exports.getRanking = async (req, res) => {
 
 		const academicYear = req.query.academicYear || config.server.currentAcademicYear;
 
-        // Validate the format of the academic year.
-        const academicYearRegex = /^\d{4}-\d{2}$/;
-        if (!academicYearRegex.test(academicYear)) {
-            return res.status(400).json({ message: 'El formato del año académico es incorrecto. Debe ser YYYY-YY.' });
-		}
-
-		const [startYear, endYear] = academicYear.split('-').map(Number);
-		if ((startYear + 1) % 100 !== endYear) {
-            return res.status(400).json({ message: 'El año académico no es consecutivo. Debe ser YYYY-YY con años consecutivos.' });
-        }
-
-		const minYear = await models.Ballot.min('academicYear');
-		if (startYear < minYear) {
-			return res.status(400).json({ message: 'El año académico no puede ser inferior al mínimo registrado.' });
-		}
-
-		if (academicYear > config.server.currentAcademicYear) {
-			return res.status(400).json({ message: 'El año académico no puede ser superior al actual.' });
+		const validation = await validateAcademicYear(academicYear);
+		if (!validation.valid) {
+			return res.status(400).json({ message: validation.message });
 		}
 
 		const mostVotedProfessors = await models.Professor.findAll({
