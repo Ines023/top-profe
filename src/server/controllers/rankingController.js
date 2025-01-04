@@ -90,11 +90,9 @@ module.exports.getRanking = async (req, res) => {
 		} else {
 
 			//TODO: Implement calculations of best and worst professors
-			// const topProfessors = await 
+			//const topProfessors =  
 
-			// const worstProfessors = await
-
-			// return res.status(200).json({ topProfessors: topProfessors.slice(0,10), worstProfessors: worstProfessors.slice(0,10), mostVotedProfessors: mostVotedProfessors.slice(0, 10) });
+			// return res.status(200).json({ topProfessors: topProfessors.slice(0,10), worstProfessors: topProfessors.slice(-10).reverse(), mostVotedProfessors: mostVotedProfessors.slice(0, 10) });
 		}
 
 		return res.status(200).json({ mostVotedProfessors: mostVotedProfessors.slice(0, 10) });
