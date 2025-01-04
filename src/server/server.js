@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+// TODO: Change imports to ES syntax.
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -22,6 +23,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({
 	extended: true,
 }));
+
+//TODO: express.json is repeated.
 
 app.use(express.json({ limit: '15mb' }));
 // Produce logs via morgan's middleware.
@@ -48,6 +51,7 @@ app.use(session({
 	saveUninitialized: true,
 	store: sessionStore,
 	cookie: {
+		//TODO: Cookies only in HTTPS for production?
 		// Make the cookies HTTPS-only if this is a production deployment.
 		// secure: process.env.NODE_ENV === 'production',
 		// The cookie shouldn't be valid after 20 minutes of inactivity.
@@ -111,7 +115,6 @@ app.get('/login/callback', (req, res, next) => passport.authenticate('oidc', (er
 	return res.redirect(redirectTo || '/');
 });
 
-// app.get('/login/callback', passport.authenticate('oidc'));
 
 // Main API router.
 app.use('/api', router);

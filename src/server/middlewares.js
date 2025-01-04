@@ -31,7 +31,7 @@ function checkLoginMock(req, res, next) {
 	return next();
 }
 
-// Load the mocked login comprobation iff this is a development instance.
+// Load the mocked login comprobation if this is a development instance.
 module.exports.checkLogin = (
 	(process.env.NODE_ENV === 'development') ? checkLoginMock
 		: checkLogin);
