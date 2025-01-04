@@ -193,6 +193,105 @@ module.exports.fetchProfessors = async (req, res, next) => {
 	}
 };
 
+//TODO: Revise if function works correctly
+module.exports.fetchAllProfessors = async (req, res, next) => {
+	try {
+		const { api } = config;
+		const { academicYear } = req.params;
+
+		const professorsBySubject = {};
+
+		const missingGuides = [];
+
+		const currentSubjects = await models.Subject.findAll();
+
+		const currentBallots = await models.Ballot.findAll({ where: { academicYear } });
+
+		// This trick makes the function await until loop finishes before sending response to the client.
+		await Promise.all(currentSubjects.map(async (subject) => {
+			let semesterCount = subject.semester === '0' ? 2 : 0;
+			do {
+				const apiResponseGauss = await fetch(api.subjectGuides
+					.split('{academicYear}')
+					.join(academicYear)
+					.split('{semester}')
+					.join(semesterCount === 0 ? subject.semester : semesterCount)
+					.split('{degreeId}')
+					.join(subject.degreeId)
+					.split('{subjectId}')
+					.join(subject.id));
+
+				let subjectGuide = null;
+				try {
+					subjectGuide = await apiResponseGauss.json();
+				} catch (error) {
+					missingGuides.push({
+						id: subject.id,
+						semester: subject.semester === '0' ? '1' : subject.semester,
+						name: subject.name,
+						year: subject.year,
+					});
+					if (subject.semester === '0') {
+						missingGuides.push({
+							id: subject.id,
+							semester: '2',
+							name: subject.name,
+							year: subject.year,
+						});
+					}
+					break;
+				}
+
+				// This map checks if a ballot for this subject and professor exists within the database.
+				const subjectProfessors = subjectGuide.profesores.map((professor) => {
+					if (professor !== null && professor.length !== 0) {
+						const professorId = professor.email.split('@')[0];
+
+						const ballot = currentBallots.find(b => b.subjectId === subject.id
+								&& b.professorId === professorId);
+
+						if (!ballot) {
+							return professor;
+						}
+					}
+					return undefined;
+				});
+
+				// This filter gets rid of all "undefined" professors from the previous step.
+				const professorsWithNoBallot = subjectProfessors.filter(professor => professor !== undefined);
+
+				professorsBySubject[subject.id] = professorsWithNoBallot;
+
+				// eslint-disable-next-line no-plusplus
+				semesterCount--;
+			} while (semesterCount > 0);
+		}));
+
+		// This trick loads all the professors into a dictionary with their username as key and their subjects as an array.
+		const newProfessors = Object.entries(professorsBySubject).reduce((acc, [subjectId, subjects]) => {
+			subjects.forEach((subject) => {
+				const id = subject.email.split('@')[0];
+				if (!acc[id]) {
+					acc[id] = {
+						id,
+						name: `${subject.nombre} ${subject.apellidos}`,
+						email: subject.email,
+						subjectId: [parseInt(subjectId, 10)],
+					};
+				} else {
+					acc[id].subjectId.push(parseInt(subjectId, 10));
+				}
+			});
+			return acc;
+		}, {});
+
+		res.status(200).json({ newProfessors, missingGuides });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error al obtener los datos de los profesores.' });
+	}
+};
+
 module.exports.importProfessors = async (req, res, next) => {
 	try {
 		const { degreeId, academicYear } = req.params;
