@@ -80,7 +80,7 @@ module.exports.getSubjectDetails = async (req, res) => {
 			},
 			],
 			where: {
-				academicYear: config.server.academicYear,
+				academicYear: config.server.currentAcademicYear,
 				subjectId: subject.id,
 			},
 			group: ['Ballot.professorId', 'Ballot.subjectId'],

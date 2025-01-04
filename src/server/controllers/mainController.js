@@ -2,6 +2,7 @@ const { models	 } = require('../models');
 
 const config = require('../config.json');
 
+
 module.exports.getVotes = async (req, res) => {
 	try {
 		const votes = await models.Vote.count();
@@ -22,7 +23,7 @@ module.exports.getDegrees = async (req, res) => {
 				required: true,
 				attributes: ['id'],
 				where: {
-					academicYear: config.server.academicYear,
+					academicYear: config.server.currentAcademicYear,
 				},
 			}],
 		});

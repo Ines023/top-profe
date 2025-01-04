@@ -2,7 +2,8 @@ const { models, Sequelize } = require('../models');
 
 const config = require('../config.json');
 
-module.exports.getMostVoted = async (req, res) => {
+//TODO: Implement two different types of Ranking
+module.exports.getProvisionalRanking = async (req, res) => {
 	// Returns a list with the 10 most voted professors registered in the application,
 	// along with their average scoring.
 
@@ -22,7 +23,7 @@ module.exports.getMostVoted = async (req, res) => {
 				attributes: [],
 				required: true,
 				where: {
-					academicYear: config.server.academicYear,
+					academicYear: config.server.currentAcademicYear,
 				},
 				include: [
 					{

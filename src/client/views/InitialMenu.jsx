@@ -211,12 +211,12 @@ export default class InitialMenu extends Component {
 					</p>
 					<br />
 					<div className="centered">
-						<p>Votos en el curso {config.server.academicYear}: <strong>{votes}</strong></p>
+						<p>Votos en el curso {config.server.currentAcademicYear}: <strong>{votes}</strong></p>
 					</div>
 				</div>
 				<br />
 				<a className="box main-button menu-item" href="/ranking">
-					Ranking {config.server.academicYear}
+					Ranking {config.server.currentAcademicYear}
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
 				<br />

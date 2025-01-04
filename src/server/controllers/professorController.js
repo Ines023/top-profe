@@ -37,7 +37,7 @@ module.exports.getProfessors = async (req, res) => {
 				attributes: [],
 				required: true,
 				where: {
-					academicYear: config.server.academicYear,
+					academicYear: config.server.currentAcademicYear,
 				},
 				include: [
 					{
@@ -117,7 +117,7 @@ module.exports.getProfessorProfile = async (req, res) => {
 			},
 			],
 			where: {
-				academicYear: config.server.academicYear,
+				academicYear: config.server.currentAcademicYear,
 				professorId: professor.id,
 			},
 			group: ['Ballot.professorId', 'Ballot.subjectId'],
