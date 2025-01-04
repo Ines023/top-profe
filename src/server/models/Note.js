@@ -1,5 +1,6 @@
 const { Model } = require('sequelize');
 
+// TODO: Give it a use.
 module.exports = (sequelize, DataTypes) => {
 	class Note extends Model {
 	}
