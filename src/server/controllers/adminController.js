@@ -209,7 +209,7 @@ module.exports.importProfessors = async (req, res, next) => {
 			}
 
 			professor.subjectId.forEach(async (subject) => {
-				if (!currentBallots.find(b => b.professorId.strip().toLowerCase() === professor.id.strip().toLowerCase() && parseInt(b.subjectId, 10) === parseInt(subject, 10))) {
+				if (!currentBallots.find(b => b.professorId.trim().toLowerCase() === professor.id.trim().toLowerCase() && parseInt(b.subjectId, 10) === parseInt(subject, 10))) {
 					await models.Ballot.create({
 						academicYear, professorId: professor.id, subjectId: subject, degreeId,
 					});
