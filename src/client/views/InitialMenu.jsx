@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Modal from './subcomponents/Modal';
 import { fetchGet, fetchPost } from '../util';
-const config = require('../../server/config.json');
 
 export default class InitialMenu extends Component {
 	constructor() {
@@ -20,6 +19,7 @@ export default class InitialMenu extends Component {
 			degrees: [],
 			degreeId: '',
 			votes: 0,
+			currentAcademicYear: '',
 		};
 
 		this.setUserActive = this.setUserActive.bind(this);
@@ -28,6 +28,12 @@ export default class InitialMenu extends Component {
 	}
 
 	componentDidMount() {
+		fetchGet('/api/currentAcademicYear')
+		.then(r => (r?.status === 200) && r.json())
+		.then((res) => {
+		  	this.setState({ currentAcademicYear: res.currentAcademicYear });
+		});
+
 		fetchGet('/api/user')
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {

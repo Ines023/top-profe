@@ -9,6 +9,8 @@ const adminController = require('./controllers/adminController');
 
 const router = express.Router();
 
+router.get('/currentAcademicYear', mainController.getCurrentAcademicYear)
+
 router.get('/votes', mainController.getVotes);
 
 // All endpoints require authentication.

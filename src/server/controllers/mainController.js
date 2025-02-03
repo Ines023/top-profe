@@ -3,6 +3,16 @@ const { models	 } = require('../models');
 const config = require('../config.json');
 
 
+module.exports.getCurrentAcademicYear = async (req, res) => {
+	try {
+		const currentAcademicYear = config.server.currentAcademicYear;
+		return res.status(200).json({ currentAcademicYear });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Error al obtener el año académico actual.' });
+	}
+};
+
 module.exports.getVotes = async (req, res) => {
 	try {
 		const votes = await models.Vote.count();

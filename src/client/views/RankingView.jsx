@@ -9,10 +9,17 @@ export default class RankingView extends Component {
 			topProfessors: [],
 			worstProfessors: [],
 			mostVotedProfessors: [],
+			currentAcademicYear: '',
 		};
 	}
 
 	componentDidMount() {
+		fetchGet('/api/currentAcademicYear')
+		.then(r => (r?.status === 200) && r.json())
+		.then((res) => {
+		  this.setState({ currentAcademicYear: res.currentAcademicYear });
+		});
+
 		fetchGet('/api/rankings')
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
