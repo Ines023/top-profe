@@ -106,7 +106,7 @@ export default class InitialMenu extends Component {
 
 	render() {
 		const {
-			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user, votes,
+			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user, votes, currentAcademicYear,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -217,12 +217,12 @@ export default class InitialMenu extends Component {
 					</p>
 					<br />
 					<div className="centered">
-						<p>Votos en el curso {config.server.currentAcademicYear}: <strong>{votes}</strong></p>
+						<p>Votos en el curso {currentAcademicYear}: <strong>{votes}</strong></p>
 					</div>
 				</div>
 				<br />
 				<a className="box main-button menu-item" href="/ranking">
-					Ranking {config.server.currentAcademicYear}
+					Ranking {currentAcademicYear}
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
 				<br />

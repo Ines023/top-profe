@@ -34,7 +34,7 @@ export default class RankingView extends Component {
 
 	render() {
 		const {
-			isLoaded, topProfessors, worstProfessors, mostVotedProfessors,
+			isLoaded, topProfessors, worstProfessors, mostVotedProfessors, currentAcademicYear
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -45,7 +45,7 @@ export default class RankingView extends Component {
 
 				{(topProfessors.length === 0 && worstProfessors.length === 0) ? (
 					<p>
-						Este es el ranking provisional del curso {config.server.currentAcademicYear} de todos los
+						Este es el ranking provisional del curso {currentAcademicYear} de todos los
 						profesores del Top Profe. Puedes entrar en el perfil de
 						cada profesor pulsando en su nombre.
 					</p>
