@@ -6,9 +6,14 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn install
+ENV NODE_ENV=development
 
-ENV NODE_ENV=production
+RUN npm config set registry https://registry.npmjs.org/
+RUN yarn config set registry https://registry.npmjs.org/
+RUN yarn config set network-timeout 600000
+RUN yarn config list
+
+RUN yarn install
 
 EXPOSE 3000
 

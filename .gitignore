@@ -104,3 +104,11 @@ tools/venv
 *demo*.js
 
 *.sql
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Database
+maria_db_data/
