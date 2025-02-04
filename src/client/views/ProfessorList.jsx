@@ -6,8 +6,13 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { fetchGet } from '../util';
 
 export default class ProfessorList extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		const { academicYear } = this.props;
+		this.academicYear = academicYear || '';
+
+		this.urlApiParams = this.academicYear ? '?academicYear=' + this.academicYear : ''
+
 		this.state = {
 			isLoaded: false,
 			professors: [],
@@ -17,12 +22,38 @@ export default class ProfessorList extends Component {
 				key: 'name',
 				direction: 'ascending',
 			},
+			academicYear: this.academicYear,
 		};
 
 		this.searchUpdated = this.searchUpdated.bind(this);
 	}
 
 	componentDidMount() {
+			this.fetchAcademicYear()
+				.then(() => {
+					this.fetchUserData();
+					this.fetchProfessorData();
+				});
+		}
+	
+		fetchAcademicYear() {
+			return new Promise((resolve, reject) => {
+				if (!this.academicYear) {
+					fetchGet('/api/currentAcademicYear')
+						.then(r => (r?.status === 200) && r.json())
+						.then((res) => {
+							this.academicYear = res.currentAcademicYear;
+							this.urlApiParams = '?academicYear=' + this.academicYear;
+							this.setState({ academicYear: res.currentAcademicYear }, resolve);
+						})
+						.catch(reject);
+				} else {
+					resolve();
+				}
+			});
+		}
+	
+	fetchUserData() {
 		fetchGet('/api/user')
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
@@ -30,8 +61,10 @@ export default class ProfessorList extends Component {
 					user: res,
 				});
 			});
+		}
 
-		fetchGet('/api/professors')
+	fetchProfessorData(){
+		fetchGet('/api/professors' + this.urlApiParams)
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
@@ -60,7 +93,7 @@ export default class ProfessorList extends Component {
 
 	render() {
 		const {
-			isLoaded, professors, searchKeyword, user, sortConfig,
+			isLoaded, professors, searchKeyword, user, sortConfig, academicYear,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -83,6 +116,7 @@ export default class ProfessorList extends Component {
 		return (
 			<div>
 				<h2 className="centered">Profesores</h2>
+				<h4 className="centered"><i>Curso {academicYear}</i></h4>
 				<SearchInput
 					className="big-input search-input box"
 					placeholder="Buscar profesor..."

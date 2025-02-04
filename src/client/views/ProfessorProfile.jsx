@@ -13,34 +13,65 @@ function ProfessorProfile(ComponentClass) {
 class ProfessorProfileClass extends Component {
 	constructor(props) {
 		super(props);
-		const { params: { profId } } = this.props;
+		const { params: { profId }, academicYear } = this.props;
 		this.profId = profId;
+		this.academicYear = academicYear || '';
+
+		this.urlApiParams = this.academicYear ? '?academicYear=' + this.academicYear : ''
 
 		this.state = {
 			isLoaded: false,
 			professor: {},
 			ballots: {},
 			user: {},
+			academicYear: this.academicYear,
+			votingAvailable: false,
 		};
 
 		this.submitRating = this.submitRating.bind(this);
 	}
 
 	componentDidMount() {
-		this.loadProfessorData();
+		this.fetchAcademicYear()
+			.then(() => {
+				this.fetchUserData();
+				this.fetchProfessorData();
+			});
 	}
 
-	loadProfessorData() {
-		fetchGet('/api/user')
-			.then(r => (r?.status ===200) && r.json())
-			.then((res) => {
-				this.setState({
-					user: res,
-				});
-			});
+	fetchAcademicYear() {
+		return new Promise((resolve, reject) => {
+			fetchGet('/api/currentAcademicYear')
+				.then(r => (r?.status === 200) && r.json())
+				.then((res) => {
+					if (!this.academicYear) {
+						this.academicYear = res.currentAcademicYear;
+						this.urlApiParams = '?academicYear=' + this.academicYear;
+						this.setState({ academicYear: res.currentAcademicYear, votingAvailable: true }, resolve);
+					} else {
+						if (this.academicYear !== res.currentAcademicYear) {
+							this.setState({ votingAvailable: true })
+						}
+						resolve();
+					}
+				})
+				.catch(reject);
+		});
+	}
 
-		fetchGet(`/api/professors/${this.profId}`)
-			.then(r => (r?.status ===200) && r.json())
+	fetchUserData(){
+		fetchGet('/api/user')
+		.then(r => (r?.status === 200) && r.json())
+		.then((res) => {
+			this.setState({
+				user: res,
+			});
+		});
+	}
+
+	fetchProfessorData() {
+		fetchGet(`/api/professors/${this.profId}` + this.urlApiParams)
+			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
 					isLoaded: true,
@@ -51,6 +82,7 @@ class ProfessorProfileClass extends Component {
 	}
 
 	submitRating(ballotId, stars) {
+		if (!this.votingAvailable) return;
 		fetchPost(`/api/ballots/${ballotId}`, { stars })
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
@@ -60,9 +92,9 @@ class ProfessorProfileClass extends Component {
 						<button type="button" className="box main-button toast-button menu-item" onClick={() => window.open(res.voteURL, '_blank')}>Ver (sólo esta vez)</button>
 					</span>
 				),
-				{
-					icon: <CheckmarkIcon />,
-				});
+					{
+						icon: <CheckmarkIcon />,
+					});
 				// Load again the professor's profile to reflect the new data.
 				this.loadProfessorData();
 			});
@@ -70,7 +102,7 @@ class ProfessorProfileClass extends Component {
 
 	render() {
 		const {
-			isLoaded, professor, ballots, user,
+			isLoaded, professor, ballots, user, votingAvailable
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -96,6 +128,7 @@ class ProfessorProfileClass extends Component {
 					degreeAcronym={subject.degree.acronym}
 					voteExists={ballot.register.length > 0}
 					onVote={this.submitRating}
+					votingAvailable={votingAvailable}
 				/>
 			);
 			subjectRows.push(row);
@@ -114,7 +147,7 @@ class ProfessorProfileClass extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{ subjectRows }
+						{subjectRows}
 					</tbody>
 				</table>
 				<a className="back-link" href="/professors">
