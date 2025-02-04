@@ -2,39 +2,63 @@ import React, { Component } from 'react';
 import { fetchGet } from '../util';
 
 export default class RankingView extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		const { academicYear } = this.props;
+		this.academicYear = academicYear || '';
+	
+		this.urlApiParams = this.academicYear ? '?academicYear=' + this.academicYear : ''
+
 		this.state = {
 			isLoaded: false,
 			topProfessors: [],
 			worstProfessors: [],
 			mostVotedProfessors: [],
-			currentAcademicYear: '',
+			academic: this.academicYear,
 		};
 	}
 
 	componentDidMount() {
-		fetchGet('/api/currentAcademicYear')
-		.then(r => (r?.status === 200) && r.json())
-		.then((res) => {
-		  this.setState({ currentAcademicYear: res.currentAcademicYear });
-		});
-
-		fetchGet('/api/rankings')
-			.then(r => (r?.status === 200) && r.json())
-			.then((res) => {
-				this.setState({
-					isLoaded: true,
-					topProfessors: res.topProfessors || [],
-					worstProfessors: res.worstProfessors || [],
-					mostVotedProfessors: res.mostVotedProfessors,
-				});
+		this.fetchAcademicYear()
+			.then(() => {
+				this.fetchRankings();
 			});
+	}
+
+
+	fetchAcademicYear() {
+		return new Promise((resolve, reject) => {
+			if (!this.academicYear) {
+				fetchGet('/api/currentAcademicYear')
+					.then(r => (r?.status === 200) && r.json())
+					.then((res) => {
+						this.academicYear = res.currentAcademicYear;
+						this.urlApiParams = '?academicYear=' + this.academicYear;
+						this.setState({ academicYear: res.currentAcademicYear }, resolve);
+					})
+					.catch(reject);
+			} else {
+				resolve();
+			}
+		});
+	}
+	
+	fetchRankings(){
+			fetchGet('/api/rankings' + this.urlApiParams)
+				.then(r => (r?.status === 200) && r.json())
+				.then((res) => {
+					this.setState({
+						isLoaded: true,
+						topProfessors: res.topProfessors || [],
+						worstProfessors: res.worstProfessors || [],
+						mostVotedProfessors: res.mostVotedProfessors,
+					});
+				});
 	}
 
 	render() {
 		const {
-			isLoaded, topProfessors, worstProfessors, mostVotedProfessors, currentAcademicYear
+			isLoaded, topProfessors, worstProfessors, mostVotedProfessors, academicYear
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -45,7 +69,7 @@ export default class RankingView extends Component {
 
 				{(topProfessors.length === 0 && worstProfessors.length === 0) ? (
 					<p>
-						Este es el ranking provisional del curso {currentAcademicYear} de todos los
+						Este es el ranking provisional del curso {academicYear} de todos los
 						profesores del Top Profe. Puedes entrar en el perfil de
 						cada profesor pulsando en su nombre.
 					</p>
@@ -53,7 +77,7 @@ export default class RankingView extends Component {
 					<>
 						<p>
 							Estos son los tres principales rankings de todos los
-							profesores del Top Profe. Puedes entrar en el perfil de
+							profesores del Top Profe del curso {academicYear}. Puedes entrar en el perfil de
 							cada profesor pulsando en su nombre.
 						</p>
 						<p>
