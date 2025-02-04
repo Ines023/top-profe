@@ -193,6 +193,9 @@ module.exports.fetchProfessors = async (req, res, next) => {
 	}
 };
 
+
+const sanitizeId = (id) => id.toLowerCase().replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+
 module.exports.importProfessors = async (req, res, next) => {
 	try {
 		const { degreeId, academicYear } = req.params;
@@ -209,7 +212,7 @@ module.exports.importProfessors = async (req, res, next) => {
 			}
 
 			professor.subjectId.forEach(async (subject) => {
-				if (!currentBallots.find(b => b.professorId.trim().toLowerCase() === professor.id.trim().toLowerCase() && parseInt(b.subjectId, 10) === parseInt(subject, 10))) {
+				if (!currentBallots.find(b => sanitizeId(b.professorId) === sanitizeId(professor.id) && parseInt(b.subjectId, 10) === parseInt(subject, 10))) {
 					await models.Ballot.create({
 						academicYear, professorId: professor.id, subjectId: subject, degreeId,
 					});
