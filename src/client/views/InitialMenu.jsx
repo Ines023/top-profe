@@ -8,8 +8,13 @@ import Modal from './subcomponents/Modal';
 import { fetchGet, fetchPost } from '../util';
 
 export default class InitialMenu extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		const { academicYear } = this.props;
+		this.academicYear = academicYear || '';
+
+		this.urlApiParams = '?academicYear=' + this.academicYear;
+
 		this.state = {
 			isLoaded: false,
 			showStudentModal: false,
@@ -19,7 +24,7 @@ export default class InitialMenu extends Component {
 			degrees: [],
 			degreeId: '',
 			votes: 0,
-			currentAcademicYear: '',
+			academicYear: this.academicYear,
 		};
 
 		this.setUserActive = this.setUserActive.bind(this);
@@ -28,12 +33,32 @@ export default class InitialMenu extends Component {
 	}
 
 	componentDidMount() {
-		fetchGet('/api/currentAcademicYear')
-		.then(r => (r?.status === 200) && r.json())
-		.then((res) => {
-		  	this.setState({ currentAcademicYear: res.currentAcademicYear });
-		});
+		this.fetchAcademicYear()
+			.then(() => {
+				this.fetchUserData();
+				this.fetchDegreesData();
+				this.fetchVotesData();
+			});
+	}
 
+	fetchAcademicYear() {
+		return new Promise((resolve, reject) => {
+			if (!this.academicYear) {
+				fetchGet('/api/currentAcademicYear')
+					.then(r => (r?.status === 200) && r.json())
+					.then((res) => {
+						this.academicYear = res.currentAcademicYear;
+						this.urlApiParams = '?academicYear=' + this.academicYear;
+						this.setState({ academicYear: res.currentAcademicYear }, resolve);
+					})
+					.catch(reject);
+			} else {
+				resolve();
+			}
+		});
+	}
+
+	fetchUserData() {
 		fetchGet('/api/user')
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
@@ -51,7 +76,9 @@ export default class InitialMenu extends Component {
 				if (!user.active && user.type === 'student') this.setState({ showStudentModal: true });
 				return null;
 			});
+	}
 
+	fetchDegreesData() {
 		fetchGet('/api/degrees')
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
@@ -62,8 +89,10 @@ export default class InitialMenu extends Component {
 				const { degrees } = this.state;
 				if (degrees) this.setState({ degreeId: degrees[0].id });
 			});
+	}
 
-		fetchGet('/api/votes')
+	fetchVotesData() {
+		fetchGet('/api/votes' + this.urlApiParams)
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				res && this.setState({ votes: res.votes });
@@ -106,7 +135,7 @@ export default class InitialMenu extends Component {
 
 	render() {
 		const {
-			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user, votes, currentAcademicYear,
+			isLoaded, showStudentModal, showFirstTimeModal, showOptOut, degrees, degreeId, user, votes, academicYear
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -217,12 +246,12 @@ export default class InitialMenu extends Component {
 					</p>
 					<br />
 					<div className="centered">
-						<p>Votos en el curso {currentAcademicYear}: <strong>{votes}</strong></p>
+						<p>Votos en el curso {academicYear}: <strong>{votes}</strong></p>
 					</div>
 				</div>
 				<br />
 				<a className="box main-button menu-item" href="/ranking">
-					Ranking {currentAcademicYear}
+					Ranking {academicYear}
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
 				<br />
