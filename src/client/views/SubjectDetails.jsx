@@ -13,33 +13,64 @@ function SubjectDetails(ComponentClass) {
 class SubjectDetailsClass extends Component {
 	constructor(props) {
 		super(props);
-		const { params: { subjId } } = this.props;
-		this.subjId = subjId;
+		const { params: { subjId }, academicYear } = this.props;
 
+		this.subjId = subjId;
+		this.academicYear = academicYear || '';
+
+		this.urlApiParams = this.academicYear ? '?academicYear=' + this.academicYear : ''
 		this.state = {
 			isLoaded: false,
 			subject: {},
 			ballots: {},
 			user: {},
+			academicYear: this.academicYear,
 		};
 
 		this.submitRating = this.submitRating.bind(this);
 	}
 
 	componentDidMount() {
-		this.loadSubjectData();
+		this.fetchAcademicYear()
+			.then(() => this.fetchUserData())
+			.then(() => this.fetchSubjectData());
 	}
 
-	loadSubjectData() {
-		fetchGet('/api/user')
-			.then(r => (r?.status === 200) && r.json())
-			.then((res) => {
-				this.setState({
-					user: res,
-				});
-			});
+	fetchAcademicYear() {
+		return new Promise((resolve, reject) => {
+			fetchGet('/api/currentAcademicYear')
+				.then(r => (r?.status === 200) && r.json())
+				.then((res) => {
+					if (!this.academicYear) {
+						this.academicYear = res.currentAcademicYear;
+						this.urlApiParams = '?academicYear=' + this.academicYear;
+						this.setState({ academicYear: res.currentAcademicYear, isVotingPeriod: true }, resolve);
+					} else {
+						if (this.academicYear === res.currentAcademicYear) {
+							this.setState({ isVotingPeriod: true })
+						}
+						resolve();
+					}
+				})
+				.catch(reject);
+		});
+	}
 
-		fetchGet(`/api/subjects/${this.subjId}`)
+	fetchUserData() {
+		return new Promise((resolve, reject) => {
+			fetchGet('/api/user')
+				.then(r => (r?.status === 200) && r.json())
+				.then((res) => {
+					this.setState({
+						user: res,
+					}, resolve);
+				})
+				.catch(reject);
+		});
+	}
+
+	fetchSubjectData() {
+		fetchGet(`/api/subjects/${this.subjId}` + this.urlApiParams)
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
@@ -60,9 +91,9 @@ class SubjectDetailsClass extends Component {
 						<button type="button" className="box main-button toast-button menu-item" onClick={() => window.open(res.voteURL, '_blank')}>Ver (sólo esta vez)</button>
 					</span>
 				),
-				{
-					icon: <CheckmarkIcon />,
-				});
+					{
+						icon: <CheckmarkIcon />,
+					});
 				// Load again the professor's profile to reflect the new data.
 				this.loadProfessorData();
 			});
@@ -70,7 +101,7 @@ class SubjectDetailsClass extends Component {
 
 	render() {
 		const {
-			isLoaded, subject, ballots, user,
+			isLoaded, subject, ballots, user, academicYear,
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -101,6 +132,7 @@ class SubjectDetailsClass extends Component {
 		return (
 			<div>
 				<h2 className="centered">{subject.name} ({subject.degree.acronym})</h2>
+				<h4 className="centered">En el curso {academicYear}</h4>
 				<table className="full-width box">
 					<thead>
 						<tr>
