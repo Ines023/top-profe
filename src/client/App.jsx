@@ -58,7 +58,7 @@ function RewindableRoutes() {
 	);
 }
 
-function SubjectRoutes(props) {
+function SubjectRoutes({ academicYear }) {
 	return (
 		<Routes>
 			<Route index element={<SubjectList academicYear={academicYear} />} />
@@ -67,7 +67,7 @@ function SubjectRoutes(props) {
 	);
 }
 
-function ProfessorRoutes(props) {
+function ProfessorRoutes({ academicYear }) {
 	return (
 		<Routes>
 			<Route index element={<ProfessorList academicYear={academicYear} />} />
