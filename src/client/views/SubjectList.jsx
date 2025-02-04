@@ -5,8 +5,13 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { fetchGet } from '../util';
 
 export default class SubjectList extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		const { academicYear } = this.props;
+		this.academicYear = academicYear || '';
+
+		this.urlApiParams = this.academicYear ? '?academicYear=' + this.academicYear : ''
+
 		this.state = {
 			isLoaded: false,
 			subjects: [],
@@ -16,6 +21,7 @@ export default class SubjectList extends Component {
 				direction: 'ascending',
 			},
 			selectedDegree: '',
+			academicYear: this.academicYear,
 		};
 
 		this.searchUpdated = this.searchUpdated.bind(this);
@@ -23,7 +29,32 @@ export default class SubjectList extends Component {
 	}
 
 	componentDidMount() {
-		fetchGet('/api/subjects')
+		this.fetchAcademicYear()
+			.then(() => {
+				this.fetchSubjectsData();
+			});
+	}
+
+	fetchAcademicYear() {
+		return new Promise((resolve, reject) => {
+			if (!this.academicYear) {
+				fetchGet('/api/currentAcademicYear')
+					.then(r => (r?.status === 200) && r.json())
+					.then((res) => {
+						this.academicYear = res.currentAcademicYear;
+						this.urlApiParams = '?academicYear=' + this.academicYear;
+						this.setState({ academicYear: res.currentAcademicYear }, resolve);
+					})
+					.catch(reject);
+			} else {
+				resolve();
+			}
+		});
+	}
+
+	fetchSubjectsData() {
+
+		fetchGet('/api/subjects' + this.urlApiParams)
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
@@ -56,12 +87,12 @@ export default class SubjectList extends Component {
 	}
 
 	render() {
-		const { isLoaded, searchKeyword, subjects, sortConfig, selectedDegree } = this.state;
+		const { isLoaded, searchKeyword, subjects, sortConfig, selectedDegree, academicYear } = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
 
 		let filteredSubjects = subjects.filter(createFilter(
-			searchKeyword, ['name', 'acronym', 'degree.acronym'], {accentSensitive: true}
+			searchKeyword, ['name', 'acronym', 'degree.acronym'], { accentSensitive: true }
 		));
 
 		if (selectedDegree) {
@@ -85,7 +116,7 @@ export default class SubjectList extends Component {
 
 		return (
 			<div>
-				<h2 className="centered">Asignaturas</h2>
+				<h2 className="centered">Asignaturas del curso {academicYear}</h2>
 				<div className="filter-section">
 					<label htmlFor="degreeFilter">Filtrar por titulación: </label>
 					<div className="big-input search-input box">
