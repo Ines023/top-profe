@@ -25,7 +25,7 @@ class ProfessorProfileClass extends Component {
 			ballots: {},
 			user: {},
 			academicYear: this.academicYear,
-			votingAvailable: false,
+			isVotingPeriod: false,
 		};
 
 		this.submitRating = this.submitRating.bind(this);
@@ -33,10 +33,8 @@ class ProfessorProfileClass extends Component {
 
 	componentDidMount() {
 		this.fetchAcademicYear()
-			.then(() => {
-				this.fetchUserData();
-				this.fetchProfessorData();
-			});
+			.then(() => this.fetchUserData())
+			.then(() => this.fetchProfessorData());
 	}
 
 	fetchAcademicYear() {
@@ -47,10 +45,10 @@ class ProfessorProfileClass extends Component {
 					if (!this.academicYear) {
 						this.academicYear = res.currentAcademicYear;
 						this.urlApiParams = '?academicYear=' + this.academicYear;
-						this.setState({ academicYear: res.currentAcademicYear, votingAvailable: true }, resolve);
+						this.setState({ academicYear: res.currentAcademicYear, isVotingPeriod: true }, resolve);
 					} else {
-						if (this.academicYear !== res.currentAcademicYear) {
-							this.setState({ votingAvailable: true })
+						if (this.academicYear === res.currentAcademicYear) {
+							this.setState({ isVotingPeriod: true })
 						}
 						resolve();
 					}
@@ -60,13 +58,16 @@ class ProfessorProfileClass extends Component {
 	}
 
 	fetchUserData(){
+		return new Promise((resolve, reject) => {
 		fetchGet('/api/user')
 		.then(r => (r?.status === 200) && r.json())
 		.then((res) => {
 			this.setState({
 				user: res,
-			});
-		});
+			}, resolve);
+		  })
+		  .catch(reject);
+	  });
 	}
 
 	fetchProfessorData() {
@@ -102,7 +103,7 @@ class ProfessorProfileClass extends Component {
 
 	render() {
 		const {
-			isLoaded, professor, ballots, user, votingAvailable
+			isLoaded, professor, ballots, user, academicYear, isVotingPeriod
 		} = this.state;
 
 		if (!isLoaded) return (<div className="full-width">Cargando...</div>);
@@ -128,15 +129,16 @@ class ProfessorProfileClass extends Component {
 					degreeAcronym={subject.degree.acronym}
 					voteExists={ballot.register.length > 0}
 					onVote={this.submitRating}
-					votingAvailable={votingAvailable}
+					isVotingPeriod={isVotingPeriod}
 				/>
 			);
 			subjectRows.push(row);
 		});
-
+		
 		return (
 			<div>
 				<h2 className="centered">{professor.name}</h2>
+				<h4 className="centered">Asignaturas impartidas en el curso {academicYear}</h4>
 				{professor.status === 'excluded' && <i className="centered excluded">Este profesor no desea que sus valoraciones sean públicas.</i>}
 				<table className="full-width box">
 					<thead>

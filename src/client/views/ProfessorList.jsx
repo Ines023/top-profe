@@ -29,12 +29,10 @@ export default class ProfessorList extends Component {
 	}
 
 	componentDidMount() {
-			this.fetchAcademicYear()
-				.then(() => {
-					this.fetchUserData();
-					this.fetchProfessorData();
-				});
-		}
+		this.fetchAcademicYear()
+			.then(() => this.fetchUserData())
+			.then(() => this.fetchProfessorData());
+	}
 	
 		fetchAcademicYear() {
 			return new Promise((resolve, reject) => {
@@ -53,14 +51,17 @@ export default class ProfessorList extends Component {
 			});
 		}
 	
-	fetchUserData() {
-		fetchGet('/api/user')
+	fetchUserData(){
+			return new Promise((resolve, reject) => {
+			fetchGet('/api/user')
 			.then(r => (r?.status === 200) && r.json())
 			.then((res) => {
 				this.setState({
 					user: res,
-				});
-			});
+				}, resolve);
+			  })
+			  .catch(reject);
+		  });
 		}
 
 	fetchProfessorData(){

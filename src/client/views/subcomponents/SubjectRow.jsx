@@ -22,7 +22,7 @@ export default function SubjectRow(props) {
 		subjectDegree,
 		studentDegree,
 		degreeAcronym,
-		votingAvailable,
+		isVotingPeriod,
 	} = props;
 
 	const [voteLoaded, setVoteLoaded] = useState(true);
@@ -66,7 +66,7 @@ export default function SubjectRow(props) {
 				}
 			</td>
 			<td>
-			{(votingAvailable && userIsStudent && subjectDegree === studentDegree) ? (voteExists ? 'Voto emitido' : (
+			{(isVotingPeriod && userIsStudent && subjectDegree === studentDegree) ? (voteExists ? 'Voto emitido' : (
 					<Rating
 						emptySymbol={<FontAwesomeIcon icon={faStar} />}
 						fullSymbol={<FontAwesomeIcon icon={faStarSolid} />}

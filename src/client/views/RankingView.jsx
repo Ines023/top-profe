@@ -14,7 +14,7 @@ export default class RankingView extends Component {
 			topProfessors: [],
 			worstProfessors: [],
 			mostVotedProfessors: [],
-			academic: this.academicYear,
+			academicYear: this.academicYear,
 		};
 	}
 
