@@ -250,7 +250,7 @@ export default class InitialMenu extends Component {
 					</div>
 				</div>
 				<br />
-				<a className="box main-button menu-item" href="/ranking">
+				<a className="box main-button menu-item" href="/rankings">
 					Ranking {academicYear}
 					<FontAwesomeIcon className="main-button-icon" icon={faArrowRight} />
 				</a>
